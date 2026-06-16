@@ -97,6 +97,13 @@
   .scale .step { height:64px; display:flex; flex-direction:column; justify-content:flex-end; padding:7px 8px; }
   .scale .step b { font-size:10px; font-weight:700; } .scale .step span { font-size:9px; font-family:monospace; opacity:.85; }
   @media (max-width:680px){ .scale{ grid-template-columns:repeat(5,1fr); } }
+  @media (max-width:600px){
+    .ds-shell { padding-left:16px; padding-right:16px; }
+    .type-row { flex-wrap:wrap; overflow:hidden; gap:4px; }
+    .type-row .lbl { width:100%; margin-bottom:2px; }
+    .t-display { font-size:22px; }
+    .tbl-wrap { max-width:100%; }
+  }
   .swatches { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px; }
   .sw { border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   .sw .chip { height:54px; } .sw .meta { padding:9px 11px; }
