@@ -28,7 +28,16 @@
   .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
   .sh-left { display:flex; align-items:center; gap:14px; }
   .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
-  .sh-mark { width:24px; height:24px; border-radius:6px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .sh-mark { height:30px; min-width:30px; border-radius:6px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px 9px; overflow:hidden; }
+  .sh-mark img { height:20px; width:auto; max-width:150px; object-fit:contain; display:block; }
+  .side-brand .sb-logo { height:34px; width:auto; max-width:178px; object-fit:contain; background:#fff; border-radius:8px; padding:6px 11px; display:block; }
+  .m-top .mt-logo { height:24px; width:auto; max-width:118px; object-fit:contain; background:#fff; border-radius:6px; padding:3px 7px; }
+  .la-brand .la-logo { height:44px; width:auto; max-width:230px; object-fit:contain; background:#fff; border-radius:10px; padding:9px 16px; display:block; }
+  .m-login .ml-logo { height:40px; width:auto; max-width:220px; object-fit:contain; background:#fff; border-radius:10px; padding:8px 14px; display:block; }
+  .tv-logo-mark { width:auto !important; height:48px !important; border-radius:10px; background:#fff !important; padding:7px 13px; display:flex; align-items:center; justify-content:center; }
+  .tv-logo-mark img { height:30px; width:auto; max-width:170px; object-fit:contain; display:block; }
+  .tv-m-mark { width:auto !important; height:30px !important; border-radius:7px; background:#fff !important; padding:4px 8px; display:flex; align-items:center; }
+  .tv-m-mark img { height:20px; width:auto; max-width:110px; object-fit:contain; display:block; }
   .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
   .sh-nav { display:flex; align-items:center; gap:8px; }
   .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
@@ -224,19 +233,19 @@
 <body>
 
 <header class="shared-header">
-  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark">G</span><span>Garcia Topografia</span></a></div>
+  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark"><img src="logo-garcia.png" alt="Garcia Topografia"></span></a></div>
   <nav class="sh-nav">
-    <a href="../01-documentacao-tecnica.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="documentacao.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
     <a href="index.html" class="active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Mockups</a>
-    <a href="../design-system.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>Design System</a>
+    <a href="design-system.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>Design System</a>
   </nav>
   <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
 </header>
 <div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
 <nav id="sh-menu" class="sh-mobile-menu">
-  <a href="../01-documentacao-tecnica.md">Documentação</a>
+  <a href="documentacao.html">Documentação</a>
   <a href="index.html" class="active">Mockups</a>
-  <a href="../design-system.md">Design System</a>
+  <a href="design-system.html">Design System</a>
 </nav>
 
 <div class="mockup-header">
@@ -265,15 +274,15 @@
 
           <!-- SIDEBAR -->
           <aside class="side">
-            <div class="side-brand"><span class="mk">G</span><span class="nm">Garcia<small>Topografia</small></span></div>
+            <div class="side-brand"><img src="logo-garcia.png" alt="Garcia Topografia" class="sb-logo"></div>
             <nav class="side-nav">
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> Dashboard</a>
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Atendente IA</a>
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg> CRM</a>
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg> Projetos</a>
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agenda</a>
-              <a href="#" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Follow-up</a>
-              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg> Configurações</a>
+              <a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg> Dashboard</a>
+              <a href="atendente-ia.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg> Atendente IA</a>
+              <a href="crm.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg> CRM</a>
+              <a href="projetos.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg> Projetos</a>
+              <a href="agenda.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg> Agenda</a>
+              <a href="followup.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg> Follow-up</a>
+              <a href="configuracoes.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/></svg> Configurações</a>
             </nav>
             <div class="side-foot">
               <span class="av">FG</span>
@@ -284,7 +293,7 @@
           <!-- MAIN -->
           <div class="main">
             <div class="topbar">
-              <div class="crumb">Follow-up</div>
+              <div class="crumb"><span style="color:var(--gray-500);font-weight:500;font-family:var(--font-body);font-size:13px;">Início</span><span style="color:var(--gray-300);margin:0 7px;font-weight:400;font-size:13px;">&rsaquo;</span><span style="color:var(--gray-700);font-weight:600;font-family:var(--font-body);font-size:13px;">Operação</span></div>
               <div class="topbar-r">
                 <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar… <kbd>⌘K</kbd></div>
                 <button class="icon-btn" aria-label="Tema"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
@@ -637,7 +646,7 @@
         <div class="m-app">
 
           <div class="m-top">
-            <div class="mt-l"><span class="mk">G</span><span class="nm">Follow-up</span></div>
+            <div class="mt-l"><img src="logo-garcia.png" alt="Garcia" class="mt-logo"><span class="nm">Follow-up</span></div>
             <span style="width:30px;height:30px;border-radius:50%;background:#2563EB;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;">FG</span>
           </div>
 

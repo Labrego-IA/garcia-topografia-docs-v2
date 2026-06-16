@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Documentação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF;
+    --accent:#F97316; --accent-hover:#EA580C;
+    --shell:#1E3A5F; --shell-muted:#94A3B8;
+    --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1; --gray-500:#64748B;
+    --gray-600:#475569; --gray-700:#334155; --gray-900:#0F172A;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-lg:0 12px 32px rgba(15,23,42,.16);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:var(--bg); color:var(--text); min-height:100vh; padding:92px 20px 64px; }
+
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { height:30px; min-width:30px; border-radius:6px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px 9px; overflow:hidden; }
+  .sh-mark img { height:20px; width:auto; max-width:150px; object-fit:contain; display:block; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  .wrap { max-width:980px; margin:0 auto; }
+  .page-head { text-align:center; margin-bottom:36px; }
+  .page-head .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:14px; letter-spacing:0.8px; text-transform:uppercase; }
+  .page-head h1 { font-family:var(--font-head); font-size:32px; font-weight:700; color:var(--gray-900); margin-bottom:8px; }
+  .page-head p { font-size:14px; color:var(--text-2); max-width:620px; margin:0 auto; line-height:1.6; }
+  .sec { font-family:var(--font-head); font-size:14px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin:34px 0 16px; display:flex; align-items:center; gap:10px; }
+  .sec::after { content:""; flex:1; height:1px; background:var(--border); }
+  .panel { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm); }
+  .panel p { font-size:14px; color:var(--gray-600); line-height:1.7; margin-bottom:10px; }
+  .panel p:last-child{margin-bottom:0;}
+  .panel ul { margin:6px 0 0 18px; } .panel li { font-size:14px; color:var(--gray-600); line-height:1.7; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .scard { background:#fff; border:1px solid var(--border); border-radius:12px; padding:18px; text-decoration:none; color:inherit; box-shadow:var(--shadow-sm); transition:all .2s; display:flex; flex-direction:column; gap:11px; }
+  .scard:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); border-color:var(--primary); }
+  .scard:hover .open { color:var(--primary); }
+  .scard .hd { display:flex; align-items:center; gap:12px; }
+  .scard .ico { width:38px; height:38px; border-radius:9px; background:var(--shell); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .scard .ico svg { width:19px; height:19px; stroke:#fff; }
+  .scard b { display:block; font-family:var(--font-head); font-size:14.5px; color:var(--gray-900); }
+  .scard .tag { font-size:11px; color:var(--muted); }
+  .scard .desc { font-size:12.5px; color:var(--gray-600); line-height:1.6; flex:1; }
+  .scard .open { font-size:11.5px; font-weight:600; color:var(--gray-500); display:flex; align-items:center; gap:5px; transition:color .2s; }
+  .scard .open svg { width:13px; height:13px; }
+</style>
+</head>
+<body>
+<header class="shared-header">
+  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark"><img src="logo-garcia.png" alt="Garcia Topografia"></span></a></div>
+  <nav class="sh-nav">
+    <a href="documentacao.html" class="active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="index.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Mockups</a>
+    <a href="design-system.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>Design System</a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="documentacao.html" class="active">Documentação</a>
+  <a href="index.html">Mockups</a>
+  <a href="design-system.html">Design System</a>
+</nav>
+
+<div class="wrap">
+  <div class="page-head">
+    <span class="badge">Documentação — Visão Geral</span>
+    <h1>Documentação do Sistema</h1>
+    <p>Resumo funcional do sistema Garcia Topografia e índice navegável das 16 telas. Para aprovação antes do desenvolvimento.</p>
+  </div>
+
+  <div class="sec">Visão Geral</div>
+  <div class="panel">
+    <p>O sistema da Garcia Topografia centraliza o atendimento por IA, o pipeline comercial, a geração de propostas, o acompanhamento de projetos de campo, a agenda e o follow-up — tudo em um só lugar, com identidade visual própria (paleta Azul Técnico).</p>
+    <p>Navegação enxuta de 7 itens no menu lateral: Dashboard, Atendente IA, CRM, Projetos, Agenda, Follow-up e Configurações. Telas de detalhe (ficha do cliente, pasta do projeto, gerador de propostas, usuários) abrem a partir desses contextos.</p>
+  </div>
+
+  <div class="sec">Acesso &amp; Visão Geral</div>
+  <div class="grid">
+    <a class="scard" href="login.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></span><div><b>Login</b><div class="tag">Acesso ao sistema</div></div></div><p class="desc">Tela de entrada do sistema, com a identidade visual da Garcia. Acesso por e-mail e senha — é a porta de entrada tanto para a equipe quanto para o Modo TV operacional.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="dashboard.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg></span><div><b>Dashboard</b><div class="tag">KPIs e atalhos</div></div></div><p class="desc">Painel inicial com os indicadores do negócio — oportunidades em aberto, propostas, projetos em campo e agenda do dia — além de atalhos rápidos para as áreas mais usadas no dia a dia.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="tv.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></span><div><b>Modo TV</b><div class="tag">Painel operacional</div></div></div><p class="desc">Painel em tela cheia para exibição em um monitor do escritório. Mostra o andamento dos projetos e a fila de campo em tempo real, com login próprio para o display.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  </div>
+
+  <div class="sec">Comercial — CRM</div>
+  <div class="grid">
+    <a class="scard" href="crm.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></span><div><b>CRM — Pipeline</b><div class="tag">Kanban comercial</div></div></div><p class="desc">Funil comercial em Kanban (Lead → Qualificado → Proposta → Negociação → Em Execução). Cada cartão traz valor, tipo de serviço, responsável e tempo no estágio, com filtros por serviço e por responsável.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="clientes.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></span><div><b>Clientes</b><div class="tag">Listagem</div></div></div><p class="desc">Listagem completa de clientes com busca, filtros e dados de contato. É o ponto de partida para abrir a ficha detalhada de cada cliente.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="ficha-cliente.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></span><div><b>Ficha do Cliente</b><div class="tag">Detalhe completo</div></div></div><p class="desc">Visão 360° do cliente: dados cadastrais, histórico de contatos, propostas, projetos e interações da IA reunidos em um só lugar.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="gerador-propostas.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span><div><b>Gerador de Propostas</b><div class="tag">PDF ao vivo</div></div></div><p class="desc">Monta a proposta a partir da tabela de preços, com cálculo automático pela IA e pré-visualização do PDF ao vivo antes do envio ao cliente.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="propostas.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></span><div><b>Propostas</b><div class="tag">Listagem</div></div></div><p class="desc">Listagem de todas as propostas emitidas, com status (em aberto, aceita, recusada), valor e data — para acompanhar a conversão comercial.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  </div>
+
+  <div class="sec">Operação &amp; Campo</div>
+  <div class="grid">
+    <a class="scard" href="projetos.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg></span><div><b>Projetos — Workflow</b><div class="tag">Kanban operacional</div></div></div><p class="desc">Kanban operacional dos projetos de campo, do levantamento à entrega, mostrando a etapa, o responsável e o prazo de cada serviço.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="projeto-detalhe.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><polyline points="14 2 14 8 20 8"/></svg></span><div><b>Pasta do Projeto</b><div class="tag">Abas e checklist</div></div></div><p class="desc">Detalhe de um projeto em abas — dados, checklist de campo, arquivos e histórico — para acompanhar a execução do serviço passo a passo.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="agenda.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg></span><div><b>Agenda</b><div class="tag">Calendário e capacidade</div></div></div><p class="desc">Calendário de visitas e levantamentos, com a capacidade da equipe por dia. Ajuda a distribuir as ordens de serviço sem sobrecarregar o campo.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="followup.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg></span><div><b>Follow-up</b><div class="tag">Cadências</div></div></div><p class="desc">Cadências de retomada de contato com leads e clientes, lembrando a equipe (ou a IA) de dar continuidade no momento certo.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  </div>
+
+  <div class="sec">Inteligência Artificial</div>
+  <div class="grid">
+    <a class="scard" href="atendente-ia.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg></span><div><b>Atendente IA</b><div class="tag">Conversas em tempo real</div></div></div><p class="desc">Conversas em tempo real do atendente de IA no WhatsApp, com histórico, status da sessão e a opção de assumir o atendimento manualmente quando preciso.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="ia.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1"/><path d="M9 13h.01"/><path d="M15 13h.01"/></svg></span><div><b>Configuração da IA</b><div class="tag">Personalidade e bases</div></div></div><p class="desc">Define a personalidade, o tom de voz e as bases de conhecimento do atendente de IA, controlando como ele responde aos clientes.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  </div>
+
+  <div class="sec">Sistema &amp; Administração</div>
+  <div class="grid">
+    <a class="scard" href="configuracoes.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg></span><div><b>Configurações</b><div class="tag">Preços, WhatsApp, aparência</div></div></div><p class="desc">Centro de ajustes do sistema em abas — Tabela de Preços, Usuários &amp; Permissões, Integração WhatsApp, Checklists de Campo e Aparência (incluindo o Modo Noturno agendado).</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+    <a class="scard" href="usuarios.html"><div class="hd"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><div><b>Usuários &amp; Permissões</b><div class="tag">Equipe e acessos</div></div></div><p class="desc">Gestão da equipe: cadastro de usuários, definição de papéis e níveis de acesso a cada área do sistema.</p><span class="open">Abrir mockup <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span></a>
+  </div>
+</div>
+</body>
+</html>
