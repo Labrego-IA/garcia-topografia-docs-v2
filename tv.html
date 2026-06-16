@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Modo TV | Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF; --primary-border:#BFDBFE;
+    --accent:#F97316; --accent-hover:#EA580C; --accent-soft:#FFF7ED;
+    --shell:#1E3A5F; --shell-hover:#274B73; --shell-active:#2563EB; --shell-text:#E2E8F0; --shell-muted:#94A3B8;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1; --gray-400:#94A3B8;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-800:#1E293B; --gray-900:#0F172A;
+    --success:#16A34A; --success-soft:#F0FDF4; --warning:#D97706; --warning-soft:#FFFBEB; --error:#DC2626; --error-soft:#FEF2F2;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --radius-md:8px; --radius-sm:6px;
+    --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-xs:0 1px 2px rgba(15,23,42,.06); --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px rgba(15,23,42,.10); --shadow-xl:0 20px 60px rgba(15,23,42,.18);
+
+    /* TV dark surface */
+    --tv-bg:#0F172A; --tv-panel:#1E293B; --tv-panel-2:#263348;
+    --tv-text:#F1F5F9; --tv-text-2:#CBD5E1; --tv-muted:#64748B;
+    --tv-border:rgba(255,255,255,0.08);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:#e9ecf1; color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:92px 20px 48px; }
+
+  /* shared header */
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { width:24px; height:24px; border-radius:6px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  .mockup-header { text-align:center; margin-bottom:24px; max-width:680px; }
+  .mockup-header .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:12px; letter-spacing:0.8px; text-transform:uppercase; }
+  .mockup-header h1 { font-family:var(--font-head); font-size:26px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .mockup-header p { font-size:14px; color:var(--text-2); line-height:1.6; }
+
+  .toggle-row { display:flex; gap:4px; justify-content:center; margin-bottom:32px; background:#fff; padding:4px; border-radius:40px; box-shadow:0 1px 3px rgba(0,0,0,0.08); border:1px solid var(--border); width:fit-content; margin-left:auto; margin-right:auto; }
+  .toggle-btn { padding:9px 20px; border:none; border-radius:36px; background:transparent; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--text-2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .toggle-btn.active { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(37,99,235,0.3); }
+
+  .devices { display:flex; gap:48px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+  .device { display:none; } .device.visible { display:block; }
+  .device-label { text-align:center; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:14px; }
+  .frame-desktop { width:1140px; max-width:95vw; height:720px; background:var(--tv-bg); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.06); }
+  .browser-bar { height:38px; background:#1a1a1a; border-bottom:1px solid #2a2a2a; display:flex; align-items:center; padding:0 16px; gap:8px; }
+  .browser-dot { width:10px; height:10px; border-radius:50%; }
+  .browser-dot.red{background:#ff5f57;} .browser-dot.yellow{background:#febc2e;} .browser-dot.green{background:#28c840;}
+  .browser-url { flex:1; margin-left:12px; background:#111; border-radius:6px; padding:5px 14px; font-size:11.5px; color:#666; border:1px solid #333; }
+  .viewport-d { height:calc(100% - 38px); overflow:hidden; }
+  .frame-mobile { width:375px; height:760px; background:var(--tv-bg); border-radius:44px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.08); position:relative; border:6px solid #1c1c1e; }
+  .notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:126px; height:28px; background:#1c1c1e; border-radius:0 0 18px 18px; z-index:10; }
+  .viewport-m { height:100%; overflow:auto; padding-top:28px; }
+
+  /* ═══════════════════════════════════════
+     TV PANEL — DESKTOP
+  ═══════════════════════════════════════ */
+  .tv { display:flex; flex-direction:column; height:100%; background:var(--tv-bg); font-family:var(--font-body); color:var(--tv-text); overflow:hidden; }
+
+  /* TV Header */
+  .tv-header { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; background:var(--tv-panel); border-bottom:1px solid var(--tv-border); flex-shrink:0; }
+  .tv-header-l { display:flex; align-items:center; gap:14px; }
+  .tv-logo-mark { width:42px; height:42px; border-radius:10px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:20px; flex-shrink:0; }
+  .tv-brand { display:flex; flex-direction:column; }
+  .tv-brand-name { font-family:var(--font-head); font-weight:700; font-size:18px; color:var(--tv-text); line-height:1.1; }
+  .tv-brand-sub { font-size:12px; color:var(--tv-muted); font-weight:500; letter-spacing:0.04em; }
+  .tv-header-r { display:flex; align-items:center; gap:20px; }
+  .tv-clock { text-align:right; }
+  .tv-time { font-family:var(--font-head); font-weight:700; font-size:36px; color:var(--tv-text); line-height:1; }
+  .tv-date { font-size:12px; color:var(--tv-text-2); margin-top:3px; }
+  .tv-pulse-row { display:flex; align-items:center; gap:7px; font-size:11px; color:var(--tv-muted); margin-top:6px; justify-content:flex-end; }
+  .pulse-dot { width:8px; height:8px; border-radius:50%; background:var(--success); flex-shrink:0; }
+  @media (prefers-reduced-motion: no-preference) {
+    .pulse-dot { animation:pulse-anim 2s ease-in-out infinite; }
+  }
+  @keyframes pulse-anim { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:0.4; transform:scale(0.85); } }
+
+  /* TV KPIs */
+  .tv-kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:18px 28px 0; flex-shrink:0; }
+  .tv-kpi { background:var(--tv-panel); border:1px solid var(--tv-border); border-radius:14px; padding:20px 22px; position:relative; overflow:hidden; }
+  .tv-kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:14px 14px 0 0; }
+  .tv-kpi.kpi-blue::before { background:var(--primary); }
+  .tv-kpi.kpi-orange::before { background:var(--accent); }
+  .tv-kpi.kpi-green::before { background:var(--success); }
+  .tv-kpi.kpi-amber::before { background:var(--warning); }
+  .tv-kpi-label { font-size:12px; font-weight:600; color:var(--tv-muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px; }
+  .tv-kpi-value { font-family:var(--font-head); font-weight:700; font-size:56px; line-height:1; color:var(--tv-text); }
+  .tv-kpi.kpi-blue .tv-kpi-value { color:#60A5FA; }
+  .tv-kpi.kpi-orange .tv-kpi-value { color:#FB923C; }
+  .tv-kpi.kpi-green .tv-kpi-value { color:#4ADE80; }
+  .tv-kpi.kpi-amber .tv-kpi-value { color:#FCD34D; }
+  .tv-kpi-icon { position:absolute; bottom:14px; right:16px; opacity:0.12; }
+  .tv-kpi-icon svg { width:44px; height:44px; }
+
+  /* TV Blocks */
+  .tv-blocks { display:grid; grid-template-columns:1.4fr 1fr; gap:14px; padding:14px 28px; flex:1; min-height:0; }
+  .tv-block { background:var(--tv-panel); border:1px solid var(--tv-border); border-radius:14px; display:flex; flex-direction:column; overflow:hidden; }
+  .tv-block-h { padding:14px 20px; border-bottom:1px solid var(--tv-border); display:flex; align-items:center; gap:10px; flex-shrink:0; }
+  .tv-block-h-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .tv-block-h h2 { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--tv-text); flex:1; }
+  .tv-block-h .count { font-size:12px; font-weight:600; padding:3px 10px; border-radius:20px; }
+  .tv-block-h .count.green { background:rgba(22,163,74,0.18); color:#4ADE80; }
+  .tv-block-h .count.amber { background:rgba(217,119,6,0.18); color:#FCD34D; }
+  .tv-block-b { flex:1; overflow-y:auto; padding:10px 14px; }
+
+  /* Service rows */
+  .tv-svc { display:flex; align-items:center; gap:14px; padding:12px 8px; border-bottom:1px solid var(--tv-border); }
+  .tv-svc:last-child { border-bottom:none; }
+  .tv-avatar { width:42px; height:42px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:15px; flex-shrink:0; }
+  .tv-avatar.av-j { background:#7C3AED; }
+  .tv-avatar.av-b { background:#0891B2; }
+  .tv-avatar.av-r { background:#be123c; }
+  .tv-svc-info { flex:1; min-width:0; }
+  .tv-svc-eng { font-size:14px; font-weight:700; color:var(--tv-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tv-svc-cli { font-size:13px; color:var(--tv-text-2); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tv-svc-addr { font-size:12px; color:var(--tv-muted); margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tv-svc-right { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; }
+  .tv-svc-time { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--tv-text); }
+  .tv-badge { font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:20px; text-transform:uppercase; letter-spacing:0.04em; }
+  .tv-badge.lev { background:rgba(37,99,235,0.25); color:#93C5FD; border:1px solid rgba(37,99,235,0.35); }
+  .tv-badge.loc { background:rgba(249,115,22,0.22); color:#FCA068; border:1px solid rgba(249,115,22,0.3); }
+  .tv-badge.reg { background:rgba(124,58,237,0.22); color:#C4B5FD; border:1px solid rgba(124,58,237,0.3); }
+  .tv-badge.son { background:rgba(220,38,38,0.2); color:#FCA5A5; border:1px solid rgba(220,38,38,0.3); }
+  .tv-status { display:flex; align-items:center; gap:5px; font-size:11px; font-weight:600; }
+  .tv-status-dot { width:7px; height:7px; border-radius:50%; }
+  .tv-status.em-campo .tv-status-dot { background:#4ADE80; }
+  .tv-status.em-campo { color:#4ADE80; }
+  .tv-status.pendente .tv-status-dot { background:#FCD34D; }
+  .tv-status.pendente { color:#FCD34D; }
+
+  /* Next services */
+  .tv-next { display:flex; align-items:center; gap:12px; padding:10px 8px; border-bottom:1px solid var(--tv-border); }
+  .tv-next:last-child { border-bottom:none; }
+  .tv-next-time { font-family:var(--font-head); font-weight:700; font-size:16px; color:var(--tv-text); min-width:46px; flex-shrink:0; }
+  .tv-next-bar { width:3px; border-radius:3px; align-self:stretch; flex-shrink:0; min-height:36px; }
+  .tv-next-bar.blue { background:var(--primary); }
+  .tv-next-bar.orange { background:var(--accent); }
+  .tv-next-bar.purple { background:#7C3AED; }
+  .tv-next-bar.teal { background:#0891B2; }
+  .tv-next-info { flex:1; min-width:0; }
+  .tv-next-cli { font-size:13.5px; font-weight:700; color:var(--tv-text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tv-next-eng { font-size:12px; color:var(--tv-text-2); margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tv-next-right { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+
+  /* Footer status bar */
+  .tv-footer { height:36px; background:rgba(15,23,42,0.8); border-top:1px solid var(--tv-border); display:flex; align-items:center; justify-content:space-between; padding:0 28px; flex-shrink:0; }
+  .tv-footer-l { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--tv-muted); }
+  .tv-footer-dot { width:7px; height:7px; border-radius:50%; background:var(--success); }
+  .tv-footer-r { font-size:11.5px; color:var(--tv-muted); }
+
+  /* ═══════════════════════════════════════
+     TV PANEL — MOBILE
+  ═══════════════════════════════════════ */
+  .tv-m { display:flex; flex-direction:column; min-height:100%; background:var(--tv-bg); color:var(--tv-text); font-family:var(--font-body); }
+  .tv-m-header { background:var(--tv-panel); border-bottom:1px solid var(--tv-border); padding:12px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
+  .tv-m-brand { display:flex; align-items:center; gap:9px; }
+  .tv-m-mark { width:30px; height:30px; border-radius:8px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:14px; }
+  .tv-m-name { font-family:var(--font-head); font-weight:700; font-size:13px; color:var(--tv-text); }
+  .tv-m-clock { text-align:right; }
+  .tv-m-time { font-family:var(--font-head); font-weight:700; font-size:20px; color:var(--tv-text); line-height:1; }
+  .tv-m-date { font-size:10px; color:var(--tv-muted); }
+  .tv-m-body { padding:14px 12px; flex:1; }
+  .tv-m-kpis { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .tv-m-kpi { background:var(--tv-panel); border:1px solid var(--tv-border); border-radius:10px; padding:12px 14px; position:relative; overflow:hidden; }
+  .tv-m-kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:10px 10px 0 0; }
+  .tv-m-kpi.k-blue::before { background:var(--primary); }
+  .tv-m-kpi.k-orange::before { background:var(--accent); }
+  .tv-m-kpi.k-green::before { background:var(--success); }
+  .tv-m-kpi.k-amber::before { background:var(--warning); }
+  .tv-m-kpi-label { font-size:10px; font-weight:600; color:var(--tv-muted); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px; }
+  .tv-m-kpi-value { font-family:var(--font-head); font-weight:700; font-size:30px; line-height:1; }
+  .tv-m-kpi.k-blue .tv-m-kpi-value { color:#60A5FA; }
+  .tv-m-kpi.k-orange .tv-m-kpi-value { color:#FB923C; }
+  .tv-m-kpi.k-green .tv-m-kpi-value { color:#4ADE80; }
+  .tv-m-kpi.k-amber .tv-m-kpi-value { color:#FCD34D; }
+  .tv-m-block { background:var(--tv-panel); border:1px solid var(--tv-border); border-radius:10px; margin-bottom:12px; overflow:hidden; }
+  .tv-m-block-h { display:flex; align-items:center; gap:8px; padding:11px 14px; border-bottom:1px solid var(--tv-border); }
+  .tv-m-block-h h3 { font-family:var(--font-head); font-size:13px; font-weight:700; color:var(--tv-text); flex:1; }
+  .tv-m-block-h .cnt { font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px; }
+  .tv-m-block-h .cnt.green { background:rgba(22,163,74,0.18); color:#4ADE80; }
+  .tv-m-block-h .cnt.amber { background:rgba(217,119,6,0.18); color:#FCD34D; }
+  .tv-m-svc { display:flex; align-items:center; gap:10px; padding:11px 14px; border-bottom:1px solid var(--tv-border); }
+  .tv-m-svc:last-child { border-bottom:none; }
+  .tv-m-av { width:34px; height:34px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; flex-shrink:0; }
+  .tv-m-av.av-j { background:#7C3AED; }
+  .tv-m-av.av-b { background:#0891B2; }
+  .tv-m-svc-info { flex:1; min-width:0; }
+  .tv-m-svc-eng { font-size:13px; font-weight:700; color:var(--tv-text); }
+  .tv-m-svc-cli { font-size:11.5px; color:var(--tv-text-2); }
+  .tv-m-svc-r { display:flex; flex-direction:column; align-items:flex-end; gap:4px; flex-shrink:0; }
+  .tv-m-footer { display:flex; align-items:center; gap:6px; padding:10px 14px; background:rgba(15,23,42,0.6); border-top:1px solid var(--tv-border); font-size:10.5px; color:var(--tv-muted); }
+  .tv-m-footer-dot { width:6px; height:6px; border-radius:50%; background:var(--success); }
+</style>
+</head>
+<body>
+
+<header class="shared-header">
+  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark">G</span><span>Garcia Topografia</span></a></div>
+  <nav class="sh-nav">
+    <a href="../01-documentacao-tecnica.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="index.html" class="active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Mockups</a>
+    <a href="../design-system.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>Design System</a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="../01-documentacao-tecnica.md">Documentação</a>
+  <a href="index.html" class="active">Mockups</a>
+  <a href="../design-system.md">Design System</a>
+</nav>
+
+<div class="mockup-header">
+  <span class="badge">Mockup — Modo TV</span>
+  <h1>Modo TV</h1>
+  <p>Painel full-screen para a TV do escritório. Alto contraste, fonte grande, somente leitura e atualização automática. Login operacional dedicado.</p>
+</div>
+
+<div class="toggle-row">
+  <button class="toggle-btn active" onclick="showView(event,'desktop')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Desktop</button>
+  <button class="toggle-btn" onclick="showView(event,'mobile')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/></svg>Mobile</button>
+  <button class="toggle-btn" onclick="showView(event,'both')">Ambos</button>
+</div>
+
+<div class="devices">
+
+  <!-- DESKTOP -->
+  <div class="device visible" id="device-desktop">
+    <div class="device-label">Desktop — 1140px</div>
+    <div class="frame-desktop">
+      <div class="browser-bar">
+        <span class="browser-dot red"></span><span class="browser-dot yellow"></span><span class="browser-dot green"></span>
+        <div class="browser-url">app.garciatopografia.com.br/tv</div>
+      </div>
+      <div class="viewport-d">
+        <div class="tv">
+
+          <!-- TV Header -->
+          <div class="tv-header">
+            <div class="tv-header-l">
+              <div class="tv-logo-mark">G</div>
+              <div class="tv-brand">
+                <div class="tv-brand-name">Garcia Topografia</div>
+                <div class="tv-brand-sub">Painel Operacional</div>
+              </div>
+            </div>
+            <div class="tv-header-r">
+              <div class="tv-clock">
+                <div class="tv-time">08:42</div>
+                <div class="tv-date">Terça, 16/06/2026</div>
+                <div class="tv-pulse-row">
+                  <span class="pulse-dot"></span>
+                  Atualiza a cada 30s
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KPIs gigantes -->
+          <div class="tv-kpis">
+            <div class="tv-kpi kpi-blue">
+              <div class="tv-kpi-label">Serviços hoje</div>
+              <div class="tv-kpi-value">6</div>
+              <div class="tv-kpi-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+            </div>
+            <div class="tv-kpi kpi-orange">
+              <div class="tv-kpi-label">Em campo agora</div>
+              <div class="tv-kpi-value">2</div>
+              <div class="tv-kpi-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+              </div>
+            </div>
+            <div class="tv-kpi kpi-green">
+              <div class="tv-kpi-label">Concluídos</div>
+              <div class="tv-kpi-value">3</div>
+              <div class="tv-kpi-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <div class="tv-kpi kpi-amber">
+              <div class="tv-kpi-label">Pendentes</div>
+              <div class="tv-kpi-value">1</div>
+              <div class="tv-kpi-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blocos principais -->
+          <div class="tv-blocks">
+
+            <!-- Em campo agora -->
+            <div class="tv-block">
+              <div class="tv-block-h">
+                <div class="tv-block-h-dot" style="background:#4ADE80;"></div>
+                <h2>Em campo agora</h2>
+                <span class="count green">2 ativos</span>
+              </div>
+              <div class="tv-block-b">
+                <div class="tv-svc">
+                  <div class="tv-avatar av-j">JA</div>
+                  <div class="tv-svc-info">
+                    <div class="tv-svc-eng">Jamile Andrade</div>
+                    <div class="tv-svc-cli">Construtora Vênus Ltda.</div>
+                    <div class="tv-svc-addr">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;opacity:.5"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                      Av. Brasil, 2400 — Ribeirão Preto / SP
+                    </div>
+                  </div>
+                  <div class="tv-svc-right">
+                    <div class="tv-svc-time">07:30</div>
+                    <span class="tv-badge lev">Levantamento</span>
+                    <div class="tv-status em-campo">
+                      <div class="tv-status-dot"></div>Em campo
+                    </div>
+                  </div>
+                </div>
+                <div class="tv-svc">
+                  <div class="tv-avatar av-b">BC</div>
+                  <div class="tv-svc-info">
+                    <div class="tv-svc-eng">Bárbara Cunha</div>
+                    <div class="tv-svc-cli">João Pereira — Residencial</div>
+                    <div class="tv-svc-addr">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;opacity:.5"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                      Rua das Palmeiras, 580 — Sertãozinho / SP
+                    </div>
+                  </div>
+                  <div class="tv-svc-right">
+                    <div class="tv-svc-time">08:00</div>
+                    <span class="tv-badge loc">Locação</span>
+                    <div class="tv-status em-campo">
+                      <div class="tv-status-dot"></div>Em campo
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Próximos do dia -->
+            <div class="tv-block">
+              <div class="tv-block-h">
+                <div class="tv-block-h-dot" style="background:#FCD34D;"></div>
+                <h2>Próximos do dia</h2>
+                <span class="count amber">3 agendados</span>
+              </div>
+              <div class="tv-block-b">
+                <div class="tv-next">
+                  <div class="tv-next-time">10:00</div>
+                  <div class="tv-next-bar orange"></div>
+                  <div class="tv-next-info">
+                    <div class="tv-next-cli">Ana Beatriz Souza</div>
+                    <div class="tv-next-eng">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;opacity:.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      Jamile Andrade · Franca / SP
+                    </div>
+                  </div>
+                  <div class="tv-next-right">
+                    <span class="tv-badge son">Sondagem</span>
+                    <div class="tv-status pendente"><div class="tv-status-dot"></div>Agendado</div>
+                  </div>
+                </div>
+                <div class="tv-next">
+                  <div class="tv-next-time">13:30</div>
+                  <div class="tv-next-bar purple"></div>
+                  <div class="tv-next-info">
+                    <div class="tv-next-cli">Maria Oliveira</div>
+                    <div class="tv-next-eng">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;opacity:.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      Bárbara Cunha · Ribeirão Preto / SP
+                    </div>
+                  </div>
+                  <div class="tv-next-right">
+                    <span class="tv-badge reg">Regularização</span>
+                    <div class="tv-status pendente"><div class="tv-status-dot"></div>Agendado</div>
+                  </div>
+                </div>
+                <div class="tv-next">
+                  <div class="tv-next-time">15:00</div>
+                  <div class="tv-next-bar teal"></div>
+                  <div class="tv-next-info">
+                    <div class="tv-next-cli">Const. Nova Era S.A.</div>
+                    <div class="tv-next-eng">
+                      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;opacity:.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                      Jamile Andrade · Barretos / SP
+                    </div>
+                  </div>
+                  <div class="tv-next-right">
+                    <span class="tv-badge lev">Levantamento</span>
+                    <div class="tv-status pendente"><div class="tv-status-dot"></div>Agendado</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /tv-blocks -->
+
+          <!-- Status footer -->
+          <div class="tv-footer">
+            <div class="tv-footer-l">
+              <div class="tv-footer-dot"></div>
+              Conectado · última atualização há 12s
+            </div>
+            <div class="tv-footer-r">Garcia Topografia — Painel Operacional · Somente leitura</div>
+          </div>
+
+        </div><!-- /tv -->
+      </div><!-- /viewport-d -->
+    </div><!-- /frame-desktop -->
+  </div><!-- /device-desktop -->
+
+  <!-- MOBILE -->
+  <div class="device" id="device-mobile">
+    <div class="device-label">Mobile — 375px</div>
+    <div class="frame-mobile">
+      <div class="notch"></div>
+      <div class="viewport-m">
+        <div class="tv-m">
+
+          <!-- Mobile header -->
+          <div class="tv-m-header">
+            <div class="tv-m-brand">
+              <div class="tv-m-mark">G</div>
+              <div class="tv-m-name">Painel Operacional</div>
+            </div>
+            <div class="tv-m-clock">
+              <div class="tv-m-time">08:42</div>
+              <div class="tv-m-date">Ter, 16/06/2026</div>
+            </div>
+          </div>
+
+          <!-- Mobile KPIs 2x2 -->
+          <div class="tv-m-body">
+            <div class="tv-m-kpis">
+              <div class="tv-m-kpi k-blue">
+                <div class="tv-m-kpi-label">Serviços hoje</div>
+                <div class="tv-m-kpi-value">6</div>
+              </div>
+              <div class="tv-m-kpi k-orange">
+                <div class="tv-m-kpi-label">Em campo</div>
+                <div class="tv-m-kpi-value">2</div>
+              </div>
+              <div class="tv-m-kpi k-green">
+                <div class="tv-m-kpi-label">Concluídos</div>
+                <div class="tv-m-kpi-value">3</div>
+              </div>
+              <div class="tv-m-kpi k-amber">
+                <div class="tv-m-kpi-label">Pendentes</div>
+                <div class="tv-m-kpi-value">1</div>
+              </div>
+            </div>
+
+            <!-- Em campo agora -->
+            <div class="tv-m-block">
+              <div class="tv-m-block-h">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#4ADE80" stroke-width="2.5"><circle cx="12" cy="10" r="3"/><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                <h3>Em campo agora</h3>
+                <span class="cnt green">2</span>
+              </div>
+              <div class="tv-m-svc">
+                <div class="tv-m-av av-j">JA</div>
+                <div class="tv-m-svc-info">
+                  <div class="tv-m-svc-eng">Jamile Andrade</div>
+                  <div class="tv-m-svc-cli">Const. Vênus · Ribeirão Preto</div>
+                </div>
+                <div class="tv-m-svc-r">
+                  <span class="tv-badge lev">Levant.</span>
+                  <div class="tv-status em-campo" style="font-size:10px;gap:4px;"><div class="tv-status-dot" style="width:6px;height:6px;"></div>Em campo</div>
+                </div>
+              </div>
+              <div class="tv-m-svc">
+                <div class="tv-m-av av-b">BC</div>
+                <div class="tv-m-svc-info">
+                  <div class="tv-m-svc-eng">Bárbara Cunha</div>
+                  <div class="tv-m-svc-cli">J. Pereira · Sertãozinho</div>
+                </div>
+                <div class="tv-m-svc-r">
+                  <span class="tv-badge loc">Locação</span>
+                  <div class="tv-status em-campo" style="font-size:10px;gap:4px;"><div class="tv-status-dot" style="width:6px;height:6px;"></div>Em campo</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Próximos -->
+            <div class="tv-m-block">
+              <div class="tv-m-block-h">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FCD34D" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <h3>Próximos do dia</h3>
+                <span class="cnt amber">3</span>
+              </div>
+              <div class="tv-m-svc">
+                <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:#FB923C;min-width:40px;">10:00</div>
+                <div class="tv-m-svc-info">
+                  <div class="tv-m-svc-eng">Ana Beatriz Souza</div>
+                  <div class="tv-m-svc-cli">Jamile · Franca</div>
+                </div>
+                <span class="tv-badge son">Sondagem</span>
+              </div>
+              <div class="tv-m-svc">
+                <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:#C4B5FD;min-width:40px;">13:30</div>
+                <div class="tv-m-svc-info">
+                  <div class="tv-m-svc-eng">Maria Oliveira</div>
+                  <div class="tv-m-svc-cli">Bárbara · Ribeirão Preto</div>
+                </div>
+                <span class="tv-badge reg">Regul.</span>
+              </div>
+              <div class="tv-m-svc">
+                <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:#60A5FA;min-width:40px;">15:00</div>
+                <div class="tv-m-svc-info">
+                  <div class="tv-m-svc-eng">Const. Nova Era</div>
+                  <div class="tv-m-svc-cli">Jamile · Barretos</div>
+                </div>
+                <span class="tv-badge lev">Levant.</span>
+              </div>
+            </div>
+
+          </div><!-- /tv-m-body -->
+
+          <div class="tv-m-footer">
+            <div class="tv-m-footer-dot"></div>
+            Conectado · atualizado há 12s · Somente leitura
+          </div>
+
+        </div><!-- /tv-m -->
+      </div><!-- /viewport-m -->
+    </div><!-- /frame-mobile -->
+  </div><!-- /device-mobile -->
+
+</div><!-- /devices -->
+
+<script>
+function showView(e,view){
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  const d=document.getElementById('device-desktop'), m=document.getElementById('device-mobile');
+  d.classList.remove('visible'); m.classList.remove('visible');
+  if(view==='desktop') d.classList.add('visible');
+  else if(view==='mobile') m.classList.add('visible');
+  else { d.classList.add('visible'); m.classList.add('visible'); }
+}
+</script>
+</body>
+</html>

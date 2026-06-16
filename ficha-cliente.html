@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Ficha do Cliente | Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ===== ROOT TOKENS (verbatim) ===== */
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF; --primary-border:#BFDBFE;
+    --accent:#F97316; --accent-hover:#EA580C; --accent-soft:#FFF7ED;
+    --shell:#1E3A5F; --shell-hover:#274B73; --shell-active:#2563EB; --shell-text:#E2E8F0; --shell-muted:#94A3B8;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1; --gray-400:#94A3B8;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-800:#1E293B; --gray-900:#0F172A;
+    --success:#16A34A; --success-soft:#F0FDF4; --warning:#D97706; --warning-soft:#FFFBEB; --error:#DC2626; --error-soft:#FEF2F2;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --radius-md:8px; --radius-sm:6px;
+    --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-xs:0 1px 2px rgba(15,23,42,.06); --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px rgba(15,23,42,.10); --shadow-xl:0 20px 60px rgba(15,23,42,.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:#e9ecf1; color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:92px 20px 48px; }
+
+  /* ===== SHARED HEADER ===== */
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { width:24px; height:24px; border-radius:6px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  /* ===== MOCKUP HEADER ===== */
+  .mockup-header { text-align:center; margin-bottom:24px; max-width:680px; }
+  .mockup-header .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:12px; letter-spacing:0.8px; text-transform:uppercase; }
+  .mockup-header h1 { font-family:var(--font-head); font-size:26px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .mockup-header p { font-size:14px; color:var(--text-2); line-height:1.6; }
+
+  /* ===== TOGGLE ROW ===== */
+  .toggle-row { display:flex; gap:4px; justify-content:center; margin-bottom:32px; background:#fff; padding:4px; border-radius:40px; box-shadow:0 1px 3px rgba(0,0,0,0.08); border:1px solid var(--border); width:fit-content; margin-left:auto; margin-right:auto; }
+  .toggle-btn { padding:9px 20px; border:none; border-radius:36px; background:transparent; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--text-2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .toggle-btn.active { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(37,99,235,0.3); }
+
+  /* ===== DEVICES ===== */
+  .devices { display:flex; gap:48px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+  .device { display:none; } .device.visible { display:block; }
+  .device-label { text-align:center; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:14px; }
+  .frame-desktop { width:1140px; max-width:95vw; height:720px; background:var(--bg); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.06); }
+  .browser-bar { height:38px; background:#f7f7f7; border-bottom:1px solid #e8e8e8; display:flex; align-items:center; padding:0 16px; gap:8px; }
+  .browser-dot { width:10px; height:10px; border-radius:50%; }
+  .browser-dot.red{background:#ff5f57;} .browser-dot.yellow{background:#febc2e;} .browser-dot.green{background:#28c840;}
+  .browser-url { flex:1; margin-left:12px; background:#fff; border-radius:6px; padding:5px 14px; font-size:11.5px; color:var(--muted); border:1px solid #eee; }
+  .viewport-d { height:calc(100% - 38px); overflow:hidden; }
+  .frame-mobile { width:375px; height:760px; background:var(--bg); border-radius:44px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.08); position:relative; border:6px solid #1c1c1e; }
+  .notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:126px; height:28px; background:#1c1c1e; border-radius:0 0 18px 18px; z-index:10; }
+  .viewport-m { height:100%; overflow:auto; padding-top:28px; padding-bottom:64px; }
+
+  /* ===== APP SHELL ===== */
+  .app { display:flex; height:100%; }
+  .side { width:228px; background:var(--shell); color:#fff; display:flex; flex-direction:column; flex-shrink:0; }
+  .side-brand { display:flex; align-items:center; gap:10px; padding:18px 20px 16px; }
+  .side-brand .mk { width:30px; height:30px; border-radius:8px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:15px; }
+  .side-brand .nm { font-family:var(--font-head); font-weight:700; font-size:14px; line-height:1.1; }
+  .side-brand .nm small { display:block; font-family:var(--font-body); font-weight:400; font-size:9.5px; color:var(--shell-muted); letter-spacing:0.05em; text-transform:uppercase; margin-top:2px; }
+  .side-nav { flex:1; padding:10px 12px; display:flex; flex-direction:column; gap:2px; }
+  .side-nav a { display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:8px; color:var(--shell-muted); font-size:13.5px; font-weight:500; text-decoration:none; transition:all 0.15s; position:relative; }
+  .side-nav a svg { width:18px; height:18px; flex-shrink:0; }
+  .side-nav a:hover { background:var(--shell-hover); color:#fff; }
+  .side-nav a.active { background:rgba(37,99,235,0.18); color:#fff; }
+  .side-nav a.active::before { content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:3px; background:var(--accent); }
+  .side-foot { border-top:1px solid rgba(255,255,255,0.08); padding:12px; display:flex; align-items:center; gap:10px; }
+  .side-foot .av { width:34px; height:34px; border-radius:50%; background:#2563EB; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
+  .side-foot .uinfo { line-height:1.2; overflow:hidden; }
+  .side-foot .uinfo b { display:block; font-size:12.5px; color:#fff; font-weight:600; white-space:nowrap; }
+  .side-foot .uinfo span { font-size:11px; color:var(--shell-muted); }
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .topbar { height:56px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 24px; flex-shrink:0; }
+  .topbar .crumb { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--gray-900); display:flex; align-items:center; gap:6px; }
+  .topbar .crumb .crumb-sep { color:var(--muted); font-weight:400; font-size:14px; }
+  .topbar .crumb .crumb-cur { color:var(--gray-900); }
+  .topbar .crumb .crumb-par { color:var(--gray-500); font-weight:500; font-size:14px; }
+  .topbar-r { display:flex; align-items:center; gap:10px; }
+  .search { display:flex; align-items:center; gap:8px; background:var(--gray-100); border:1px solid var(--border); border-radius:8px; padding:7px 12px; width:220px; color:var(--gray-400); font-size:13px; }
+  .search kbd { margin-left:auto; background:#fff; border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:10px; color:var(--gray-500); font-family:var(--font-body); }
+  .icon-btn { width:36px; height:36px; border-radius:8px; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--gray-500); cursor:pointer; }
+  .icon-btn:hover { background:var(--gray-100); }
+  .av36 { width:36px; height:36px; border-radius:50%; background:#2563EB; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
+  .content { flex:1; overflow:auto; padding:20px 24px; }
+
+  /* ===== MOBILE SHELL ===== */
+  .m-app { min-height:100%; background:var(--bg); }
+  .m-top { background:var(--shell); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
+  .m-top .mt-l { display:flex; align-items:center; gap:9px; }
+  .m-top .mk { width:28px; height:28px; border-radius:7px; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .m-top .nm { font-family:var(--font-head); font-weight:700; font-size:14px; }
+  .m-body { padding:14px; }
+  .bottom-nav { position:absolute; bottom:0; left:0; right:0; height:60px; background:#fff; border-top:1px solid var(--border); display:flex; z-index:8; }
+  .bn-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--gray-400); font-size:10px; font-weight:600; text-decoration:none; }
+  .bn-item.active { color:var(--primary); }
+  .bn-item svg { width:21px; height:21px; }
+
+  /* ===== PAGE-SPECIFIC CSS ===== */
+
+  /* Badges */
+  .badge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; display:inline-flex; align-items:center; gap:4px; }
+  .badge.svc-lev { background:#EFF6FF; color:#1D4ED8; }
+  .badge.svc-loc { background:#FFF7ED; color:#C2410C; }
+  .badge.svc-reg { background:#FAF5FF; color:#7E22CE; }
+  .badge.svc-son { background:#FEF2F2; color:#DC2626; }
+  .badge.st-cliente { background:var(--success-soft); color:var(--success); }
+  .badge.st-env { background:var(--primary-soft); color:var(--primary); }
+  .badge.st-aprov { background:var(--success-soft); color:var(--success); }
+  .badge.st-venc { background:var(--warning-soft); color:var(--warning); }
+  .badge.st-expirada { background:var(--gray-100); color:var(--gray-600); }
+
+  /* Buttons */
+  .btn-neutral { padding:9px 16px; border:1.5px solid var(--border); border-radius:8px; background:#fff; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--gray-700); cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  .btn-neutral:hover { background:var(--gray-50); border-color:var(--gray-300); }
+  .btn-cta { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:9px 16px; font-family:var(--font-head); font-weight:700; font-size:13px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
+  .btn-cta:hover { background:var(--accent-hover); }
+  .btn-save { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:10px 20px; font-family:var(--font-head); font-weight:700; font-size:13.5px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+  .btn-save:hover { background:var(--accent-hover); }
+
+  /* Back link */
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:600; color:var(--primary); text-decoration:none; margin-bottom:14px; }
+  .back-link:hover { text-decoration:underline; }
+
+  /* Panel */
+  .panel { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-xs); margin-bottom:14px; }
+  .panel-h { display:flex; align-items:center; justify-content:space-between; padding:13px 18px; border-bottom:1px solid var(--border); }
+  .panel-h h3 { font-family:var(--font-head); font-size:14px; font-weight:700; color:var(--gray-900); }
+  .panel-h a { font-size:12.5px; color:var(--primary); text-decoration:none; font-weight:600; }
+  .panel-h a:hover { text-decoration:underline; }
+  .panel-b { padding:14px 18px; }
+
+  /* Client header card */
+  .client-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm); padding:18px 22px; margin-bottom:16px; display:flex; align-items:flex-start; gap:16px; }
+  .cc-av { width:56px; height:56px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:20px; flex-shrink:0; }
+  .cc-info { flex:1; min-width:0; }
+  .cc-name { font-family:var(--font-head); font-size:18px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .cc-badges { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:10px; }
+  .cc-contacts { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .contact-chip { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; color:var(--gray-700); background:var(--gray-50); border:1px solid var(--border); border-radius:7px; padding:5px 10px; }
+  .contact-chip svg { color:var(--gray-400); flex-shrink:0; }
+  .cc-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+
+  /* Ficha layout */
+  .ficha-grid { display:grid; grid-template-columns:1.1fr 1fr; gap:14px; }
+
+  /* ---- READ/EDIT FIELD SYSTEM ---- */
+  /* Default state: fval visible, finp & phone-wrap hidden */
+  .fields-grid { display:grid; grid-template-columns:1fr 1fr; gap:0 22px; }
+  .field-full { grid-column:1/-1; }
+  .frow { padding:10px 0; border-bottom:1px solid var(--gray-100); }
+  .frow:last-child { border-bottom:none; }
+  .frow > label { display:block; font-size:10.5px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+  .frow .fval { display:block; font-size:13.5px; color:var(--gray-800); line-height:1.4; }
+  .frow .fval.date-val { display:flex; align-items:center; gap:5px; }
+  .frow .fval.date-val svg { color:var(--gray-400); }
+  .frow .phone-val { display:flex; align-items:center; gap:5px; font-size:13.5px; color:var(--gray-800); }
+  .frow .finp { display:none; width:100%; padding:8px 12px; border:1.5px solid var(--border); border-radius:8px; font-family:var(--font-body); font-size:13.5px; color:var(--gray-800); background:#fff; outline:none; transition:border-color 0.15s; }
+  .frow .finp:focus { border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,0.08); }
+  .frow .phone-wrap { display:none; border:1.5px solid var(--border); border-radius:8px; overflow:hidden; }
+  .phone-dial { display:flex; align-items:center; gap:5px; padding:0 10px; background:var(--gray-50); border-right:1px solid var(--border); font-size:13px; color:var(--gray-700); cursor:pointer; white-space:nowrap; flex-shrink:0; }
+  .phone-num { border:none; outline:none; padding:8px 10px; font-family:var(--font-body); font-size:13.5px; color:var(--gray-800); background:#fff; flex:1; min-width:0; }
+
+  /* Edit state — toggled by .ficha.editing */
+  .edit-banner { display:none; background:var(--primary); color:#fff; padding:11px 16px; border-radius:10px; margin-bottom:14px; align-items:center; gap:10px; font-size:13.5px; font-weight:500; line-height:1.3; }
+  .ficha.editing .edit-banner { display:flex; }
+  .ficha.editing .frow .fval { display:none !important; }
+  .ficha.editing .frow .phone-val { display:none !important; }
+  .ficha.editing .frow .finp { display:block; }
+  .ficha.editing .frow .phone-wrap { display:flex; }
+  .edit-footer { display:none; position:sticky; bottom:0; background:#fff; border-top:1px solid var(--border); padding:13px 0 10px; justify-content:flex-end; gap:10px; margin-top:4px; z-index:5; box-shadow:0 -3px 14px rgba(15,23,42,0.06); }
+  .ficha.editing .edit-footer { display:flex; }
+
+  /* Chat / conversas */
+  .chat-tl { display:flex; flex-direction:column; gap:10px; }
+  .chat-msg { max-width:84%; }
+  .chat-msg.recv { align-self:flex-start; }
+  .chat-msg.sent { align-self:flex-end; }
+  .chat-bubble { padding:8px 11px; border-radius:11px; font-size:12.5px; line-height:1.45; }
+  .chat-msg.recv .chat-bubble { background:var(--gray-100); color:var(--gray-800); border-bottom-left-radius:3px; }
+  .chat-msg.sent .chat-bubble { background:#DCF8C6; color:#1a2e1a; border-bottom-right-radius:3px; }
+  .chat-meta { font-size:10px; color:var(--muted); margin-top:3px; }
+  .chat-msg.sent .chat-meta { text-align:right; }
+
+  /* Propostas mini-table */
+  .mini-tbl { width:100%; border-collapse:collapse; }
+  .mini-tbl th { text-align:left; font-size:10.5px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.04em; padding:6px 8px; border-bottom:1px solid var(--border); }
+  .mini-tbl td { padding:8px 8px; border-bottom:1px solid var(--gray-100); font-size:12.5px; color:var(--gray-700); }
+  .mini-tbl tr:last-child td { border-bottom:none; }
+  .mini-tbl .mono { font-family:ui-monospace,monospace; font-size:12px; color:var(--gray-500); }
+  .mini-tbl .val { font-family:ui-monospace,monospace; font-weight:600; color:var(--gray-900); }
+  .mini-tbl .dt { display:flex; align-items:center; gap:4px; font-size:12px; }
+  .mini-tbl .dt svg { color:var(--gray-400); }
+  .mini-tbl a { color:var(--primary); font-size:12px; text-decoration:none; font-weight:600; }
+  .mini-tbl a:hover { text-decoration:underline; }
+
+  /* Follow-up timeline */
+  .fu-tl { display:flex; flex-direction:column; }
+  .fu-item { display:flex; gap:11px; padding:9px 0; border-bottom:1px solid var(--gray-100); }
+  .fu-item:last-child { border-bottom:none; }
+  .fu-dot-col { display:flex; flex-direction:column; align-items:center; padding-top:3px; }
+  .fu-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .fu-dot.done { background:var(--success); }
+  .fu-dot.pending { background:transparent; border:2.5px solid var(--warning); }
+  .fu-dot.upcoming { background:var(--gray-300); }
+  .fu-line { width:2px; flex:1; background:var(--gray-200); margin-top:3px; min-height:14px; }
+  .fu-body { flex:1; }
+  .fu-body b { display:block; font-size:13px; color:var(--gray-800); font-weight:600; margin-bottom:2px; }
+  .fu-body span { font-size:12px; color:var(--text-2); }
+  .fu-date { font-size:11px; color:var(--muted); white-space:nowrap; padding-top:3px; }
+
+  /* ===== MOBILE PAGE-SPECIFIC ===== */
+  .m-client-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:14px; margin-bottom:12px; box-shadow:var(--shadow-xs); }
+  .m-cc-top { display:flex; align-items:center; gap:11px; margin-bottom:12px; }
+  .m-cc-av { width:46px; height:46px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:16px; flex-shrink:0; }
+  .m-cc-name { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--gray-900); margin-bottom:5px; }
+  .m-cc-badges { display:flex; gap:6px; flex-wrap:wrap; }
+  .m-cc-actions { display:flex; gap:8px; }
+  .m-btn-neutral { flex:1; padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; background:#fff; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--gray-700); cursor:pointer; text-align:center; }
+  .m-btn-cta { flex:1; background:var(--accent); color:#fff; border:none; border-radius:8px; padding:9px 12px; font-family:var(--font-head); font-weight:700; font-size:13px; cursor:pointer; text-align:center; }
+
+  .m-panel { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:14px; margin-bottom:12px; box-shadow:var(--shadow-xs); }
+  .m-panel h3 { font-family:var(--font-head); font-size:13.5px; font-weight:700; color:var(--gray-900); margin-bottom:11px; }
+  .m-panel .panel-link { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--primary); font-weight:600; text-decoration:none; margin-top:10px; }
+
+  /* Mobile field rows */
+  .m-frow { padding:9px 0; border-bottom:1px solid var(--gray-100); }
+  .m-frow:last-child { border-bottom:none; }
+  .m-frow > label { display:block; font-size:10px; font-weight:600; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px; }
+  .m-frow .fval { display:block; font-size:13px; color:var(--gray-800); }
+  .m-frow .phone-val { display:flex; align-items:center; gap:5px; font-size:13px; color:var(--gray-800); }
+  .m-frow .finp { display:none; width:100%; padding:8px 11px; border:1.5px solid var(--border); border-radius:8px; font-family:var(--font-body); font-size:13px; color:var(--gray-800); background:#fff; outline:none; }
+  .m-frow .finp:focus { border-color:var(--primary); }
+  .m-frow .phone-wrap { display:none; border:1.5px solid var(--border); border-radius:8px; overflow:hidden; }
+
+  /* Mobile edit state */
+  .m-edit-banner { display:none; background:var(--primary); color:#fff; padding:10px 13px; border-radius:10px; margin-bottom:12px; align-items:center; gap:8px; font-size:13px; font-weight:500; }
+  .ficha-m.editing .m-edit-banner { display:flex; }
+  .ficha-m.editing .m-frow .fval { display:none !important; }
+  .ficha-m.editing .m-frow .phone-val { display:none !important; }
+  .ficha-m.editing .m-frow .finp { display:block; }
+  .ficha-m.editing .m-frow .phone-wrap { display:flex; }
+  .m-edit-footer { display:none; gap:8px; padding-top:4px; margin-top:4px; }
+  .ficha-m.editing .m-edit-footer { display:flex; }
+</style>
+</head>
+<body>
+
+<!-- ===== SHARED HEADER ===== -->
+<header class="shared-header">
+  <div class="sh-left">
+    <a href="index.html" class="sh-brand">
+      <span class="sh-mark">G</span>
+      <span>Garcia Topografia</span>
+    </a>
+  </div>
+  <nav class="sh-nav">
+    <a href="../01-documentacao-tecnica.md">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Documentação
+    </a>
+    <a href="index.html" class="active">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Mockups
+    </a>
+    <a href="../design-system.md">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>
+      Design System
+    </a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="../01-documentacao-tecnica.md">Documentação</a>
+  <a href="index.html" class="active">Mockups</a>
+  <a href="../design-system.md">Design System</a>
+</nav>
+
+<!-- ===== MOCKUP HEADER ===== -->
+<div class="mockup-header">
+  <span class="badge">Mockup — Ficha do Cliente</span>
+  <h1>Ficha do Cliente</h1>
+  <p>Abre sempre em LEITURA (read-only). O botão "Editar" libera os campos — estado visualmente distinto, com banner de edição e ações Salvar/Cancelar.</p>
+</div>
+
+<!-- ===== TOGGLE ROW ===== -->
+<div class="toggle-row">
+  <button class="toggle-btn active" onclick="showView(event,'desktop')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+    Desktop
+  </button>
+  <button class="toggle-btn" onclick="showView(event,'mobile')">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/></svg>
+    Mobile
+  </button>
+  <button class="toggle-btn" onclick="showView(event,'both')">Ambos</button>
+</div>
+
+<div class="devices">
+
+  <!-- ═══════════════════════════════ DESKTOP ═══════════════════════════════ -->
+  <div class="device visible" id="device-desktop">
+    <div class="device-label">Desktop — 1140px</div>
+    <div class="frame-desktop">
+      <div class="browser-bar">
+        <span class="browser-dot red"></span>
+        <span class="browser-dot yellow"></span>
+        <span class="browser-dot green"></span>
+        <div class="browser-url">app.garciatopografia.com.br/crm/clientes/maria-oliveira</div>
+      </div>
+      <div class="viewport-d">
+        <div class="app">
+
+          <!-- Sidebar -->
+          <aside class="side">
+            <div class="side-brand">
+              <span class="mk">G</span>
+              <span class="nm">Garcia<small>Topografia</small></span>
+            </div>
+            <nav class="side-nav">
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                Dashboard
+              </a>
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                Atendente IA
+              </a>
+              <a href="#" class="active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg>
+                CRM
+              </a>
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+                Projetos
+              </a>
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Agenda
+              </a>
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                Follow-up
+              </a>
+              <a href="#">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg>
+                Configurações
+              </a>
+            </nav>
+            <div class="side-foot">
+              <span class="av">FG</span>
+              <span class="uinfo"><b>Francisco Garcia</b><span>Administrador</span></span>
+            </div>
+          </aside>
+
+          <!-- Main -->
+          <div class="main">
+            <div class="topbar">
+              <div class="crumb">
+                <span class="crumb-par">Clientes</span>
+                <span class="crumb-sep">›</span>
+                <span class="crumb-cur">Maria Oliveira</span>
+              </div>
+              <div class="topbar-r">
+                <div class="search">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  Buscar… <kbd>⌘K</kbd>
+                </div>
+                <button class="icon-btn" aria-label="Tema"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                <span class="av36">FG</span>
+              </div>
+            </div>
+
+            <div class="content">
+              <div class="ficha" id="ficha">
+
+                <!-- Edit banner -->
+                <div class="edit-banner">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                  Modo edição — altere os campos e clique em <strong style="margin:0 3px">Salvar alterações</strong> para confirmar.
+                </div>
+
+                <!-- Back link -->
+                <a class="back-link" href="#">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                  Voltar para Clientes
+                </a>
+
+                <!-- Client header card -->
+                <div class="client-card">
+                  <div class="cc-av">MO</div>
+                  <div class="cc-info">
+                    <div class="cc-name">Maria Oliveira</div>
+                    <div class="cc-badges">
+                      <span class="badge st-cliente">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        Cliente
+                      </span>
+                      <span class="badge svc-lev">Levantamento</span>
+                    </div>
+                    <div class="cc-contacts">
+                      <div class="contact-chip">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.36 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.56a16 16 0 0 0 6.02 6.02l.95-.95a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                        <span style="font-size:14px;margin-right:2px">🇧🇷</span>
+                        +55 (11) 9 8765-4321
+                      </div>
+                      <div class="contact-chip">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                        maria.oliveira@gmail.com
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cc-actions">
+                    <button class="btn-neutral" onclick="toggleEdit()">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                      Editar
+                    </button>
+                    <a class="btn-cta" href="gerador-propostas.html" style="text-decoration:none;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                      Gerar proposta
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Ficha grid -->
+                <div class="ficha-grid">
+
+                  <!-- Left column -->
+                  <div>
+
+                    <!-- Identificação -->
+                    <div class="panel">
+                      <div class="panel-h"><h3>Identificação</h3></div>
+                      <div class="panel-b">
+                        <div class="fields-grid">
+
+                          <div class="frow field-full">
+                            <label>Nome completo</label>
+                            <div class="fval">Maria Oliveira</div>
+                            <input class="finp" type="text" value="Maria Oliveira">
+                          </div>
+
+                          <div class="frow">
+                            <label>CPF / CNPJ</label>
+                            <div class="fval">348.291.567-09</div>
+                            <input class="finp" type="text" value="348.291.567-09">
+                          </div>
+
+                          <div class="frow">
+                            <label>Origem</label>
+                            <div class="fval">WhatsApp — Atendente IA</div>
+                            <input class="finp" type="text" value="WhatsApp — Atendente IA">
+                          </div>
+
+                          <div class="frow">
+                            <label>Telefone</label>
+                            <div class="phone-val">
+                              <span style="font-size:15px">🇧🇷</span>
+                              <span style="font-size:12px;color:var(--gray-500)">+55</span>
+                              <span>(11) 9 8765-4321</span>
+                            </div>
+                            <div class="phone-wrap">
+                              <div class="phone-dial">
+                                <span style="font-size:15px">🇧🇷</span>
+                                <span>+55</span>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                              </div>
+                              <input class="phone-num" type="tel" value="(11) 9 8765-4321">
+                            </div>
+                          </div>
+
+                          <div class="frow">
+                            <label>E-mail</label>
+                            <div class="fval">maria.oliveira@gmail.com</div>
+                            <input class="finp" type="email" value="maria.oliveira@gmail.com">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Imóvel -->
+                    <div class="panel">
+                      <div class="panel-h"><h3>Imóvel</h3></div>
+                      <div class="panel-b">
+                        <div class="fields-grid">
+
+                          <div class="frow field-full">
+                            <label>Endereço</label>
+                            <div class="fval">Rua das Flores, 142 — Pinheiros</div>
+                            <input class="finp" type="text" value="Rua das Flores, 142 — Pinheiros">
+                          </div>
+
+                          <div class="frow">
+                            <label>Matrícula</label>
+                            <div class="fval">SP-12.847-A</div>
+                            <input class="finp" type="text" value="SP-12.847-A">
+                          </div>
+
+                          <div class="frow">
+                            <label>Área (m²)</label>
+                            <div class="fval">620 m²</div>
+                            <input class="finp" type="text" value="620">
+                          </div>
+
+                          <div class="frow">
+                            <label>Cidade</label>
+                            <div class="fval">São Paulo — SP</div>
+                            <input class="finp" type="text" value="São Paulo — SP">
+                          </div>
+
+                          <div class="frow">
+                            <label>Data de cadastro</label>
+                            <div class="fval date-val">
+                              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                              08/06/2026
+                            </div>
+                            <input class="finp" type="text" value="08/06/2026">
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /left col -->
+
+                  <!-- Right column -->
+                  <div>
+
+                    <!-- Conversas -->
+                    <div class="panel">
+                      <div class="panel-h">
+                        <h3>Conversas</h3>
+                        <a href="#">Abrir no Atendente IA →</a>
+                      </div>
+                      <div class="panel-b">
+                        <div class="chat-tl">
+                          <div class="chat-msg recv">
+                            <div class="chat-bubble">Olá! Vi o anúncio de vocês, preciso de um levantamento topográfico no meu terreno em Pinheiros.</div>
+                            <div class="chat-meta">08/06 · 09:14</div>
+                          </div>
+                          <div class="chat-msg sent">
+                            <div class="chat-bubble">Olá, Maria! Aqui é o Assistente Garcia. Que ótimo! Qual é a área aproximada do terreno?</div>
+                            <div class="chat-meta">08/06 · 09:15 ✓✓</div>
+                          </div>
+                          <div class="chat-msg recv">
+                            <div class="chat-bubble">Acho que uns 620 m². Preciso de uma estimativa de preço.</div>
+                            <div class="chat-meta">08/06 · 09:18</div>
+                          </div>
+                          <div class="chat-msg sent">
+                            <div class="chat-bubble">Para 620 m² em área urbana, o levantamento fica entre R$ 5.800 e R$ 6.500. Posso gerar uma proposta formal agora?</div>
+                            <div class="chat-meta">08/06 · 09:19 ✓✓</div>
+                          </div>
+                          <div class="chat-msg recv">
+                            <div class="chat-bubble">Sim, por favor! Pode mandar.</div>
+                            <div class="chat-meta">08/06 · 09:21</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Propostas -->
+                    <div class="panel">
+                      <div class="panel-h">
+                        <h3>Propostas</h3>
+                        <a href="#">Ver todas →</a>
+                      </div>
+                      <div class="panel-b" style="padding-top:8px">
+                        <table class="mini-tbl">
+                          <thead>
+                            <tr>
+                              <th>Nº</th>
+                              <th>Data</th>
+                              <th>Valor</th>
+                              <th>Status</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="mono">#0142</td>
+                              <td><span class="dt"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>11/06/2026</span></td>
+                              <td class="val">R$ 6.200</td>
+                              <td><span class="badge st-venc" style="font-size:10px;padding:2px 8px">Vence hoje</span></td>
+                              <td><a href="#">Ver</a></td>
+                            </tr>
+                            <tr>
+                              <td class="mono">#0128</td>
+                              <td><span class="dt"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>14/04/2026</span></td>
+                              <td class="val">R$ 4.200</td>
+                              <td><span class="badge st-expirada" style="font-size:10px;padding:2px 8px">Expirada</span></td>
+                              <td><a href="#">Ver</a></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                    <!-- Follow-up -->
+                    <div class="panel">
+                      <div class="panel-h">
+                        <h3>Follow-up</h3>
+                        <span class="badge" style="background:var(--warning-soft);color:var(--warning);font-size:10px;padding:2px 9px">2 pendentes</span>
+                      </div>
+                      <div class="panel-b" style="padding-top:8px;padding-bottom:8px">
+                        <div class="fu-tl">
+                          <div class="fu-item">
+                            <div class="fu-dot-col"><div class="fu-dot done"></div><div class="fu-line"></div></div>
+                            <div class="fu-body"><b>1º contato</b><span>Boas-vindas enviadas pelo Atendente IA</span></div>
+                            <div class="fu-date">08/06</div>
+                          </div>
+                          <div class="fu-item">
+                            <div class="fu-dot-col"><div class="fu-dot done"></div><div class="fu-line"></div></div>
+                            <div class="fu-body"><b>Proposta enviada</b><span>Proposta #0142 entregue via WhatsApp</span></div>
+                            <div class="fu-date">11/06</div>
+                          </div>
+                          <div class="fu-item">
+                            <div class="fu-dot-col"><div class="fu-dot pending"></div><div class="fu-line"></div></div>
+                            <div class="fu-body"><b>Follow-up D+3</b><span>Verificar interesse na proposta</span></div>
+                            <div class="fu-date">14/06</div>
+                          </div>
+                          <div class="fu-item">
+                            <div class="fu-dot-col"><div class="fu-dot upcoming"></div></div>
+                            <div class="fu-body"><b>Follow-up D+7</b><span>Lembrete final antes do vencimento</span></div>
+                            <div class="fu-date">18/06</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /right col -->
+                </div><!-- /ficha-grid -->
+
+                <!-- Edit footer (sticky within .content scroll) -->
+                <div class="edit-footer">
+                  <button class="btn-neutral" onclick="cancelEdit()">Cancelar</button>
+                  <button class="btn-save">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                    Salvar alterações
+                  </button>
+                </div>
+
+              </div><!-- /ficha -->
+            </div><!-- /content -->
+          </div><!-- /main -->
+        </div><!-- /app -->
+      </div><!-- /viewport-d -->
+    </div><!-- /frame-desktop -->
+  </div><!-- /device-desktop -->
+
+  <!-- ═══════════════════════════════ MOBILE ═══════════════════════════════ -->
+  <div class="device" id="device-mobile">
+    <div class="device-label">Mobile — 375px</div>
+    <div class="frame-mobile">
+      <div class="notch"></div>
+      <div class="viewport-m">
+        <div class="m-app">
+
+          <div class="m-top">
+            <div class="mt-l">
+              <span class="mk">G</span>
+              <span class="nm">Ficha do Cliente</span>
+            </div>
+            <span style="width:30px;height:30px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0">FG</span>
+          </div>
+
+          <div class="m-body">
+            <div class="ficha-m" id="ficha-m">
+
+              <!-- Mobile edit banner -->
+              <div class="m-edit-banner">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink:0"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4z"/></svg>
+                Modo edição ativo — salve ao concluir.
+              </div>
+
+              <!-- Back link -->
+              <a class="back-link" href="#" style="font-size:12.5px;margin-bottom:12px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+                Clientes
+              </a>
+
+              <!-- Mobile client card -->
+              <div class="m-client-card">
+                <div class="m-cc-top">
+                  <div class="m-cc-av">MO</div>
+                  <div>
+                    <div class="m-cc-name">Maria Oliveira</div>
+                    <div class="m-cc-badges">
+                      <span class="badge st-cliente" style="font-size:10px">
+                        <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        Cliente
+                      </span>
+                      <span class="badge svc-lev" style="font-size:10px">Levantamento</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="m-cc-actions">
+                  <button class="m-btn-neutral" onclick="toggleEdit()">Editar</button>
+                  <a class="m-btn-cta" href="gerador-propostas.html" style="text-decoration:none;">Gerar proposta</a>
+                </div>
+              </div>
+
+              <!-- Identificação -->
+              <div class="m-panel">
+                <h3>Identificação</h3>
+                <div class="m-frow">
+                  <label>Nome completo</label>
+                  <div class="fval">Maria Oliveira</div>
+                  <input class="finp" type="text" value="Maria Oliveira">
+                </div>
+                <div class="m-frow">
+                  <label>CPF / CNPJ</label>
+                  <div class="fval">348.291.567-09</div>
+                  <input class="finp" type="text" value="348.291.567-09">
+                </div>
+                <div class="m-frow">
+                  <label>Telefone</label>
+                  <div class="phone-val">
+                    <span style="font-size:15px">🇧🇷</span>
+                    <span style="font-size:12px;color:var(--gray-500)">+55</span>
+                    <span>(11) 9 8765-4321</span>
+                  </div>
+                  <div class="phone-wrap">
+                    <div class="phone-dial">
+                      <span style="font-size:14px">🇧🇷</span>
+                      <span>+55</span>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <input class="phone-num" type="tel" value="(11) 9 8765-4321">
+                  </div>
+                </div>
+                <div class="m-frow">
+                  <label>E-mail</label>
+                  <div class="fval">maria.oliveira@gmail.com</div>
+                  <input class="finp" type="email" value="maria.oliveira@gmail.com">
+                </div>
+                <div class="m-frow">
+                  <label>Origem</label>
+                  <div class="fval">WhatsApp — Atendente IA</div>
+                  <input class="finp" type="text" value="WhatsApp — Atendente IA">
+                </div>
+              </div>
+
+              <!-- Imóvel -->
+              <div class="m-panel">
+                <h3>Imóvel</h3>
+                <div class="m-frow">
+                  <label>Endereço</label>
+                  <div class="fval">Rua das Flores, 142 — Pinheiros</div>
+                  <input class="finp" type="text" value="Rua das Flores, 142 — Pinheiros">
+                </div>
+                <div class="m-frow">
+                  <label>Matrícula</label>
+                  <div class="fval">SP-12.847-A</div>
+                  <input class="finp" type="text" value="SP-12.847-A">
+                </div>
+                <div class="m-frow">
+                  <label>Área (m²)</label>
+                  <div class="fval">620 m²</div>
+                  <input class="finp" type="text" value="620">
+                </div>
+                <div class="m-frow">
+                  <label>Cidade</label>
+                  <div class="fval">São Paulo — SP</div>
+                  <input class="finp" type="text" value="São Paulo — SP">
+                </div>
+                <div class="m-frow">
+                  <label>Data de cadastro</label>
+                  <div class="fval" style="display:flex;align-items:center;gap:5px">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--gray-400);flex-shrink:0"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                    08/06/2026
+                  </div>
+                  <input class="finp" type="text" value="08/06/2026">
+                </div>
+              </div>
+
+              <!-- Conversas (mobile) -->
+              <div class="m-panel">
+                <h3>Conversas</h3>
+                <div class="chat-tl" style="margin-bottom:12px">
+                  <div class="chat-msg recv">
+                    <div class="chat-bubble" style="font-size:12px">Olá! Preciso de um levantamento topográfico no meu terreno em Pinheiros, uns 620 m².</div>
+                    <div class="chat-meta">08/06 · 09:14</div>
+                  </div>
+                  <div class="chat-msg sent">
+                    <div class="chat-bubble" style="font-size:12px">Perfeito, Maria! Para 620 m² o valor fica entre R$ 5.800 e R$ 6.500. Posso gerar uma proposta?</div>
+                    <div class="chat-meta">08/06 · 09:19 ✓✓</div>
+                  </div>
+                  <div class="chat-msg recv">
+                    <div class="chat-bubble" style="font-size:12px">Sim, por favor!</div>
+                    <div class="chat-meta">08/06 · 09:21</div>
+                  </div>
+                </div>
+                <a href="#" class="panel-link">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  Abrir no Atendente IA
+                </a>
+              </div>
+
+              <!-- Propostas (mobile) -->
+              <div class="m-panel">
+                <h3>Propostas</h3>
+                <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--border)">
+                    <div>
+                      <div style="font-size:11.5px;font-family:ui-monospace,monospace;color:var(--gray-500)">#0142</div>
+                      <div style="font-size:14px;font-weight:700;color:var(--gray-900);margin-top:1px">R$ 6.200</div>
+                    </div>
+                    <div style="text-align:right">
+                      <span class="badge st-venc" style="font-size:10px;padding:2px 8px">Vence hoje</span>
+                      <div style="margin-top:4px;font-size:11px;display:flex;align-items:center;gap:3px;color:var(--muted);justify-content:flex-end">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                        11/06/2026
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px">
+                    <div>
+                      <div style="font-size:11.5px;font-family:ui-monospace,monospace;color:var(--gray-500)">#0128</div>
+                      <div style="font-size:14px;font-weight:700;color:var(--gray-900);margin-top:1px">R$ 4.200</div>
+                    </div>
+                    <div style="text-align:right">
+                      <span class="badge st-expirada" style="font-size:10px;padding:2px 8px">Expirada</span>
+                      <div style="margin-top:4px;font-size:11px;display:flex;align-items:center;gap:3px;color:var(--muted);justify-content:flex-end">
+                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/></svg>
+                        14/04/2026
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Follow-up (mobile) -->
+              <div class="m-panel">
+                <h3>Follow-up</h3>
+                <div class="fu-tl">
+                  <div class="fu-item">
+                    <div class="fu-dot-col"><div class="fu-dot done"></div><div class="fu-line"></div></div>
+                    <div class="fu-body"><b>1º contato</b><span>Boas-vindas enviadas pelo IA</span></div>
+                    <div class="fu-date">08/06</div>
+                  </div>
+                  <div class="fu-item">
+                    <div class="fu-dot-col"><div class="fu-dot done"></div><div class="fu-line"></div></div>
+                    <div class="fu-body"><b>Proposta enviada</b><span>#0142 via WhatsApp</span></div>
+                    <div class="fu-date">11/06</div>
+                  </div>
+                  <div class="fu-item">
+                    <div class="fu-dot-col"><div class="fu-dot pending"></div><div class="fu-line"></div></div>
+                    <div class="fu-body"><b>Follow-up D+3</b><span>Verificar interesse</span></div>
+                    <div class="fu-date">14/06</div>
+                  </div>
+                  <div class="fu-item">
+                    <div class="fu-dot-col"><div class="fu-dot upcoming"></div></div>
+                    <div class="fu-body"><b>Follow-up D+7</b><span>Lembrete final</span></div>
+                    <div class="fu-date">18/06</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Mobile edit footer -->
+              <div class="m-edit-footer">
+                <button class="m-btn-neutral" onclick="cancelEdit()">Cancelar</button>
+                <button class="m-btn-cta" style="display:flex;align-items:center;justify-content:center;gap:5px">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"/></svg>
+                  Salvar
+                </button>
+              </div>
+
+            </div><!-- /ficha-m -->
+          </div><!-- /m-body -->
+        </div><!-- /m-app -->
+      </div><!-- /viewport-m -->
+
+      <!-- Bottom nav — active = CRM -->
+      <nav class="bottom-nav">
+        <a class="bn-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+          Dashboard
+        </a>
+        <a class="bn-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Conversas
+        </a>
+        <a class="bn-item active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg>
+          CRM
+        </a>
+        <a class="bn-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          Projetos
+        </a>
+        <a class="bn-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          Mais
+        </a>
+      </nav>
+    </div><!-- /frame-mobile -->
+  </div><!-- /device-mobile -->
+
+</div><!-- /devices -->
+
+<script>
+/* ── View toggle ── */
+function showView(e, view) {
+  document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  const d = document.getElementById('device-desktop');
+  const m = document.getElementById('device-mobile');
+  d.classList.remove('visible');
+  m.classList.remove('visible');
+  if (view === 'desktop') d.classList.add('visible');
+  else if (view === 'mobile') m.classList.add('visible');
+  else { d.classList.add('visible'); m.classList.add('visible'); }
+}
+
+/* ── Edit mode toggle ── */
+function toggleEdit() {
+  document.querySelector('.ficha').classList.toggle('editing');
+  document.querySelector('.ficha-m').classList.toggle('editing');
+}
+
+/* ── Cancel edit ── */
+function cancelEdit() {
+  document.querySelector('.ficha').classList.remove('editing');
+  document.querySelector('.ficha-m').classList.remove('editing');
+}
+</script>
+</body>
+</html>

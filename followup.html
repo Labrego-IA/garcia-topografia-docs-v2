@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Follow-up | Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF; --primary-border:#BFDBFE;
+    --accent:#F97316; --accent-hover:#EA580C; --accent-soft:#FFF7ED;
+    --shell:#1E3A5F; --shell-hover:#274B73; --shell-active:#2563EB; --shell-text:#E2E8F0; --shell-muted:#94A3B8;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1; --gray-400:#94A3B8;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-800:#1E293B; --gray-900:#0F172A;
+    --success:#16A34A; --success-soft:#F0FDF4; --warning:#D97706; --warning-soft:#FFFBEB; --error:#DC2626; --error-soft:#FEF2F2;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --radius-md:8px; --radius-sm:6px;
+    --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-xs:0 1px 2px rgba(15,23,42,.06); --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px rgba(15,23,42,.10); --shadow-xl:0 20px 60px rgba(15,23,42,.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:#e9ecf1; color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:92px 20px 48px; }
+
+  /* shared header */
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { width:24px; height:24px; border-radius:6px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  .mockup-header { text-align:center; margin-bottom:24px; max-width:680px; }
+  .mockup-header .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:12px; letter-spacing:0.8px; text-transform:uppercase; }
+  .mockup-header h1 { font-family:var(--font-head); font-size:26px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .mockup-header p { font-size:14px; color:var(--text-2); line-height:1.6; }
+
+  .toggle-row { display:flex; gap:4px; justify-content:center; margin-bottom:32px; background:#fff; padding:4px; border-radius:40px; box-shadow:0 1px 3px rgba(0,0,0,0.08); border:1px solid var(--border); width:fit-content; margin-left:auto; margin-right:auto; }
+  .toggle-btn { padding:9px 20px; border:none; border-radius:36px; background:transparent; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--text-2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .toggle-btn.active { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(37,99,235,0.3); }
+
+  .devices { display:flex; gap:48px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+  .device { display:none; } .device.visible { display:block; }
+  .device-label { text-align:center; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:14px; }
+  .frame-desktop { width:1140px; max-width:95vw; height:720px; background:var(--bg); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.06); }
+  .browser-bar { height:38px; background:#f7f7f7; border-bottom:1px solid #e8e8e8; display:flex; align-items:center; padding:0 16px; gap:8px; }
+  .browser-dot { width:10px; height:10px; border-radius:50%; }
+  .browser-dot.red{background:#ff5f57;} .browser-dot.yellow{background:#febc2e;} .browser-dot.green{background:#28c840;}
+  .browser-url { flex:1; margin-left:12px; background:#fff; border-radius:6px; padding:5px 14px; font-size:11.5px; color:var(--muted); border:1px solid #eee; }
+  .viewport-d { height:calc(100% - 38px); overflow:hidden; }
+  .frame-mobile { width:375px; height:760px; background:var(--bg); border-radius:44px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.08); position:relative; border:6px solid #1c1c1e; }
+  .notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:126px; height:28px; background:#1c1c1e; border-radius:0 0 18px 18px; z-index:10; }
+  .viewport-m { height:100%; overflow:auto; padding-top:28px; padding-bottom:64px; }
+
+  /* ───────── APP SHELL ───────── */
+  .app { display:flex; height:100%; }
+  .side { width:228px; background:var(--shell); color:#fff; display:flex; flex-direction:column; flex-shrink:0; }
+  .side-brand { display:flex; align-items:center; gap:10px; padding:18px 20px 16px; }
+  .side-brand .mk { width:30px; height:30px; border-radius:8px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:15px; }
+  .side-brand .nm { font-family:var(--font-head); font-weight:700; font-size:14px; line-height:1.1; }
+  .side-brand .nm small { display:block; font-family:var(--font-body); font-weight:400; font-size:9.5px; color:var(--shell-muted); letter-spacing:0.05em; text-transform:uppercase; margin-top:2px; }
+  .side-nav { flex:1; padding:10px 12px; display:flex; flex-direction:column; gap:2px; }
+  .side-nav a { display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:8px; color:var(--shell-muted); font-size:13.5px; font-weight:500; text-decoration:none; transition:all 0.15s; position:relative; }
+  .side-nav a svg { width:18px; height:18px; flex-shrink:0; }
+  .side-nav a:hover { background:var(--shell-hover); color:#fff; }
+  .side-nav a.active { background:rgba(37,99,235,0.18); color:#fff; }
+  .side-nav a.active::before { content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:3px; background:var(--accent); }
+  .side-foot { border-top:1px solid rgba(255,255,255,0.08); padding:12px; display:flex; align-items:center; gap:10px; }
+  .side-foot .av { width:34px; height:34px; border-radius:50%; background:#2563EB; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
+  .side-foot .uinfo { line-height:1.2; overflow:hidden; }
+  .side-foot .uinfo b { display:block; font-size:12.5px; color:#fff; font-weight:600; white-space:nowrap; }
+  .side-foot .uinfo span { font-size:11px; color:var(--shell-muted); }
+
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .topbar { height:56px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 24px; flex-shrink:0; }
+  .topbar .crumb { font-family:var(--font-head); font-size:16px; font-weight:700; color:var(--gray-900); }
+  .topbar .crumb small { font-family:var(--font-body); font-weight:400; font-size:12px; color:var(--muted); margin-left:8px; }
+  .topbar-r { display:flex; align-items:center; gap:10px; }
+  .search { display:flex; align-items:center; gap:8px; background:var(--gray-100); border:1px solid var(--border); border-radius:8px; padding:7px 12px; width:200px; color:var(--gray-400); font-size:13px; }
+  .search kbd { margin-left:auto; background:#fff; border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:10px; color:var(--gray-500); font-family:var(--font-body); }
+  .icon-btn { width:36px; height:36px; border-radius:8px; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--gray-500); cursor:pointer; }
+  .icon-btn:hover { background:var(--gray-100); }
+
+  /* Badges compartilhados */
+  .badge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .badge.svc-lev { background:#EFF6FF; color:#1D4ED8; }
+  .badge.svc-loc { background:#FFF7ED; color:#C2410C; }
+  .badge.svc-reg { background:#FAF5FF; color:#7E22CE; }
+  .badge.svc-son { background:#FEF2F2; color:#DC2626; }
+  .badge.st-ok   { background:var(--success-soft); color:var(--success); }
+  .badge.st-warn { background:var(--warning-soft); color:var(--warning); }
+  .badge.st-info { background:var(--primary-soft); color:var(--primary); }
+  .badge.st-muted{ background:var(--gray-100); color:var(--gray-500); }
+
+  /* Shell mobile */
+  .m-app { min-height:100%; background:var(--bg); }
+  .m-top { background:var(--shell); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
+  .m-top .mt-l { display:flex; align-items:center; gap:9px; }
+  .m-top .mk { width:28px; height:28px; border-radius:7px; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .m-top .nm { font-family:var(--font-head); font-weight:700; font-size:14px; }
+  .bottom-nav { position:absolute; bottom:0; left:0; right:0; height:60px; background:#fff; border-top:1px solid var(--border); display:flex; z-index:8; }
+  .bn-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--gray-400); font-size:10px; font-weight:600; text-decoration:none; }
+  .bn-item.active { color:var(--primary); }
+  .bn-item svg { width:21px; height:21px; }
+
+  /* ─── PAGE CSS — Follow-up & Cadências ─── */
+  .content { flex:1; display:flex; flex-direction:column; overflow:hidden; padding:14px 18px 14px; }
+
+  .page-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:10px; flex-shrink:0; }
+  .page-top h2 { font-family:var(--font-head); font-size:18px; font-weight:700; color:var(--gray-900); }
+  .page-top .sub { font-size:12px; color:var(--text-2); margin-top:3px; }
+  .page-top-r { display:flex; align-items:center; gap:8px; }
+
+  .btn-link { background:#fff; border:1px solid var(--border); border-radius:8px; padding:8px 13px; font-size:12.5px; font-weight:600; color:var(--primary); cursor:pointer; text-decoration:none; display:flex; align-items:center; gap:5px; transition:background 0.15s; }
+  .btn-link:hover { background:var(--primary-soft); }
+  .btn-cta { background:var(--accent); color:#fff; border:none; border-radius:8px; padding:9px 14px; font-family:var(--font-head); font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px; white-space:nowrap; }
+  .btn-cta:hover { background:var(--accent-hover); }
+
+  .seg-filter { display:flex; gap:3px; background:var(--gray-100); padding:3px; border-radius:9px; border:1px solid var(--border); margin-bottom:10px; flex-shrink:0; width:fit-content; }
+  .seg-btn { padding:6px 14px; border:none; border-radius:7px; background:transparent; font-family:var(--font-body); font-size:12.5px; font-weight:600; color:var(--gray-500); cursor:pointer; transition:all 0.15s; white-space:nowrap; }
+  .seg-btn.active { background:#fff; color:var(--primary); box-shadow:var(--shadow-xs); }
+
+  .reg-banner { background:#FAF5FF; border:1px solid #DDD6FE; border-radius:8px; padding:8px 12px; display:flex; align-items:center; gap:9px; font-size:11.5px; color:#5B21B6; line-height:1.4; margin-bottom:10px; flex-shrink:0; }
+  .reg-banner svg { flex-shrink:0; color:#7E22CE; }
+
+  /* 2-column layout */
+  .fu-layout { display:grid; grid-template-columns:1fr 1fr; gap:12px; flex:1; overflow:hidden; min-height:0; }
+
+  /* Lista */
+  .fu-list-panel { background:#fff; border:1px solid var(--border); border-radius:var(--radius); display:flex; flex-direction:column; overflow:hidden; }
+  .fu-list-h { padding:10px 14px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+  .fu-list-h b { font-family:var(--font-head); font-size:13px; font-weight:700; color:var(--gray-700); }
+  .fu-list-body { flex:1; overflow-y:auto; }
+
+  .fu-item { display:flex; flex-direction:column; gap:5px; padding:10px 12px 10px 14px; border-bottom:1px solid var(--border); border-left:3px solid transparent; cursor:pointer; transition:background 0.12s; }
+  .fu-item:last-child { border-bottom:none; }
+  .fu-item:hover { background:var(--gray-50); }
+  .fu-item.selected { background:var(--primary-soft); border-left-color:var(--primary); }
+  .fu-item.reg-stripe { border-left-color:#7E22CE; }
+  .fu-item.reg-stripe.selected { background:#FAF5FF; }
+
+  .fi-top { display:flex; align-items:center; justify-content:space-between; gap:6px; }
+  .fi-name { font-size:13px; font-weight:600; color:var(--gray-800); }
+  .fi-mid { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .fi-stage { display:flex; align-items:center; gap:4px; font-size:11px; color:var(--gray-500); }
+  .fi-stage svg { color:var(--gray-400); }
+  .fi-next { display:flex; align-items:center; gap:4px; font-size:11px; color:var(--gray-500); }
+  .fi-next svg { color:var(--primary); }
+  .fi-bot { display:flex; align-items:center; justify-content:space-between; }
+  .fi-actions { display:flex; gap:4px; }
+  .fi-btn { font-size:10.5px; font-weight:600; padding:3px 8px; border-radius:6px; border:1px solid var(--border); background:#fff; color:var(--gray-600); cursor:pointer; transition:all 0.12s; }
+  .fi-btn:hover { background:var(--gray-100); }
+  .fi-btn.pause { color:var(--warning); border-color:#FDE68A; background:var(--warning-soft); }
+  .fi-btn.resume { color:var(--success); border-color:#BBF7D0; background:var(--success-soft); }
+  .fi-btn.cancel { color:var(--error); border-color:#FECACA; }
+  .fi-btn.cancel:hover { background:var(--error-soft); }
+
+  /* Detalhe */
+  .fu-detail-panel { background:#fff; border:1px solid var(--border); border-radius:var(--radius); display:flex; flex-direction:column; overflow:hidden; }
+  .fu-dh { padding:12px 16px; border-bottom:1px solid var(--border); flex-shrink:0; }
+  .fu-dh-name { font-family:var(--font-head); font-size:14.5px; font-weight:700; color:var(--gray-900); margin-bottom:4px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .fu-dh-sub { font-size:11.5px; color:var(--text-2); }
+  .fu-detail-body { flex:1; overflow-y:auto; padding:12px 16px; display:flex; flex-direction:column; gap:10px; }
+
+  .status-banner { display:flex; align-items:flex-start; gap:10px; padding:10px 12px; border-radius:8px; font-size:12.5px; font-weight:500; line-height:1.4; }
+  .status-banner.info { background:var(--primary-soft); border:1px solid var(--primary-border); color:var(--primary); }
+  .status-banner svg { flex-shrink:0; margin-top:1px; }
+
+  .tl-title { font-size:11px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; }
+  .tl { display:flex; flex-direction:column; position:relative; }
+  .tl::before { content:""; position:absolute; left:12px; top:26px; bottom:26px; width:2px; background:var(--gray-200); z-index:0; }
+  .tl-item { display:flex; gap:12px; align-items:flex-start; position:relative; z-index:1; padding-bottom:12px; }
+  .tl-item:last-child { padding-bottom:0; }
+  .tl-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .tl-dot.sent { background:var(--success-soft); border:2px solid #BBF7D0; color:var(--success); }
+  .tl-dot.sched { background:var(--primary-soft); border:2px solid var(--primary-border); color:var(--primary); }
+  .tl-dot.pend { background:var(--gray-100); border:2px solid var(--border); color:var(--gray-400); }
+  .tl-c { flex:1; padding-top:2px; }
+  .tl-label { font-size:13px; font-weight:600; color:var(--gray-800); margin-bottom:4px; }
+  .tl-meta { display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:11.5px; color:var(--gray-500); }
+  .tl-chan { display:flex; align-items:center; gap:3px; color:#16A34A; font-weight:500; }
+  .tl-date { display:flex; align-items:center; gap:3px; }
+  .tl-chip { display:inline-flex; align-items:center; gap:4px; font-size:11.5px; color:var(--primary); background:var(--primary-soft); border:1px solid var(--primary-border); border-radius:6px; padding:2px 8px; margin-top:5px; }
+
+  .det-actions { display:flex; gap:8px; padding-top:2px; border-top:1px solid var(--border); }
+  .det-btn { font-size:12px; font-weight:600; padding:7px 14px; border-radius:8px; border:1px solid var(--border); background:#fff; color:var(--gray-600); cursor:pointer; transition:all 0.15s; }
+  .det-btn.pause { color:var(--warning); border-color:#FDE68A; background:var(--warning-soft); }
+  .det-btn.cancel { color:var(--error); border-color:#FECACA; }
+  .det-btn.cancel:hover { background:var(--error-soft); }
+
+  /* Mobile */
+  .m-body { padding:14px; }
+  .m-h2 { font-family:var(--font-head); font-size:16px; font-weight:700; color:var(--gray-900); margin-bottom:3px; }
+  .m-sub { font-size:12px; color:var(--text-2); margin-bottom:12px; }
+  .m-seg { display:flex; gap:6px; margin-bottom:12px; overflow-x:auto; }
+  .m-seg-btn { padding:6px 12px; border-radius:20px; border:1px solid var(--border); background:#fff; font-size:12px; font-weight:600; color:var(--gray-500); cursor:pointer; white-space:nowrap; }
+  .m-seg-btn.active { background:var(--primary-soft); border-color:var(--primary-border); color:var(--primary); }
+  .m-cta { width:100%; display:flex; align-items:center; justify-content:center; gap:6px; margin-bottom:14px; }
+  .m-reg-banner { background:#FAF5FF; border:1px solid #DDD6FE; border-radius:8px; padding:8px 10px; display:flex; align-items:flex-start; gap:8px; font-size:11px; color:#5B21B6; line-height:1.45; margin-bottom:12px; }
+  .m-reg-banner svg { flex-shrink:0; margin-top:1px; color:#7E22CE; }
+  .m-fu-card { background:#fff; border:1px solid var(--border); border-left:3px solid transparent; border-radius:var(--radius); padding:11px; margin-bottom:10px; box-shadow:var(--shadow-xs); }
+  .m-fu-card.reg-stripe { border-left-color:#7E22CE; }
+  .m-fu-card.paused { border-left-color:var(--warning); }
+  .m-fc-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px; gap:8px; }
+  .m-fc-name { font-size:13.5px; font-weight:600; color:var(--gray-800); }
+  .m-fc-meta { display:flex; align-items:center; gap:6px; flex-wrap:wrap; font-size:11.5px; color:var(--gray-500); margin-bottom:8px; }
+  .m-fc-meta .cal { display:inline-flex; align-items:center; gap:3px; }
+  .m-fc-acts { display:flex; gap:6px; }
+</style>
+</head>
+<body>
+
+<header class="shared-header">
+  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark">G</span><span>Garcia Topografia</span></a></div>
+  <nav class="sh-nav">
+    <a href="../01-documentacao-tecnica.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="index.html" class="active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Mockups</a>
+    <a href="../design-system.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>Design System</a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="../01-documentacao-tecnica.md">Documentação</a>
+  <a href="index.html" class="active">Mockups</a>
+  <a href="../design-system.md">Design System</a>
+</nav>
+
+<div class="mockup-header">
+  <span class="badge">Mockup — Follow-up</span>
+  <h1>Follow-up &amp; Cadências</h1>
+  <p>Cadências pós-proposta e follow-up mensal de regularização, com ações de pausar, retomar e cancelar. Detalhe de cada cadência com histórico de toques e canal.</p>
+</div>
+
+<div class="toggle-row">
+  <button class="toggle-btn active" onclick="showView(event,'desktop')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Desktop</button>
+  <button class="toggle-btn" onclick="showView(event,'mobile')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/></svg>Mobile</button>
+  <button class="toggle-btn" onclick="showView(event,'both')">Ambos</button>
+</div>
+
+<div class="devices">
+  <!-- DESKTOP -->
+  <div class="device visible" id="device-desktop">
+    <div class="device-label">Desktop — 1140px</div>
+    <div class="frame-desktop">
+      <div class="browser-bar">
+        <span class="browser-dot red"></span><span class="browser-dot yellow"></span><span class="browser-dot green"></span>
+        <div class="browser-url">app.garciatopografia.com.br/follow-up</div>
+      </div>
+      <div class="viewport-d">
+        <div class="app">
+
+          <!-- SIDEBAR -->
+          <aside class="side">
+            <div class="side-brand"><span class="mk">G</span><span class="nm">Garcia<small>Topografia</small></span></div>
+            <nav class="side-nav">
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> Dashboard</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Atendente IA</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg> CRM</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg> Projetos</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agenda</a>
+              <a href="#" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Follow-up</a>
+              <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg> Configurações</a>
+            </nav>
+            <div class="side-foot">
+              <span class="av">FG</span>
+              <span class="uinfo"><b>Francisco Garcia</b><span>Administrador</span></span>
+            </div>
+          </aside>
+
+          <!-- MAIN -->
+          <div class="main">
+            <div class="topbar">
+              <div class="crumb">Follow-up</div>
+              <div class="topbar-r">
+                <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar… <kbd>⌘K</kbd></div>
+                <button class="icon-btn" aria-label="Tema"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                <span style="width:36px;height:36px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;flex-shrink:0;">FG</span>
+              </div>
+            </div>
+
+            <div class="content">
+              <!-- PAGE TOP -->
+              <div class="page-top">
+                <div>
+                  <h2>Follow-up &amp; Cadências</h2>
+                  <div class="sub">14 cadências ativas</div>
+                </div>
+                <div class="page-top-r">
+                  <a href="atendente-ia.html" class="btn-link">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    Gerenciar templates →
+                  </a>
+                  <button class="btn-cta">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Nova cadência
+                  </button>
+                </div>
+              </div>
+
+              <!-- SEGMENTED FILTER -->
+              <div class="seg-filter">
+                <button class="seg-btn active">Todas</button>
+                <button class="seg-btn">Pós-proposta</button>
+                <button class="seg-btn">Regularização (mensal)</button>
+              </div>
+
+              <!-- PURPLE INFO BANNER -->
+              <div class="reg-banner">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span><strong>Cadência de Regularização (mensal):</strong> clientes com processo ativo recebem um toque via WhatsApp todo mês enquanto o processo estiver aberto. Sem data de término — pausada ou encerrada manualmente.</span>
+              </div>
+
+              <!-- 2-COLUMN LAYOUT -->
+              <div class="fu-layout">
+
+                <!-- LISTA DE CADÊNCIAS -->
+                <div class="fu-list-panel">
+                  <div class="fu-list-h">
+                    <b>Cadências</b>
+                    <span class="badge st-info">14 ativas</span>
+                  </div>
+                  <div class="fu-list-body">
+
+                    <!-- Item 1 — Maria Oliveira — SELECIONADO -->
+                    <div class="fu-item selected">
+                      <div class="fi-top">
+                        <span class="fi-name">Maria Oliveira</span>
+                        <span class="badge svc-lev">Levantamento</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 2 de 4
+                        </span>
+                        <span class="fi-next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Próximo: 18 de jun
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-info">Ativa</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn pause">Pausar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Item 2 — João Pereira -->
+                    <div class="fu-item">
+                      <div class="fi-top">
+                        <span class="fi-name">João Pereira</span>
+                        <span class="badge svc-loc">Locação</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 1 de 4
+                        </span>
+                        <span class="fi-next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Próximo: 17 de jun
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-info">Ativa</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn pause">Pausar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Item 3 — Construtora Vênus — REGULARIZAÇÃO (faixa roxa) -->
+                    <div class="fu-item reg-stripe">
+                      <div class="fi-top">
+                        <span class="fi-name">Construtora Vênus</span>
+                        <span class="badge svc-reg">Regularização</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 3 de 5
+                        </span>
+                        <span class="fi-next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Próximo: 20 de jun
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-info">Ativa</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn pause">Pausar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Item 4 — Ana Beatriz Souza — PAUSADA -->
+                    <div class="fu-item">
+                      <div class="fi-top">
+                        <span class="fi-name">Ana Beatriz Souza</span>
+                        <span class="badge svc-son">Sondagem</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 2 de 4
+                        </span>
+                        <span class="fi-stage" style="color:var(--warning);">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                          cliente respondeu
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-warn">Pausada</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn resume">Retomar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Item 5 — Imóveis Aurora — REGULARIZAÇÃO -->
+                    <div class="fu-item reg-stripe">
+                      <div class="fi-top">
+                        <span class="fi-name">Imóveis Aurora Ltda.</span>
+                        <span class="badge svc-reg">Regularização</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 1 de 5
+                        </span>
+                        <span class="fi-next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Próximo: 25 de jun
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-info">Ativa</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn pause">Pausar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Item 6 — Carlos Menezes — CONCLUÍDA -->
+                    <div class="fu-item">
+                      <div class="fi-top">
+                        <span class="fi-name">Carlos Menezes</span>
+                        <span class="badge svc-lev">Levantamento</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 4 de 4
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-ok">Concluída</span>
+                        <div class="fi-actions"></div>
+                      </div>
+                    </div>
+
+                    <!-- Item 7 — Paulo Tavares -->
+                    <div class="fu-item">
+                      <div class="fi-top">
+                        <span class="fi-name">Paulo Tavares</span>
+                        <span class="badge svc-lev">Levantamento</span>
+                      </div>
+                      <div class="fi-mid">
+                        <span class="fi-stage">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                          Toque 1 de 4
+                        </span>
+                        <span class="fi-next">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                          Próximo: 22 de jun
+                        </span>
+                      </div>
+                      <div class="fi-bot">
+                        <span class="badge st-info">Ativa</span>
+                        <div class="fi-actions">
+                          <button class="fi-btn pause">Pausar</button>
+                          <button class="fi-btn cancel">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div><!-- /fu-list-body -->
+                </div><!-- /fu-list-panel -->
+
+                <!-- DETALHE DA CADÊNCIA SELECIONADA -->
+                <div class="fu-detail-panel">
+                  <div class="fu-dh">
+                    <div class="fu-dh-name">
+                      Maria Oliveira
+                      <span class="badge svc-lev">Levantamento</span>
+                    </div>
+                    <div class="fu-dh-sub">Cadência pós-proposta · iniciada em 10 de jun de 2026 · 4 toques programados</div>
+                  </div>
+                  <div class="fu-detail-body">
+
+                    <!-- Banner de status -->
+                    <div class="status-banner info">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                      <span><strong>Ativa</strong> — 2 de 4 toques enviados. Próximo toque agendado para <strong>18 de junho</strong> via WhatsApp.</span>
+                    </div>
+
+                    <!-- Timeline de toques -->
+                    <div>
+                      <div class="tl-title">Histórico de toques</div>
+                      <div class="tl">
+
+                        <!-- Toque 1 — enviado -->
+                        <div class="tl-item">
+                          <div class="tl-dot sent">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          </div>
+                          <div class="tl-c">
+                            <div class="tl-label">Toque 1 — enviado</div>
+                            <div class="tl-meta">
+                              <span class="tl-chan">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                WhatsApp
+                              </span>
+                              <span class="tl-date">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                10 de jun de 2026
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Toque 2 — enviado -->
+                        <div class="tl-item">
+                          <div class="tl-dot sent">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                          </div>
+                          <div class="tl-c">
+                            <div class="tl-label">Toque 2 — enviado</div>
+                            <div class="tl-meta">
+                              <span class="tl-chan">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                WhatsApp
+                              </span>
+                              <span class="tl-date">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                14 de jun de 2026
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Toque 3 — agendado -->
+                        <div class="tl-item">
+                          <div class="tl-dot sched">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                          </div>
+                          <div class="tl-c">
+                            <div class="tl-label">Toque 3 — agendado</div>
+                            <div class="tl-meta">
+                              <span class="tl-chan">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                WhatsApp
+                              </span>
+                            </div>
+                            <div class="tl-chip">
+                              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                              18 de jun de 2026
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Toque 4 — pendente -->
+                        <div class="tl-item">
+                          <div class="tl-dot pend">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                          </div>
+                          <div class="tl-c">
+                            <div class="tl-label" style="color:var(--gray-400);">Toque 4 — pendente</div>
+                            <div class="tl-meta">
+                              <span class="tl-chan" style="color:var(--gray-400);">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                WhatsApp
+                              </span>
+                              <span style="font-size:11px;color:var(--gray-400);">Aguardando toque anterior</span>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div><!-- /tl -->
+                    </div>
+
+                    <!-- Ações do detalhe -->
+                    <div class="det-actions">
+                      <button class="det-btn pause">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+                        Pausar cadência
+                      </button>
+                      <button class="det-btn cancel">Cancelar cadência</button>
+                    </div>
+
+                  </div><!-- /fu-detail-body -->
+                </div><!-- /fu-detail-panel -->
+
+              </div><!-- /fu-layout -->
+            </div><!-- /content -->
+          </div><!-- /main -->
+        </div><!-- /app -->
+      </div><!-- /viewport-d -->
+    </div><!-- /frame-desktop -->
+  </div><!-- /device-desktop -->
+
+  <!-- MOBILE -->
+  <div class="device" id="device-mobile">
+    <div class="device-label">Mobile — 375px</div>
+    <div class="frame-mobile">
+      <div class="notch"></div>
+      <div class="viewport-m">
+        <div class="m-app">
+
+          <div class="m-top">
+            <div class="mt-l"><span class="mk">G</span><span class="nm">Follow-up</span></div>
+            <span style="width:30px;height:30px;border-radius:50%;background:#2563EB;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;">FG</span>
+          </div>
+
+          <div class="m-body">
+            <div class="m-h2">Follow-up &amp; Cadências</div>
+            <div class="m-sub">14 cadências ativas</div>
+
+            <!-- Segmented filter -->
+            <div class="m-seg">
+              <button class="m-seg-btn active">Todas</button>
+              <button class="m-seg-btn">Pós-proposta</button>
+              <button class="m-seg-btn">Regularização</button>
+            </div>
+
+            <!-- CTA mobile -->
+            <button class="btn-cta m-cta">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Nova cadência
+            </button>
+
+            <!-- Banner regularização -->
+            <div class="m-reg-banner">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              <span><strong>Regularização (mensal):</strong> cadência sem data de término, pausada ou encerrada manualmente.</span>
+            </div>
+
+            <!-- Card 1 — Maria Oliveira (ativa) -->
+            <div class="m-fu-card">
+              <div class="m-fc-top">
+                <span class="m-fc-name">Maria Oliveira</span>
+                <span class="badge svc-lev">Levantamento</span>
+              </div>
+              <div class="m-fc-meta">
+                <span>Toque 2 de 4</span>
+                <span class="cal">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  18 de jun
+                </span>
+                <span class="badge st-info" style="font-size:10px;padding:2px 7px;">Ativa</span>
+              </div>
+              <div class="m-fc-acts">
+                <button class="fi-btn pause">Pausar</button>
+                <button class="fi-btn cancel">Cancelar</button>
+              </div>
+            </div>
+
+            <!-- Card 2 — Construtora Vênus (regularização, faixa roxa) -->
+            <div class="m-fu-card reg-stripe">
+              <div class="m-fc-top">
+                <span class="m-fc-name">Construtora Vênus</span>
+                <span class="badge svc-reg">Regularização</span>
+              </div>
+              <div class="m-fc-meta">
+                <span>Toque 3 de 5</span>
+                <span class="cal">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  20 de jun
+                </span>
+                <span class="badge st-info" style="font-size:10px;padding:2px 7px;">Ativa</span>
+              </div>
+              <div class="m-fc-acts">
+                <button class="fi-btn pause">Pausar</button>
+                <button class="fi-btn cancel">Cancelar</button>
+              </div>
+            </div>
+
+            <!-- Card 3 — Ana Beatriz (pausada) -->
+            <div class="m-fu-card paused">
+              <div class="m-fc-top">
+                <span class="m-fc-name">Ana Beatriz Souza</span>
+                <span class="badge svc-son">Sondagem</span>
+              </div>
+              <div class="m-fc-meta">
+                <span>Toque 2 de 4</span>
+                <span style="color:var(--warning);font-size:11px;display:flex;align-items:center;gap:2px;">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  cliente respondeu
+                </span>
+                <span class="badge st-warn" style="font-size:10px;padding:2px 7px;">Pausada</span>
+              </div>
+              <div class="m-fc-acts">
+                <button class="fi-btn resume">Retomar</button>
+                <button class="fi-btn cancel">Cancelar</button>
+              </div>
+            </div>
+
+            <!-- Card 4 — João Pereira -->
+            <div class="m-fu-card">
+              <div class="m-fc-top">
+                <span class="m-fc-name">João Pereira</span>
+                <span class="badge svc-loc">Locação</span>
+              </div>
+              <div class="m-fc-meta">
+                <span>Toque 1 de 4</span>
+                <span class="cal">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  17 de jun
+                </span>
+                <span class="badge st-info" style="font-size:10px;padding:2px 7px;">Ativa</span>
+              </div>
+              <div class="m-fc-acts">
+                <button class="fi-btn pause">Pausar</button>
+                <button class="fi-btn cancel">Cancelar</button>
+              </div>
+            </div>
+
+            <!-- Card 5 — Imóveis Aurora (regularização) -->
+            <div class="m-fu-card reg-stripe">
+              <div class="m-fc-top">
+                <span class="m-fc-name">Imóveis Aurora Ltda.</span>
+                <span class="badge svc-reg">Regularização</span>
+              </div>
+              <div class="m-fc-meta">
+                <span>Toque 1 de 5</span>
+                <span class="cal">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  25 de jun
+                </span>
+                <span class="badge st-info" style="font-size:10px;padding:2px 7px;">Ativa</span>
+              </div>
+              <div class="m-fc-acts">
+                <button class="fi-btn pause">Pausar</button>
+                <button class="fi-btn cancel">Cancelar</button>
+              </div>
+            </div>
+
+          </div><!-- /m-body -->
+        </div><!-- /m-app -->
+      </div><!-- /viewport-m -->
+
+      <!-- BOTTOM NAV -->
+      <nav class="bottom-nav">
+        <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+        <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Conversas</a>
+        <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg>CRM</a>
+        <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>Projetos</a>
+        <a class="bn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Mais</a>
+      </nav>
+    </div><!-- /frame-mobile -->
+  </div><!-- /device-mobile -->
+
+</div><!-- /devices -->
+
+<script>
+function showView(e,view){
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  const d=document.getElementById('device-desktop'), m=document.getElementById('device-mobile');
+  d.classList.remove('visible'); m.classList.remove('visible');
+  if(view==='desktop') d.classList.add('visible');
+  else if(view==='mobile') m.classList.add('visible');
+  else { d.classList.add('visible'); m.classList.add('visible'); }
+}
+</script>
+</body>
+</html>

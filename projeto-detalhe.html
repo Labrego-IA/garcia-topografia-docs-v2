@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Pasta do Projeto | Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF; --primary-border:#BFDBFE;
+    --accent:#F97316; --accent-hover:#EA580C; --accent-soft:#FFF7ED;
+    --shell:#1E3A5F; --shell-hover:#274B73; --shell-active:#2563EB; --shell-text:#E2E8F0; --shell-muted:#94A3B8;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1; --gray-400:#94A3B8;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-800:#1E293B; --gray-900:#0F172A;
+    --success:#16A34A; --success-soft:#F0FDF4; --warning:#D97706; --warning-soft:#FFFBEB; --error:#DC2626; --error-soft:#FEF2F2;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --radius-md:8px; --radius-sm:6px;
+    --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-xs:0 1px 2px rgba(15,23,42,.06); --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-md:0 4px 12px rgba(15,23,42,.10); --shadow-xl:0 20px 60px rgba(15,23,42,.18);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:#e9ecf1; color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:92px 20px 48px; }
+
+  /* shared header */
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { width:24px; height:24px; border-radius:6px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  .mockup-header { text-align:center; margin-bottom:24px; max-width:680px; }
+  .mockup-header .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:12px; letter-spacing:0.8px; text-transform:uppercase; }
+  .mockup-header h1 { font-family:var(--font-head); font-size:26px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .mockup-header p { font-size:14px; color:var(--text-2); line-height:1.6; }
+
+  .toggle-row { display:flex; gap:4px; justify-content:center; margin-bottom:32px; background:#fff; padding:4px; border-radius:40px; box-shadow:0 1px 3px rgba(0,0,0,0.08); border:1px solid var(--border); width:fit-content; margin-left:auto; margin-right:auto; }
+  .toggle-btn { padding:9px 20px; border:none; border-radius:36px; background:transparent; font-family:var(--font-body); font-size:13px; font-weight:600; color:var(--text-2); cursor:pointer; transition:all 0.2s; display:flex; align-items:center; gap:6px; }
+  .toggle-btn.active { background:var(--primary); color:#fff; box-shadow:0 2px 8px rgba(37,99,235,0.3); }
+
+  .devices { display:flex; gap:48px; align-items:flex-start; justify-content:center; flex-wrap:wrap; }
+  .device { display:none; } .device.visible { display:block; }
+  .device-label { text-align:center; font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:14px; }
+  .frame-desktop { width:1140px; max-width:95vw; height:720px; background:var(--bg); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.06); }
+  .browser-bar { height:38px; background:#f7f7f7; border-bottom:1px solid #e8e8e8; display:flex; align-items:center; padding:0 16px; gap:8px; }
+  .browser-dot { width:10px; height:10px; border-radius:50%; }
+  .browser-dot.red{background:#ff5f57;} .browser-dot.yellow{background:#febc2e;} .browser-dot.green{background:#28c840;}
+  .browser-url { flex:1; margin-left:12px; background:#fff; border-radius:6px; padding:5px 14px; font-size:11.5px; color:var(--muted); border:1px solid #eee; }
+  .viewport-d { height:calc(100% - 38px); overflow:hidden; }
+  .frame-mobile { width:375px; height:760px; background:var(--bg); border-radius:44px; overflow:hidden; box-shadow:var(--shadow-xl),0 0 0 1px rgba(0,0,0,0.08); position:relative; border:6px solid #1c1c1e; }
+  .notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:126px; height:28px; background:#1c1c1e; border-radius:0 0 18px 18px; z-index:10; }
+  .viewport-m { height:100%; overflow:auto; padding-top:28px; padding-bottom:64px; }
+
+  /* ── APP SHELL ── */
+  .app { display:flex; height:100%; }
+  .side { width:228px; background:var(--shell); color:#fff; display:flex; flex-direction:column; flex-shrink:0; }
+  .side-brand { display:flex; align-items:center; gap:10px; padding:18px 20px 16px; }
+  .side-brand .mk { width:30px; height:30px; border-radius:8px; background:var(--accent); color:#fff; display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:15px; }
+  .side-brand .nm { font-family:var(--font-head); font-weight:700; font-size:14px; line-height:1.1; }
+  .side-brand .nm small { display:block; font-family:var(--font-body); font-weight:400; font-size:9.5px; color:var(--shell-muted); letter-spacing:0.05em; text-transform:uppercase; margin-top:2px; }
+  .side-nav { flex:1; padding:10px 12px; display:flex; flex-direction:column; gap:2px; }
+  .side-nav a { display:flex; align-items:center; gap:11px; padding:10px 12px; border-radius:8px; color:var(--shell-muted); font-size:13.5px; font-weight:500; text-decoration:none; transition:all 0.15s; position:relative; }
+  .side-nav a svg { width:18px; height:18px; flex-shrink:0; }
+  .side-nav a:hover { background:var(--shell-hover); color:#fff; }
+  .side-nav a.active { background:rgba(37,99,235,0.18); color:#fff; }
+  .side-nav a.active::before { content:""; position:absolute; left:0; top:8px; bottom:8px; width:3px; border-radius:3px; background:var(--accent); }
+  .side-foot { border-top:1px solid rgba(255,255,255,0.08); padding:12px; display:flex; align-items:center; gap:10px; }
+  .side-foot .av { width:34px; height:34px; border-radius:50%; background:#2563EB; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:600; font-size:13px; flex-shrink:0; }
+  .side-foot .uinfo { line-height:1.2; overflow:hidden; }
+  .side-foot .uinfo b { display:block; font-size:12.5px; color:#fff; font-weight:600; white-space:nowrap; }
+  .side-foot .uinfo span { font-size:11px; color:var(--shell-muted); }
+
+  .main { flex:1; display:flex; flex-direction:column; overflow:hidden; }
+  .topbar { height:56px; background:#fff; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; padding:0 24px; flex-shrink:0; }
+  .topbar .crumb { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--gray-900); display:flex; align-items:center; gap:6px; }
+  .topbar-r { display:flex; align-items:center; gap:10px; }
+  .search { display:flex; align-items:center; gap:8px; background:var(--gray-100); border:1px solid var(--border); border-radius:8px; padding:7px 12px; width:200px; color:var(--gray-400); font-size:13px; }
+  .search kbd { margin-left:auto; background:#fff; border:1px solid var(--border); border-radius:4px; padding:1px 6px; font-size:10px; color:var(--gray-500); }
+  .icon-btn { width:36px; height:36px; border-radius:8px; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--gray-500); cursor:pointer; }
+  .icon-btn:hover { background:var(--gray-100); }
+
+  .content { flex:1; overflow:auto; padding:20px 24px; }
+
+  .tabs { display:flex; gap:4px; border-bottom:1px solid var(--border); margin-bottom:20px; }
+  .tab { padding:10px 16px; font-size:13.5px; font-weight:600; color:var(--gray-500); cursor:pointer; border-bottom:2px solid transparent; margin-bottom:-1px; white-space:nowrap; }
+  .tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+  .tab:hover:not(.active) { color:var(--gray-700); }
+
+  .badge { font-size:11px; font-weight:600; padding:3px 9px; border-radius:20px; }
+  .badge.svc-lev { background:#EFF6FF; color:#1D4ED8; }
+  .badge.svc-loc { background:#FFF7ED; color:#C2410C; }
+  .badge.svc-reg { background:#FAF5FF; color:#7E22CE; }
+  .badge.svc-son { background:#FEF2F2; color:#DC2626; }
+  .badge.st-campo { background:var(--warning-soft); color:var(--warning); }
+  .badge.st-ok { background:var(--success-soft); color:var(--success); }
+
+  /* MOBILE SHELL */
+  .m-app { min-height:100%; background:var(--bg); }
+  .m-top { background:var(--shell); color:#fff; padding:14px 16px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:5; }
+  .m-top .mt-l { display:flex; align-items:center; gap:9px; }
+  .m-top .mk { width:28px; height:28px; border-radius:7px; background:var(--accent); display:flex; align-items:center; justify-content:center; font-family:var(--font-head); font-weight:700; font-size:13px; }
+  .m-top .nm { font-family:var(--font-head); font-weight:700; font-size:14px; }
+  .m-body { padding:14px; padding-bottom:4px; }
+  .bottom-nav { position:absolute; bottom:0; left:0; right:0; height:60px; background:#fff; border-top:1px solid var(--border); display:flex; z-index:8; }
+  .bn-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; color:var(--gray-400); font-size:10px; font-weight:600; text-decoration:none; }
+  .bn-item.active { color:var(--primary); }
+  .bn-item svg { width:21px; height:21px; }
+
+  /* ── PAGE CSS ── */
+
+  .back-link { display:inline-flex; align-items:center; gap:5px; font-size:13px; font-weight:600; color:var(--primary); text-decoration:none; margin-bottom:14px; }
+  .back-link:hover { color:var(--primary-hover); }
+
+  /* Project header card */
+  .proj-hdr { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:18px; box-shadow:var(--shadow-xs); }
+  .proj-hdr-id { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+  .proj-hdr-id .pid { font-family:var(--font-head); font-size:12px; color:var(--muted); font-weight:600; }
+  .proj-hdr h2 { font-family:var(--font-head); font-size:17px; font-weight:700; color:var(--gray-900); line-height:1.25; margin-bottom:12px; }
+  .proj-hdr-meta { display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .eng-row { display:flex; align-items:center; gap:7px; }
+  .eng-av { width:26px; height:26px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+  .eng-name { font-size:12.5px; color:var(--gray-600); font-weight:500; }
+  .deadline-row { display:flex; align-items:center; gap:5px; font-size:12.5px; color:var(--gray-600); }
+  .deadline-row svg { color:var(--gray-400); }
+
+  /* Tab panels */
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  /* Dados */
+  .dados-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .dado-item { background:var(--gray-50); border:1px solid var(--border); border-radius:var(--radius-md); padding:11px 14px; }
+  .dado-item.span2 { grid-column:1/-1; }
+  .dado-label { font-size:10.5px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+  .dado-value { font-size:13px; color:var(--gray-800); font-weight:500; display:flex; align-items:center; gap:5px; }
+  .dado-value svg { color:var(--gray-400); flex-shrink:0; }
+
+  /* Checklist */
+  .cl-title { font-family:var(--font-head); font-size:15px; font-weight:700; color:var(--gray-900); margin-bottom:12px; }
+  .prog-wrap { background:var(--gray-50); border:1px solid var(--border); border-radius:var(--radius-md); padding:12px 14px; margin-bottom:14px; }
+  .prog-count { font-size:13px; font-weight:600; color:var(--gray-700); margin-bottom:7px; }
+  .prog-bar { height:8px; background:var(--gray-200); border-radius:4px; overflow:hidden; }
+  .prog-fill { height:100%; background:var(--primary); border-radius:4px; transition:width 0.3s ease; }
+  .check-list { display:flex; flex-direction:column; gap:3px; }
+  .check-item { display:flex; align-items:center; gap:11px; padding:10px 13px; border-radius:var(--radius-sm); border:1px solid var(--border); background:#fff; cursor:pointer; transition:border-color 0.15s, background 0.15s; }
+  .check-item:hover { border-color:var(--primary-border); background:var(--primary-soft); }
+  .check-item input[type=checkbox] { width:16px; height:16px; accent-color:var(--primary); flex-shrink:0; cursor:pointer; }
+  .ci-label { font-size:13px; color:var(--gray-700); flex:1; line-height:1.3; }
+  .check-item.done .ci-label { color:var(--gray-400); text-decoration:line-through; }
+
+  /* Arquivos */
+  .dropzone { border:2px dashed var(--border); border-radius:var(--radius); padding:26px 20px; text-align:center; background:#fff; cursor:pointer; margin-bottom:16px; transition:border-color 0.2s, background 0.2s; }
+  .dropzone:hover { border-color:var(--primary); background:var(--primary-soft); }
+  .dropzone .dz-icon { color:var(--gray-300); margin-bottom:8px; }
+  .dropzone p { font-size:13px; color:var(--text-2); font-weight:500; }
+  .dropzone small { font-size:11.5px; color:var(--muted); display:block; margin-top:3px; }
+  .dz-btn { display:inline-flex; align-items:center; gap:6px; margin-top:10px; background:var(--primary); color:#fff; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; cursor:pointer; font-family:var(--font-body); }
+  .file-list { display:flex; flex-direction:column; gap:6px; margin-bottom:14px; }
+  .file-row { display:flex; align-items:center; gap:11px; padding:10px 13px; border:1px solid var(--border); border-radius:var(--radius-md); background:#fff; box-shadow:var(--shadow-xs); }
+  .file-ic { width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .file-ic.dwg { background:var(--primary-soft); color:var(--primary); }
+  .file-ic.pdf { background:var(--error-soft); color:var(--error); }
+  .file-ic.img { background:var(--success-soft); color:var(--success); }
+  .file-info { flex:1; min-width:0; }
+  .file-info b { font-size:12.5px; color:var(--gray-800); display:block; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .file-info span { font-size:11.5px; color:var(--text-2); }
+  .file-info .up-prog { margin-top:5px; }
+  .file-actions { display:flex; gap:5px; flex-shrink:0; }
+  .file-btn { width:28px; height:28px; border-radius:6px; border:1px solid var(--border); background:#fff; display:flex; align-items:center; justify-content:center; color:var(--gray-400); cursor:pointer; }
+  .file-btn:hover { background:var(--gray-100); color:var(--gray-700); }
+  .file-btn.del:hover { background:var(--error-soft); color:var(--error); border-color:#FECACA; }
+  .formats-note { font-size:11.5px; color:var(--muted); background:var(--gray-50); border:1px solid var(--border); border-radius:var(--radius-sm); padding:8px 12px; line-height:1.5; }
+
+  /* Entrega */
+  .entrega-date { display:flex; align-items:center; gap:8px; font-size:13px; color:var(--gray-700); font-weight:500; background:var(--warning-soft); border:1px solid #FDE68A; border-radius:var(--radius-md); padding:10px 14px; margin-bottom:14px; }
+  .entrega-date svg { color:var(--warning); flex-shrink:0; }
+  .panel-card { background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; margin-bottom:14px; box-shadow:var(--shadow-xs); }
+  .panel-card h3 { font-family:var(--font-head); font-size:14px; font-weight:700; color:var(--gray-900); margin-bottom:13px; }
+  .tl { display:flex; flex-direction:column; }
+  .tl-step { display:flex; align-items:flex-start; gap:11px; padding-bottom:14px; position:relative; }
+  .tl-step:last-child { padding-bottom:0; }
+  .tl-step:not(:last-child)::before { content:""; position:absolute; left:12px; top:24px; bottom:0; width:2px; background:var(--border); }
+  .tl-dot { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; z-index:1; }
+  .tl-dot.done { background:var(--success); color:#fff; }
+  .tl-dot.pending { background:#fff; border:2px dashed var(--gray-300); color:var(--gray-300); }
+  .tl-info b { font-size:13px; color:var(--gray-800); font-weight:600; display:block; line-height:1.3; }
+  .tl-info span { font-size:12px; color:var(--text-2); }
+  .btn-orange { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; padding:13px; background:var(--accent); color:#fff; border:none; border-radius:var(--radius-md); font-family:var(--font-head); font-size:14px; font-weight:700; cursor:pointer; transition:background 0.2s; letter-spacing:0.02em; }
+  .btn-orange:hover { background:var(--accent-hover); }
+
+  /* Mobile tabs */
+  .m-tabs-row { display:flex; overflow-x:auto; background:#fff; border-bottom:1px solid var(--border); -webkit-overflow-scrolling:touch; }
+  .m-tabs-row::-webkit-scrollbar { display:none; }
+  .m-tab { padding:10px 15px; font-size:13px; font-weight:600; color:var(--gray-500); border-bottom:2px solid transparent; white-space:nowrap; cursor:pointer; flex-shrink:0; }
+  .m-tab.active { color:var(--primary); border-bottom-color:var(--primary); }
+  .m-panel { display:none; }
+  .m-panel.active { display:block; }
+
+  .m-dado { background:var(--gray-50); border:1px solid var(--border); border-radius:var(--radius-md); padding:10px 13px; margin-bottom:8px; }
+  .m-dado-lbl { font-size:10px; font-weight:700; color:var(--gray-400); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:3px; }
+  .m-dado-val { font-size:13px; color:var(--gray-800); font-weight:500; display:flex; align-items:center; gap:5px; }
+  .m-dado-val svg { color:var(--gray-400); flex-shrink:0; }
+</style>
+</head>
+<body>
+
+<header class="shared-header">
+  <div class="sh-left"><a href="index.html" class="sh-brand"><span class="sh-mark">G</span><span>Garcia Topografia</span></a></div>
+  <nav class="sh-nav">
+    <a href="../01-documentacao-tecnica.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="index.html" class="active"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>Mockups</a>
+    <a href="../design-system.md"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/></svg>Design System</a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="../01-documentacao-tecnica.md">Documentação</a>
+  <a href="index.html" class="active">Mockups</a>
+  <a href="../design-system.md">Design System</a>
+</nav>
+
+<div class="mockup-header">
+  <span class="badge">Mockup — Pasta do Projeto</span>
+  <h1>Pasta do Projeto</h1>
+  <p>Tudo do projeto em um lugar — dados, checklist de campo, arquivos e entrega. Clique nas abas e nos checkboxes para ver a interatividade.</p>
+</div>
+
+<div class="toggle-row">
+  <button class="toggle-btn active" onclick="showView(event,'desktop')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>Desktop</button>
+  <button class="toggle-btn" onclick="showView(event,'mobile')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/></svg>Mobile</button>
+  <button class="toggle-btn" onclick="showView(event,'both')">Ambos</button>
+</div>
+
+<div class="devices">
+
+  <!-- ══════════ DESKTOP ══════════ -->
+  <div class="device visible" id="device-desktop">
+    <div class="device-label">Desktop — 1140px</div>
+    <div class="frame-desktop">
+      <div class="browser-bar">
+        <span class="browser-dot red"></span><span class="browser-dot yellow"></span><span class="browser-dot green"></span>
+        <div class="browser-url">app.garciatopografia.com.br/projetos/PRJ-1042</div>
+      </div>
+      <div class="viewport-d">
+        <div class="app">
+
+          <!-- SIDEBAR -->
+          <aside class="side">
+            <div class="side-brand"><span class="mk">G</span><span class="nm">Garcia<small>Topografia</small></span></div>
+            <nav class="side-nav">
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg> Dashboard</a>
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Atendente IA</a>
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg> CRM</a>
+              <a class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg> Projetos</a>
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Agenda</a>
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg> Follow-up</a>
+              <a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg> Configurações</a>
+            </nav>
+            <div class="side-foot">
+              <span class="av">FG</span>
+              <span class="uinfo"><b>Francisco Garcia</b><span>Administrador</span></span>
+            </div>
+          </aside>
+
+          <!-- MAIN -->
+          <div class="main">
+            <div class="topbar">
+              <div class="crumb">
+                <span style="color:var(--gray-500);font-weight:500;font-family:var(--font-body);">Projetos</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                <span style="color:var(--primary);">#PRJ-1042</span>
+              </div>
+              <div class="topbar-r">
+                <div class="search"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Buscar… <kbd>⌘K</kbd></div>
+                <button class="icon-btn" aria-label="Tema"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></button>
+                <span style="width:36px;height:36px;border-radius:50%;background:#2563EB;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:13px;">FG</span>
+              </div>
+            </div>
+
+            <div class="content" id="d-content">
+
+              <!-- back -->
+              <a class="back-link" href="#">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Voltar para Projetos
+              </a>
+
+              <!-- project header -->
+              <div class="proj-hdr">
+                <div class="proj-hdr-id">
+                  <span class="pid">#PRJ-1042</span>
+                  <span class="badge svc-lev">Levantamento</span>
+                  <span class="badge st-campo">Em Campo</span>
+                </div>
+                <h2>Levantamento topográfico — Maria Oliveira</h2>
+                <div class="proj-hdr-meta">
+                  <div class="eng-row">
+                    <span class="eng-av">JS</span>
+                    <span class="eng-name">Jamile Santos — Engenheira responsável</span>
+                  </div>
+                  <div class="deadline-row">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    Entrega prevista 24/06
+                  </div>
+                </div>
+              </div>
+
+              <!-- tabs -->
+              <div class="tabs">
+                <div class="tab" data-panel="dados" onclick="switchTab(this)">Dados</div>
+                <div class="tab active" data-panel="checklist" onclick="switchTab(this)">Checklist</div>
+                <div class="tab" data-panel="arquivos" onclick="switchTab(this)">Arquivos</div>
+                <div class="tab" data-panel="entrega" onclick="switchTab(this)">Entrega</div>
+              </div>
+
+              <!-- ── DADOS ── -->
+              <div class="tab-panel" id="d-panel-dados">
+                <div class="dados-grid">
+                  <div class="dado-item">
+                    <div class="dado-label">Cliente</div>
+                    <div class="dado-value">Maria Oliveira</div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Serviço</div>
+                    <div class="dado-value"><span class="badge svc-lev">Levantamento Planialtimétrico</span></div>
+                  </div>
+                  <div class="dado-item span2">
+                    <div class="dado-label">Imóvel / Endereço</div>
+                    <div class="dado-value">Rua dos Pinheiros, 420 — Pinheiros, São Paulo/SP</div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Matrícula</div>
+                    <div class="dado-value">42.810-SP</div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Área</div>
+                    <div class="dado-value">450 m²</div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Valor do serviço</div>
+                    <div class="dado-value">R$ 6.200,00</div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Data de início</div>
+                    <div class="dado-value">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      10/06/2026
+                    </div>
+                  </div>
+                  <div class="dado-item">
+                    <div class="dado-label">Prazo de entrega</div>
+                    <div class="dado-value">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                      24/06/2026
+                    </div>
+                  </div>
+                  <div class="dado-item span2">
+                    <div class="dado-label">Observações</div>
+                    <div class="dado-value" style="flex-wrap:wrap;line-height:1.5;">Regularização de documentação. Cliente solicitou entrega da planta georreferenciada para protocolo em cartório. Acesso ao terreno mediante agendamento prévio com a proprietária.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ── CHECKLIST ── -->
+              <div class="tab-panel active" id="d-panel-checklist">
+                <div class="cl-title">Checklist de campo</div>
+                <div class="prog-wrap">
+                  <div class="prog-count" id="d-prog-count">8/12 itens concluídos (67%)</div>
+                  <div class="prog-bar"><div class="prog-fill" id="d-prog-fill" style="width:67%"></div></div>
+                </div>
+                <div class="check-list" data-scope="d">
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Marco geodésico instalado</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Pontos de coleta GPS registrados</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Amarração à RN local</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Fotos do terreno (geral e detalhes)</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Confrontantes verificados in loco</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Croqui de campo executado</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Medição de divisas concluída</span></label>
+                  <label class="check-item done"><input type="checkbox" checked onchange="updateProg('d')"><span class="ci-label">Conferência de área total</span></label>
+                  <label class="check-item"><input type="checkbox" onchange="updateProg('d')"><span class="ci-label">Plantas baixas revisadas</span></label>
+                  <label class="check-item"><input type="checkbox" onchange="updateProg('d')"><span class="ci-label">Cálculo de coordenadas UTM</span></label>
+                  <label class="check-item"><input type="checkbox" onchange="updateProg('d')"><span class="ci-label">Relatório técnico — rascunho</span></label>
+                  <label class="check-item"><input type="checkbox" onchange="updateProg('d')"><span class="ci-label">Validação final com responsável técnico</span></label>
+                </div>
+              </div>
+
+              <!-- ── ARQUIVOS ── -->
+              <div class="tab-panel" id="d-panel-arquivos">
+                <div class="dropzone">
+                  <div class="dz-icon">
+                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  </div>
+                  <p>Arraste arquivos ou clique para enviar</p>
+                  <small>Formatos: DWG, PDF, ART, JPG, PNG, MP4 · Máx 100 MB por arquivo</small>
+                  <button class="dz-btn">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    Selecionar arquivos
+                  </button>
+                </div>
+                <div class="file-list">
+                  <!-- enviando -->
+                  <div class="file-row">
+                    <div class="file-ic dwg"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="file-info">
+                      <b>levantamento.dwg</b>
+                      <span>AutoCAD · 8,4 MB · Enviando…</span>
+                      <div class="up-prog"><div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--accent);"></div></div></div>
+                    </div>
+                    <div class="file-actions">
+                      <button class="file-btn del" title="Cancelar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                    </div>
+                  </div>
+                  <!-- prontos -->
+                  <div class="file-row">
+                    <div class="file-ic pdf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="file-info"><b>planta.pdf</b><span>PDF · 2,1 MB · Enviado em 15/06</span></div>
+                    <div class="file-actions">
+                      <button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                      <button class="file-btn del" title="Excluir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+                    </div>
+                  </div>
+                  <div class="file-row">
+                    <div class="file-ic img"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                    <div class="file-info"><b>foto-terreno.jpg</b><span>Imagem · 3,7 MB · Enviado em 12/06</span></div>
+                    <div class="file-actions">
+                      <button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                      <button class="file-btn del" title="Excluir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+                    </div>
+                  </div>
+                  <div class="file-row">
+                    <div class="file-ic pdf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                    <div class="file-info"><b>memorial.pdf</b><span>PDF · 0,9 MB · Enviado em 11/06</span></div>
+                    <div class="file-actions">
+                      <button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                      <button class="file-btn del" title="Excluir"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="formats-note">Formatos aceitos: DWG, PDF, ART (AutoCAD), JPG, PNG, MP4. Máximo de 100 MB por arquivo. Todos os envios são registrados com data e responsável.</div>
+              </div>
+
+              <!-- ── ENTREGA ── -->
+              <div class="tab-panel" id="d-panel-entrega">
+                <div class="entrega-date">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                  <span><b>Data de entrega prevista:</b> 24 de junho de 2026</span>
+                </div>
+                <div class="panel-card">
+                  <h3>Status da entrega</h3>
+                  <div class="tl">
+                    <div class="tl-step">
+                      <div class="tl-dot done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                      <div class="tl-info"><b>Desenho concluído</b><span>14/06/2026 · Jamile Santos</span></div>
+                    </div>
+                    <div class="tl-step">
+                      <div class="tl-dot done"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                      <div class="tl-info"><b>Revisado e aprovado</b><span>15/06/2026 · Francisco Garcia</span></div>
+                    </div>
+                    <div class="tl-step">
+                      <div class="tl-dot pending"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg></div>
+                      <div class="tl-info"><b>Pronto para entrega</b><span>Aguardando envio ao cliente</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="panel-card">
+                  <h3>Arquivos finais</h3>
+                  <div class="file-list" style="margin-bottom:0">
+                    <div class="file-row">
+                      <div class="file-ic dwg"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                      <div class="file-info"><b>levantamento-final.dwg</b><span>DWG · 8,4 MB · Pronto</span></div>
+                      <div class="file-actions"><button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></div>
+                    </div>
+                    <div class="file-row">
+                      <div class="file-ic pdf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                      <div class="file-info"><b>planta-georreferenciada.pdf</b><span>PDF · 2,1 MB · Pronto</span></div>
+                      <div class="file-actions"><button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></div>
+                    </div>
+                    <div class="file-row">
+                      <div class="file-ic pdf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                      <div class="file-info"><b>memorial-descritivo-final.pdf</b><span>PDF · 0,9 MB · Pronto</span></div>
+                      <div class="file-actions"><button class="file-btn" title="Baixar"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button></div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn-orange" id="d-cta-btn" onclick="document.getElementById('d-cta-btn').innerHTML='<svg width=\'18\' height=\'18\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'3\'><polyline points=\'20 6 9 17 4 12\'/></svg>&nbsp;Entregue com sucesso!';">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Enviar para o cliente
+                </button>
+              </div>
+
+            </div><!-- /content -->
+          </div><!-- /main -->
+        </div><!-- /app -->
+      </div><!-- /viewport-d -->
+    </div><!-- /frame-desktop -->
+  </div><!-- /device-desktop -->
+
+  <!-- ══════════ MOBILE ══════════ -->
+  <div class="device" id="device-mobile">
+    <div class="device-label">Mobile — 375px</div>
+    <div class="frame-mobile">
+      <div class="notch"></div>
+      <div class="viewport-m">
+        <div class="m-app">
+
+          <!-- top bar -->
+          <div class="m-top">
+            <div class="mt-l">
+              <span class="mk">G</span>
+              <span class="nm">Projetos</span>
+            </div>
+            <span style="width:30px;height:30px;border-radius:50%;background:#2563EB;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#fff;">FG</span>
+          </div>
+
+          <!-- project mini-header (shell colored) -->
+          <div style="background:var(--shell);padding:0 16px 14px;">
+            <div style="font-size:11px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:3px;">#PRJ-1042</div>
+            <div style="font-family:var(--font-head);font-size:13.5px;font-weight:700;color:#fff;line-height:1.25;margin-bottom:8px;">Levantamento topográfico<br>Maria Oliveira</div>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+              <span class="badge svc-lev">Levantamento</span>
+              <span class="badge st-campo">Em Campo</span>
+              <span style="display:flex;align-items:center;gap:4px;font-size:11.5px;color:rgba(255,255,255,0.65);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                24/06
+              </span>
+            </div>
+          </div>
+
+          <!-- mobile tabs -->
+          <div class="m-tabs-row" id="m-tabs">
+            <div class="m-tab" onclick="switchMTab(this,'dados')">Dados</div>
+            <div class="m-tab active" onclick="switchMTab(this,'checklist')">Checklist</div>
+            <div class="m-tab" onclick="switchMTab(this,'arquivos')">Arquivos</div>
+            <div class="m-tab" onclick="switchMTab(this,'entrega')">Entrega</div>
+          </div>
+
+          <div class="m-body">
+
+            <!-- M: DADOS -->
+            <div class="m-panel" id="m-panel-dados">
+              <div class="m-dado"><div class="m-dado-lbl">Cliente</div><div class="m-dado-val">Maria Oliveira</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Imóvel</div><div class="m-dado-val">Rua dos Pinheiros, 420 — Pinheiros, SP</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Matrícula</div><div class="m-dado-val">42.810-SP</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Área</div><div class="m-dado-val">450 m²</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Serviço</div><div class="m-dado-val"><span class="badge svc-lev">Levantamento Planialtimétrico</span></div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Valor</div><div class="m-dado-val">R$ 6.200,00</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Data de início</div><div class="m-dado-val"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>10/06/2026</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Prazo de entrega</div><div class="m-dado-val"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>24/06/2026</div></div>
+              <div class="m-dado"><div class="m-dado-lbl">Observações</div><div class="m-dado-val" style="flex-wrap:wrap;line-height:1.5;">Regularização de documentação. Entrega de planta georreferenciada para cartório.</div></div>
+            </div>
+
+            <!-- M: CHECKLIST -->
+            <div class="m-panel active" id="m-panel-checklist">
+              <div style="font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--gray-900);margin-bottom:10px;">Checklist de campo</div>
+              <div class="prog-wrap" style="margin-bottom:12px;">
+                <div class="prog-count" id="m-prog-count">8/12 itens concluídos (67%)</div>
+                <div class="prog-bar"><div class="prog-fill" id="m-prog-fill" style="width:67%"></div></div>
+              </div>
+              <div class="check-list" data-scope="m">
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Marco geodésico instalado</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Pontos de coleta GPS registrados</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Amarração à RN local</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Fotos do terreno (geral e detalhes)</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Confrontantes verificados in loco</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Croqui de campo executado</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Medição de divisas concluída</span></label>
+                <label class="check-item done"><input type="checkbox" checked onchange="updateProg('m')"><span class="ci-label">Conferência de área total</span></label>
+                <label class="check-item"><input type="checkbox" onchange="updateProg('m')"><span class="ci-label">Plantas baixas revisadas</span></label>
+                <label class="check-item"><input type="checkbox" onchange="updateProg('m')"><span class="ci-label">Cálculo de coordenadas UTM</span></label>
+                <label class="check-item"><input type="checkbox" onchange="updateProg('m')"><span class="ci-label">Relatório técnico — rascunho</span></label>
+                <label class="check-item"><input type="checkbox" onchange="updateProg('m')"><span class="ci-label">Validação final com responsável</span></label>
+              </div>
+            </div>
+
+            <!-- M: ARQUIVOS -->
+            <div class="m-panel" id="m-panel-arquivos">
+              <div class="dropzone" style="padding:18px 14px;">
+                <div class="dz-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+                <p style="font-size:12.5px;">Toque para enviar arquivos</p>
+                <small>DWG, PDF, ART, JPG, PNG, vídeo</small>
+              </div>
+              <div class="file-list">
+                <div class="file-row">
+                  <div class="file-ic dwg"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                  <div class="file-info"><b>levantamento.dwg</b><span>8,4 MB · Enviando 62%</span><div class="up-prog"><div class="prog-bar"><div class="prog-fill" style="width:62%;background:var(--accent);"></div></div></div></div>
+                  <div class="file-actions"><button class="file-btn del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+                </div>
+                <div class="file-row">
+                  <div class="file-ic pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                  <div class="file-info"><b>planta.pdf</b><span>2,1 MB · 15/06</span></div>
+                  <div class="file-actions">
+                    <button class="file-btn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                    <button class="file-btn del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+                  </div>
+                </div>
+                <div class="file-row">
+                  <div class="file-ic img"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
+                  <div class="file-info"><b>foto-terreno.jpg</b><span>3,7 MB · 12/06</span></div>
+                  <div class="file-actions">
+                    <button class="file-btn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                    <button class="file-btn del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+                  </div>
+                </div>
+                <div class="file-row">
+                  <div class="file-ic pdf"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+                  <div class="file-info"><b>memorial.pdf</b><span>0,9 MB · 11/06</span></div>
+                  <div class="file-actions">
+                    <button class="file-btn"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+                    <button class="file-btn del"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- M: ENTREGA -->
+            <div class="m-panel" id="m-panel-entrega">
+              <div class="entrega-date" style="margin-bottom:12px;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span><b>Entrega prevista:</b> 24/06/2026</span>
+              </div>
+              <div class="panel-card">
+                <h3>Status da entrega</h3>
+                <div class="tl">
+                  <div class="tl-step">
+                    <div class="tl-dot done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="tl-info"><b>Desenho concluído</b><span>14/06 · Jamile Santos</span></div>
+                  </div>
+                  <div class="tl-step">
+                    <div class="tl-dot done"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+                    <div class="tl-info"><b>Revisado e aprovado</b><span>15/06 · Francisco Garcia</span></div>
+                  </div>
+                  <div class="tl-step">
+                    <div class="tl-dot pending"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/></svg></div>
+                    <div class="tl-info"><b>Pronto para entrega</b><span>Aguardando envio</span></div>
+                  </div>
+                </div>
+              </div>
+              <button class="btn-orange" id="m-cta-btn" onclick="document.getElementById('m-cta-btn').textContent='Entregue com sucesso!';" style="font-size:13px;padding:12px;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                Enviar para o cliente
+              </button>
+            </div>
+
+          </div><!-- /m-body -->
+        </div><!-- /m-app -->
+
+        <nav class="bottom-nav">
+          <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
+          <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Conversas</a>
+          <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg>CRM</a>
+          <a class="bn-item active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>Projetos</a>
+          <a class="bn-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>Mais</a>
+        </nav>
+      </div><!-- /viewport-m -->
+    </div><!-- /frame-mobile -->
+  </div><!-- /device-mobile -->
+
+</div><!-- /devices -->
+
+<script>
+/* device toggle */
+function showView(e,view){
+  document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  const d=document.getElementById('device-desktop'),m=document.getElementById('device-mobile');
+  d.classList.remove('visible');m.classList.remove('visible');
+  if(view==='desktop')d.classList.add('visible');
+  else if(view==='mobile')m.classList.add('visible');
+  else{d.classList.add('visible');m.classList.add('visible');}
+}
+
+/* desktop tabs */
+function switchTab(el){
+  const panel=el.getAttribute('data-panel');
+  el.closest('.tabs').querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('#d-content .tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('d-panel-'+panel).classList.add('active');
+}
+
+/* mobile tabs */
+function switchMTab(el,panel){
+  document.querySelectorAll('#m-tabs .m-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.m-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('m-panel-'+panel).classList.add('active');
+}
+
+/* checklist progress */
+function updateProg(scope){
+  var list=document.querySelector('[data-scope="'+scope+'"]');
+  if(!list)return;
+  var all=list.querySelectorAll('input[type=checkbox]');
+  var done=list.querySelectorAll('input[type=checkbox]:checked').length;
+  var total=all.length;
+  var pct=Math.round(done/total*100);
+  document.getElementById(scope+'-prog-count').textContent=done+'/'+total+' itens concluídos ('+pct+'%)';
+  document.getElementById(scope+'-prog-fill').style.width=pct+'%';
+  all.forEach(function(cb){
+    cb.closest('.check-item').classList.toggle('done',cb.checked);
+  });
+}
+</script>
+</body>
+</html>
