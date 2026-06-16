@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Documentação Técnica v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF;
+    --accent:#F97316; --accent-hover:#EA580C;
+    --shell:#1E3A5F; --shell-muted:#94A3B8;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1;
+    --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155; --gray-900:#0F172A;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:10px; --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-lg:0 12px 32px rgba(15,23,42,.16);
+    --toc-w:260px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:var(--bg); color:var(--text); min-height:100vh; padding-top:52px; }
+
+  /* SHARED HEADER */
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { height:30px; min-width:30px; border-radius:6px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px 9px; overflow:hidden; }
+  .sh-mark img { height:20px; width:auto; max-width:150px; object-fit:contain; display:block; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  /* LAYOUT */
+  .layout { display:flex; min-height:calc(100vh - 52px); }
+
+  /* TOC SIDEBAR */
+  .toc-sidebar { position:sticky; top:52px; width:var(--toc-w); flex-shrink:0; height:calc(100vh - 52px); overflow-y:auto; background:#fff; border-right:1px solid var(--border); padding:24px 0 40px; }
+  .toc-sidebar::-webkit-scrollbar { width:4px; }
+  .toc-sidebar::-webkit-scrollbar-track { background:transparent; }
+  .toc-sidebar::-webkit-scrollbar-thumb { background:var(--gray-300); border-radius:4px; }
+  .toc-header { font-family:var(--font-head); font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; padding:0 18px 12px; border-bottom:1px solid var(--border); margin-bottom:10px; }
+  .toc-list { list-style:none; }
+  .toc-list li a { display:block; padding:5px 18px; font-size:12.5px; color:var(--gray-600); text-decoration:none; line-height:1.5; transition:all .15s; border-left:2px solid transparent; }
+  .toc-list li a:hover { color:var(--primary); background:var(--primary-soft); border-left-color:var(--primary); }
+  .toc-list li.h2 a { font-weight:600; color:var(--gray-700); padding-left:18px; }
+  .toc-list li.h3 a { padding-left:30px; font-size:12px; }
+  .toc-list li.h4 a { padding-left:42px; font-size:11.5px; color:var(--muted); }
+
+  /* CONTENT */
+  .content { flex:1; min-width:0; padding:40px 48px 80px; max-width:900px; }
+  @media (max-width:900px) { .toc-sidebar{ display:none; } .content{ padding:28px 20px 60px; } }
+
+  /* TYPOGRAPHY */
+  .doc-title { font-family:var(--font-head); font-size:28px; font-weight:700; color:var(--gray-900); margin-bottom:6px; }
+  .doc-subtitle { font-size:14px; color:var(--text-2); margin-bottom:20px; }
+  .doc-meta { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:36px; padding:16px 20px; background:#fff; border:1px solid var(--border); border-radius:var(--radius); }
+  .doc-meta-item { font-size:12.5px; color:var(--gray-600); display:flex; gap:6px; align-items:center; }
+  .doc-meta-item strong { color:var(--gray-800); font-weight:600; }
+  .doc-meta-item .sep { color:var(--border); }
+
+  h2 { font-family:var(--font-head); font-size:18px; font-weight:700; color:var(--gray-900); margin:44px 0 14px; padding-bottom:8px; border-bottom:2px solid var(--primary); display:flex; align-items:center; gap:10px; }
+  h2 .num { background:var(--shell); color:#fff; font-size:11px; padding:2px 8px; border-radius:4px; font-family:var(--font-body); font-weight:600; }
+  h3 { font-family:var(--font-head); font-size:14.5px; font-weight:700; color:var(--gray-800); margin:28px 0 10px; }
+  h4 { font-size:13.5px; font-weight:600; color:var(--gray-700); margin:20px 0 8px; }
+  p { font-size:14px; color:var(--gray-600); line-height:1.75; margin-bottom:12px; }
+  p:last-child { margin-bottom:0; }
+  strong { color:var(--gray-800); font-weight:600; }
+  code { font-family:monospace; font-size:12.5px; background:var(--gray-100); color:var(--primary); padding:1px 5px; border-radius:4px; }
+  ul, ol { margin:8px 0 12px 20px; }
+  li { font-size:13.5px; color:var(--gray-600); line-height:1.7; margin-bottom:3px; }
+  hr { border:none; border-top:1px solid var(--border); margin:36px 0; }
+
+  /* TABLES */
+  .table-wrap { overflow-x:auto; margin:12px 0 20px; border-radius:var(--radius); border:1px solid var(--border); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  thead th { background:var(--shell); color:#fff; font-family:var(--font-head); font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; padding:10px 14px; text-align:left; }
+  tbody tr { border-bottom:1px solid var(--border); }
+  tbody tr:last-child { border-bottom:none; }
+  tbody td { padding:9px 14px; color:var(--gray-600); vertical-align:top; line-height:1.55; }
+  tbody tr:nth-child(even) { background:var(--gray-50); }
+  tbody td strong { color:var(--gray-800); }
+  .fr-tag { display:inline-block; background:var(--primary-soft); color:var(--primary); font-size:10.5px; font-weight:700; padding:1px 6px; border-radius:4px; font-family:var(--font-head); white-space:nowrap; }
+
+  /* ALERT / NOTE BLOCKS */
+  .note { background:var(--primary-soft); border-left:3px solid var(--primary); border-radius:0 var(--radius) var(--radius) 0; padding:12px 16px; margin:14px 0; font-size:13.5px; color:var(--gray-700); }
+  .warn { background:#FFF7ED; border-left:3px solid var(--accent); border-radius:0 var(--radius) var(--radius) 0; padding:12px 16px; margin:14px 0; font-size:13.5px; color:var(--gray-700); }
+
+  /* BACK TO TOP */
+  .back-top { position:fixed; bottom:28px; right:24px; background:var(--shell); color:#fff; border:none; border-radius:50%; width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow-lg); opacity:0; transition:opacity .2s; z-index:100; }
+  .back-top.visible { opacity:1; }
+
+  /* MOBILE MEDIA QUERY */
+  @media (max-width:600px) {
+    thead { display:none; }
+    tbody tr { display:block; padding:10px 0; }
+    tbody td { display:block; padding:4px 14px; border:none; }
+    tbody td::before { content:attr(data-label)": "; font-weight:600; color:var(--gray-700); }
+  }
+
+  /* STATUS BADGE */
+  .status-badge { display:inline-block; background:#DCFCE7; color:#166534; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; margin-left:10px; vertical-align:middle; }
+</style>
+</head>
+<body>
+
+<header class="shared-header">
+  <div class="sh-left">
+    <a href="index.html" class="sh-brand">
+      <span class="sh-mark"><img src="logo-garcia.png" alt="Garcia Topografia"></span>
+    </a>
+  </div>
+  <nav class="sh-nav">
+    <a href="documentacao.html" class="active">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Documentação
+    </a>
+    <a href="index.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Mockups
+    </a>
+    <a href="design-system.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>
+      Design System
+    </a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="documentacao.html" class="active">Documentação</a>
+  <a href="index.html">Mockups</a>
+  <a href="design-system.html">Design System</a>
+</nav>
+
+<div class="layout">
+  <!-- TOC SIDEBAR -->
+  <aside class="toc-sidebar">
+    <div class="toc-header">Índice</div>
+    <ul class="toc-list">
+      <li class="h2"><a href="#s1">1. Visão do Produto</a></li>
+      <li class="h2"><a href="#s2">2. Personas e Perfis</a></li>
+      <li class="h2"><a href="#s3">3. Autenticação</a></li>
+      <li class="h3"><a href="#s31">3.1 Telas de Login</a></li>
+      <li class="h3"><a href="#s32">3.2 RBAC</a></li>
+      <li class="h2"><a href="#s4">4. Módulos To-Be</a></li>
+      <li class="h3"><a href="#s41">4.1 Dashboard</a></li>
+      <li class="h3"><a href="#s42">4.2 Atendente IA</a></li>
+      <li class="h3"><a href="#s43">4.3 CRM</a></li>
+      <li class="h3"><a href="#s44">4.4 Projetos</a></li>
+      <li class="h3"><a href="#s45">4.5 Agenda</a></li>
+      <li class="h3"><a href="#s46">4.6 Follow-up</a></li>
+      <li class="h3"><a href="#s47">4.7 Configurações</a></li>
+      <li class="h2"><a href="#s5">5. Regras de Negócio</a></li>
+      <li class="h2"><a href="#s6">6. Integrações</a></li>
+      <li class="h2"><a href="#s7">7. Requisitos Não-Funcionais</a></li>
+      <li class="h2"><a href="#s8">8. Bases de Conhecimento IA</a></li>
+      <li class="h2"><a href="#s9">9. Arquitetura de Informação</a></li>
+      <li class="h2"><a href="#s10">10. Glossário</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="content">
+
+    <div class="doc-title">Documentação Técnica v2 <span class="status-badge">Aprovada</span></div>
+    <div class="doc-subtitle">Garcia Topografia e Sondagem — Sistema de Gestão Comercial e Operacional com IA</div>
+
+    <div class="doc-meta">
+      <div class="doc-meta-item"><strong>Cliente</strong> Garcia Topografia e Sondagem</div>
+      <div class="doc-meta-item"><strong>Responsável</strong> Francisco Garcia</div>
+      <div class="doc-meta-item"><strong>Versão</strong> 2.0</div>
+      <div class="doc-meta-item"><strong>Data</strong> Junho de 2026</div>
+      <div class="doc-meta-item"><strong>Fornecedor</strong> Labrego IA</div>
+    </div>
+
+    <hr>
+
+    <!-- SEÇÃO 1 -->
+    <h2 id="s1"><span class="num">1</span>Visão do Produto</h2>
+    <p>A Garcia Topografia e Sondagem é uma empresa estabelecida em Campinas que oferece serviços especializados de topografia — levantamentos planialtimétricos, locação e implantação de obras, regularização fundiária e sondagem de solo. O ciclo comercial da empresa começa invariavelmente pelo WhatsApp: um cliente em potencial envia uma mensagem descrevendo sua necessidade, e a partir daí espera ser qualificado, receber uma proposta clara e acompanhar o andamento do serviço. Hoje esse ciclo é feito de forma manual, fragmentada entre WhatsApp pessoal, planilhas e memória da equipe, com alto risco de perda de leads, inconsistência nos preços cobrados e falta de rastreabilidade sobre o que está em campo, o que está no escritório e o que já foi entregue.</p>
+    <p>O sistema resolve esse problema de ponta a ponta. O Atendente IA recebe leads diretamente via WhatsApp Business API, conduz a conversa de qualificação coletando todos os dados técnicos obrigatórios, e — ao completar a coleta — entrega o dossiê para Francisco aprovar e gerar uma proposta profissional em PDF com um clique. A proposta aprovada dispara automaticamente o workflow operacional: um card é criado no kanban de projetos, a equipe de campo é notificada via WhatsApp, o horário de início e fim é registrado por mensagem, e o sistema avança o card para a próxima etapa sem intervenção manual.</p>
+    <p>Dashboards em tempo real permitem que Francisco enxergue de um só lugar quantos leads chegaram hoje, quais propostas estão sem retorno há mais de dez dias, quem está em campo agora e o que o caixa projeta para o mês.</p>
+    <p>O sistema é desenhado para cinco perfis de usuário com acessos rigorosamente separados: Francisco como administrador irrestrito, Jamile e Bárbara como engenheiras de escritório com visão operacional sem dados comerciais ou financeiros, a equipe de campo com acesso somente à agenda e aos documentos de campo dos próprios serviços, e um perfil de BPO financeiro com visão mínima apenas das propostas já fechadas. Há ainda um Modo TV — uma tela full-screen projetável em monitor da empresa que exibe o painel operacional do dia sem expor valores ou dados de clientes.</p>
+
+    <!-- SEÇÃO 2 -->
+    <h2 id="s2"><span class="num">2</span>Personas e Perfis de Usuário</h2>
+    <p>A empresa tem uma estrutura enxuta, e cada pessoa tem um papel muito específico no ciclo de trabalho. Entender a rotina de cada persona é essencial para garantir que o sistema entregue exatamente o que cada um precisa.</p>
+
+    <h3>Francisco Garcia — Proprietário e Administrador</h3>
+    <p>Francisco é o centro de decisão da empresa. Ele aprova cada proposta antes de sair, define preços, distribui projetos entre as engenheiras, monitora o financeiro e responde pessoalmente por leads escalados pela IA. Sua rotina começa pelo dashboard — ele quer saber imediatamente quantos leads chegaram, quais propostas estão paradas e se há algo urgente no campo.</p>
+
+    <h3>Jamile e Bárbara — Engenheiras de Escritório</h3>
+    <p>As engenheiras são responsáveis pelo trabalho técnico em escritório: produção de plantas, relatórios técnicos e revisão de documentos. Elas não têm contato com a parte comercial nem com valores de proposta. No sistema, enxergam apenas os projetos atribuídos a elas, avançam os cards no kanban conforme o trabalho evolui e fazem o upload dos arquivos finais na Pasta do Projeto.</p>
+
+    <h3>Equipe de Campo — Topógrafo e Auxiliar</h3>
+    <p>A equipe de campo precisa de acesso extremamente simples: saber o que está agendado para o dia, onde fica o local do serviço (com link para o Google Maps), e registrar o início e o fim do trabalho via WhatsApp. No sistema, só visualizam os próprios eventos do dia na Agenda (read-only) e têm acesso à aba Campo dentro da Pasta do Projeto dos serviços atribuídos.</p>
+
+    <h3>BPO Financeiro — Parceiro Externo</h3>
+    <p>O BPO financeiro acompanha apenas as propostas que já foram fechadas. Visualiza uma versão simplificada do CRM mostrando somente a coluna "Fechado" — nome do cliente, tipo de serviço, valor, condições de pagamento e status da fatura.</p>
+
+    <h3>Matriz de Acesso por Perfil</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Perfil</th><th>Dashboard</th><th>Atendente IA</th><th>CRM</th><th>Projetos</th><th>Agenda</th><th>Configurações</th><th>Modo TV</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Perfil"><strong>Francisco (Admin)</strong></td><td data-label="Dashboard">Todas as 4 abas</td><td data-label="Atendente IA">Conversas + Config</td><td data-label="CRM">Completo</td><td data-label="Projetos">Completo</td><td data-label="Agenda">Completo</td><td data-label="Config">Completo</td><td data-label="Modo TV">Sim</td></tr>
+          <tr><td data-label="Perfil"><strong>Jamile / Bárbara</strong></td><td data-label="Dashboard">Não</td><td data-label="Atendente IA">Não</td><td data-label="CRM">Não</td><td data-label="Projetos">Cards atribuídos (sem valores)</td><td data-label="Agenda">Não</td><td data-label="Config">Não</td><td data-label="Modo TV">Sim</td></tr>
+          <tr><td data-label="Perfil"><strong>Equipe de Campo</strong></td><td data-label="Dashboard">Não</td><td data-label="Atendente IA">Não</td><td data-label="CRM">Não</td><td data-label="Projetos">Aba Campo (próprios)</td><td data-label="Agenda">Read-only próprios</td><td data-label="Config">Não</td><td data-label="Modo TV">Sim</td></tr>
+          <tr><td data-label="Perfil"><strong>BPO Financeiro</strong></td><td data-label="Dashboard">Não</td><td data-label="Atendente IA">Não</td><td data-label="CRM">Somente col. "Fechado"</td><td data-label="Projetos">Não</td><td data-label="Agenda">Não</td><td data-label="Config">Não</td><td data-label="Modo TV">Não</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 3 -->
+    <h2 id="s3"><span class="num">3</span>Autenticação e Controle de Acesso</h2>
+
+    <h3 id="s31">3.1 Telas de Login e Fluxos de Acesso</h3>
+    <p>O sistema possui cinco telas de autenticação, cada uma cobrindo um estado específico do ciclo de acesso. Todas as telas são responsivas (390px) e seguem a paleta e tipografia do Design System oficial. Nenhum dado sensível é exposto antes da autenticação bem-sucedida.</p>
+
+    <h4>Login Principal</h4>
+    <p>A tela de login padrão é a porta de entrada para todos os perfis, exceto o Modo TV — que possui login próprio em rota separada. O formulário contém campo de e-mail com validação em tempo real, campo de senha com ícone de olho para alternar visibilidade <span class="fr-tag">FR-01</span>, checkbox "Lembrar de mim" (sessão de 30 dias) <span class="fr-tag">FR-02</span> e botão com estado de carregamento anti-duplo-envio <span class="fr-tag">FR-03</span>. Após cinco tentativas consecutivas, a conta é bloqueada por 15 minutos.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Estado</th><th>Comportamento</th></tr></thead>
+        <tbody>
+          <tr><td data-label="Estado">Campos em branco ao submeter</td><td data-label="Comportamento">Realça campos obrigatórios com borda vermelha e mensagem inline</td></tr>
+          <tr><td data-label="Estado">Credenciais inválidas</td><td data-label="Comportamento">Banner de erro acima do formulário, campos limpos</td></tr>
+          <tr><td data-label="Estado">Conta bloqueada</td><td data-label="Comportamento">Mensagem com tempo restante de desbloqueio</td></tr>
+          <tr><td data-label="Estado">Autenticação bem-sucedida</td><td data-label="Comportamento">Redireciona conforme perfil (Admin → Dashboard; Campo → Agenda)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Esqueci Minha Senha <span class="fr-tag">FR-04</span></h4>
+    <p>Exibe campo de e-mail e botão "Enviar link de recuperação". Após envio, exibe mensagem de confirmação neutra independentemente de o e-mail existir ou não — prevenindo enumeração de usuários. Link de recuperação expira em 30 minutos.</p>
+
+    <h4>Redefinir Senha <span class="fr-tag">FR-05</span></h4>
+    <p>Exibe campo "Nova senha" com medidor de força em tempo real (fraca/média/forte: mínimo 8 caracteres, letras maiúsculas, números, símbolo) e campo "Confirmar nova senha" com validação de correspondência em tempo real. Botão é desabilitado enquanto os critérios mínimos não forem atendidos.</p>
+
+    <h4>Primeiro Acesso (Convite) <span class="fr-tag">FR-06</span></h4>
+    <p>Tela acessada via link de convite enviado quando Francisco cria um novo usuário em Configurações. Exibe nome do usuário pré-preenchido (read-only), campos de criação e confirmação de senha com medidor de força, e checkbox de aceite dos Termos de Uso obrigatório.</p>
+
+    <h4>Login Modo TV <span class="fr-tag">FR-07</span></h4>
+    <p>Rota dedicada <code>/tv/login</code>. Formulário simplificado com e-mail e senha do usuário operacional designado. Após autenticação, redireciona para <code>/tv</code> e mantém sessão ativa até logout ou inatividade de 8 horas. Não permite acesso a nenhuma outra rota.</p>
+
+    <h3 id="s32">3.2 RBAC — Papéis e Permissões por Módulo</h3>
+    <p>Controle de acesso baseado em papéis. O perfil de cada usuário é definido por Francisco e não pode ser alterado pelo próprio usuário. Rotas não autorizadas retornam tela de "Acesso não permitido" sem expor informação sobre a existência da rota.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Módulo / Funcionalidade</th><th>Admin</th><th>Escritório</th><th>Campo</th><th>BPO</th></tr></thead>
+        <tbody>
+          <tr><td>Dashboard — Visão Geral</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>Dashboard — Financeiro</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>Modo TV (/tv)</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não</td></tr>
+          <tr><td>Atendente IA — Conversas</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>CRM — Pipeline Kanban</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>CRM — Propostas (lista)</td><td>Sim</td><td>Não</td><td>Não</td><td>Col. Fechado (simplificado)</td></tr>
+          <tr><td>Projetos — Kanban (todos)</td><td>Sim</td><td>Só cards atribuídos, sem valores</td><td>Não</td><td>Não</td></tr>
+          <tr><td>Projetos — Pasta (Aba Campo)</td><td>Sim</td><td>Sim</td><td>Sim</td><td>Não</td></tr>
+          <tr><td>Projetos — Pasta (Aba Entrega)</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>Agenda — Visão Completa</td><td>Sim</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          <tr><td>Agenda — Read-only próprios</td><td>—</td><td>Não</td><td>Sim</td><td>Não</td></tr>
+          <tr><td>Configurações</td><td>Sim</td><td>Via menu perfil (Aparência)</td><td>Via menu perfil</td><td>Via menu perfil</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 4 -->
+    <h2 id="s4"><span class="num">4</span>Módulos do Sistema — To-Be</h2>
+
+    <h3 id="s41">4.1 Dashboard</h3>
+    <p>O Dashboard é a tela inicial de Francisco. Atualiza automaticamente a cada 60 segundos <span class="fr-tag">FR-08</span>. Navegação interna por quatro abas horizontais — o seletor de período (hoje / semana / mês / personalizado) influencia KPIs e gráficos em todas as abas <span class="fr-tag">FR-09</span>.</p>
+
+    <h4>Aba Visão Geral</h4>
+    <p>Quatro KPIs em destaque <span class="fr-tag">FR-10</span>: leads chegados hoje, propostas aguardando resposta, equipes em campo agora, projetos em andamento no escritório. KPIs são clicáveis e redirecionam para o módulo correspondente com filtro já aplicado.</p>
+    <p>Bloco de alertas prioritários <span class="fr-tag">FR-11</span>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Alerta</th><th>Condição</th><th>Ação sugerida</th></tr></thead>
+        <tbody>
+          <tr><td>Lead sem resposta</td><td>Lead na coluna "Lead" há mais de 4h sem mensagem de atendimento</td><td>Verificar conversa no Atendente IA</td></tr>
+          <tr><td>Proposta sem retorno</td><td>Proposta enviada há mais de 10 dias sem resposta do cliente</td><td>Acionar follow-up manual</td></tr>
+          <tr><td>Campo sem início</td><td>Projeto em "Campo Pendente" com agenda do dia sem start registrado</td><td>Contatar equipe</td></tr>
+          <tr><td>Escritório parado</td><td>Projeto em Desenho Técnico sem atualização há mais de 5 dias úteis</td><td>Verificar com engenheira responsável</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Aba Comercial</h4>
+    <p>Taxa de conversão com comparativo ao período anterior <span class="fr-tag">FR-14</span>. Volume de propostas, ticket médio por tipo de serviço <span class="fr-tag">FR-15</span>. Gráfico de distribuição de leads por origem e gráfico de pizza de conversão por estágio do pipeline <span class="fr-tag">FR-16</span>.</p>
+
+    <h4>Aba Produção</h4>
+    <p>Cards de carga por engenheira: "Jamile — X projetos ativos" e "Bárbara — Y projetos ativos" <span class="fr-tag">FR-17</span>. Backlog por coluna, indicador de retrabalho, painel de prazos em risco (verde / amarelo / vermelho) <span class="fr-tag">FR-18</span>.</p>
+
+    <h4>Aba Financeiro (Admin exclusivo)</h4>
+    <p>Receita do período por baixas manuais <span class="fr-tag">FR-19</span>. Indicador de inadimplência, projeção de receita baseada em taxa histórica de conversão. Tabela de vencimentos com ação "Marcar pago" em modal de confirmação com data, forma de pagamento e observação <span class="fr-tag">FR-21</span>.</p>
+    <div class="note">Esta aba <strong>não tem integração com o Conta Azul</strong> nesta versão. Toda gestão de recebimentos é por baixa manual — integração Conta Azul reservada para fase futura.</div>
+
+    <h4>Modo TV <span class="fr-tag">FR-22</span></h4>
+    <p>Rota dedicada <code>/tv</code>, exige login com usuário operacional específico. Tela 100% do viewport sem barra lateral, fontes ampliadas para legibilidade a distância, auto-refresh a cada 30 segundos <span class="fr-tag">FR-23</span>. Exibe somente dados operacionais — nenhum valor financeiro ou dado comercial é exposto.</p>
+
+    <hr>
+
+    <h3 id="s42">4.2 Atendente IA</h3>
+    <p>O Atendente IA recebe leads via WhatsApp Business API, conduz qualificação estruturada, registra dados automaticamente e gera o dossiê para Francisco aprovar a proposta. O módulo tem duas abas: <strong>Conversas</strong> e <strong>Configuração da IA</strong>.</p>
+
+    <h4>Aba Conversas</h4>
+    <p>Split view: lista de conversas à esquerda; thread completa à direita <span class="fr-tag">FR-24</span>. Cada item da lista exibe nome do lead, badge por tipo de serviço, estágio atual, tempo desde última mensagem <span class="fr-tag">FR-25</span>. Mensagens de áudio têm player embutido e transcrição automática <span class="fr-tag">FR-27</span>. Documentos e fotos recebidos são analisados automaticamente pela IA <span class="fr-tag">FR-28</span>.</p>
+    <p>Quando a IA escala para Francisco <span class="fr-tag">FR-29</span>: banner "Conversa escalada para Francisco — IA pausada" + ícone de alerta vermelho na lista. Francisco clica "Assumir conversa" para responder manualmente <span class="fr-tag">FR-30</span>. Botão "Devolver para a IA" retoma o fluxo automático.</p>
+
+    <h4>Aba Configuração da IA</h4>
+    <p>Três sub-abas:</p>
+    <ul>
+      <li><strong>Personalidade <span class="fr-tag">FR-31</span>:</strong> Nome da IA, tom de comunicação, texto de apresentação, regras "A IA FAZ / A IA NÃO FAZ"</li>
+      <li><strong>Bases de Conhecimento <span class="fr-tag">FR-32</span>:</strong> PLN, IMP, PMC, CRI — cada base com status de indexação e upload de nova versão (PDF/DOCX/TXT)</li>
+      <li><strong>Templates de Mensagem <span class="fr-tag">FR-33</span>:</strong> Editor embutido com variáveis <code>[Nome]</code>, <code>[tipo_servico]</code>, <code>[valor_proposta]</code>, <code>[data_proposta]</code>, <code>[nome_vendedor]</code></li>
+    </ul>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Template</th><th>Momento de Uso</th></tr></thead>
+        <tbody>
+          <tr><td>Saudação inicial</td><td>Primeiro contato do lead</td></tr>
+          <tr><td>Qualificação de necessidade</td><td>Coleta de tipo de serviço</td></tr>
+          <tr><td>Confirmação de dados</td><td>Antes de gerar proposta</td></tr>
+          <tr><td>Envio de proposta</td><td>Quando Francisco aprova proposta</td></tr>
+          <tr><td>Follow-up D+2</td><td>2 dias sem resposta após proposta enviada</td></tr>
+          <tr><td>Follow-up D+5</td><td>5 dias sem resposta</td></tr>
+          <tr><td>Follow-up D+10</td><td>10 dias sem resposta</td></tr>
+          <tr><td>Follow-up mensal regularização</td><td>Atualização mensal de projetos de regularização</td></tr>
+          <tr><td>Notificação início de campo</td><td>Quando equipe registra start</td></tr>
+          <tr><td>Notificação conclusão de campo</td><td>Quando equipe registra stop</td></tr>
+          <tr><td>Notificação entrega</td><td>Quando projeto entra em Pronto para Entrega</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <h3 id="s43">4.3 CRM</h3>
+    <p>Módulo comercial com três visões: Pipeline Kanban, Clientes e Propostas. Alternador Kanban/Lista disponível em todas as visões <span class="fr-tag">FR-34</span>.</p>
+
+    <h4>Pipeline Kanban <span class="fr-tag">FR-35</span></h4>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Coluna</th><th>Significado</th><th>Lead permanece aqui enquanto...</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Lead</strong></td><td>Contato chegou, IA iniciou qualificação</td><td>Coleta de dados está em andamento</td></tr>
+          <tr><td><strong>Qualificado</strong></td><td>Dados completos coletados, pronto para proposta</td><td>Francisco ainda não gerou a proposta</td></tr>
+          <tr><td><strong>Proposta Enviada</strong></td><td>Proposta aprovada e enviada ao cliente</td><td>Cliente não respondeu ainda</td></tr>
+          <tr><td><strong>Follow-up</strong></td><td>Cadência de acompanhamento ativa</td><td>Cadência em andamento</td></tr>
+          <tr><td><strong>Fechado</strong></td><td>Cliente aceitou e assinou</td><td>Projeto aguarda criação no Workflow</td></tr>
+          <tr><td><strong>Em Execução</strong></td><td>Workflow operacional criado e em andamento</td><td>Projeto não foi entregue</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Badges por tipo de serviço: azul (levantamento), laranja (locação), roxo (regularização), vermelho (sondagem). Alertas automáticos: card em "Lead" há mais de 2 dias → triângulo amarelo; card em "Follow-up" há mais de 10 dias → alerta vermelho <span class="fr-tag">FR-37</span>. Ao mover para "Fechado", modal de confirmação que inicia o workflow operacional <span class="fr-tag">FR-38</span>.</p>
+
+    <h4>Ficha do Cliente <span class="fr-tag">FR-44</span></h4>
+    <p>Abre em modo read-only. Cinco blocos: Identificação, Dados do Imóvel, Histórico de Conversas, Propostas Emitidas e Timeline de Follow-up. Todos os dados de identificação são preenchidos inicialmente pela IA durante a qualificação e podem ser corrigidos por Francisco <span class="fr-tag">FR-45</span>.</p>
+
+    <h4>Gerador de Propostas <span class="fr-tag">FR-50</span></h4>
+    <p>Split view: formulário à esquerda, preview do PDF em tempo real à direita. Seletor de tipo de serviço que adapta campos dinamicamente <span class="fr-tag">FR-52</span>. Cálculo automático de distância e deslocamento <span class="fr-tag">FR-53</span>. Condições de pagamento padrão por tipo:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Condição padrão</th></tr></thead>
+        <tbody>
+          <tr><td>Locação e Implantação</td><td>50% na aceitação + 50% em 30 dias</td></tr>
+          <tr><td>Levantamento Planialtimétrico</td><td>Integral na entrega dos arquivos</td></tr>
+          <tr><td>Regularização</td><td>50% na aceitação + 50% na prenotação do imóvel</td></tr>
+          <tr><td>Sondagem</td><td>A definir (Francisco preenche manualmente)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="warn">Nenhuma proposta é enviada ao cliente sem que Francisco clique explicitamente em um dos botões de aprovação — o sistema <strong>não envia propostas automaticamente</strong> <span class="fr-tag">FR-58</span>.</div>
+
+    <hr>
+
+    <h3 id="s44">4.4 Projetos — Workflow Operacional</h3>
+    <p>Criação automática de projeto quando Francisco move card do CRM para "Fechado" e confirma <span class="fr-tag">FR-59</span>. Kanban operacional com sete colunas <span class="fr-tag">FR-60</span>:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Coluna</th><th>Significado</th><th>Quem atua</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Campo Pendente</strong></td><td>Projeto criado, aguardando agendamento e início</td><td>Francisco (agenda), IA (notifica cliente)</td></tr>
+          <tr><td><strong>Em Campo</strong></td><td>Equipe está executando o serviço (start registrado)</td><td>Equipe de campo</td></tr>
+          <tr><td><strong>Campo Concluído</strong></td><td>Serviço de campo finalizado (stop registrado)</td><td>Francisco (atribui engenheira)</td></tr>
+          <tr><td><strong>Desenho Técnico</strong></td><td>Engenheira responsável trabalhando nos arquivos</td><td>Jamile ou Bárbara</td></tr>
+          <tr><td><strong>Revisão</strong></td><td>Arquivos prontos, aguardando revisão dupla</td><td>Jamile ou Bárbara (2 assinaturas)</td></tr>
+          <tr><td><strong>Pronto para Entrega</strong></td><td>Revisão concluída, aguardando envio ao cliente</td><td>Francisco</td></tr>
+          <tr><td><strong>Entregue</strong></td><td>Documentação enviada e entregue ao cliente</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Start e stop via WhatsApp — palavra-chave de início move card de "Campo Pendente" para "Em Campo", palavra-chave de fim move para "Campo Concluído" e dispara notificação a Francisco <span class="fr-tag">FR-64</span>.</p>
+    <p>Pasta do Projeto em quatro abas com acesso por perfil: Atendimento (Admin), Campo (Campo + Escritório + Admin), Desenho Técnico (Escritório + Admin), Entrega (Admin). Revisão dupla obrigatória antes de avançar para "Pronto para Entrega" <span class="fr-tag">FR-73</span>.</p>
+
+    <hr>
+
+    <h3 id="s45">4.5 Agenda</h3>
+    <p>Visualização padrão: calendário mensal com alternador para visão semanal <span class="fr-tag">FR-77</span>. Eventos coloridos por tipo de serviço (mesmas cores do CRM). Painel lateral com capacidade do dia selecionado: verde (disponível), amarelo (próximo do limite), vermelho (cheio) <span class="fr-tag">FR-79</span>.</p>
+    <p>Capacidade configurável: padrão 3 a 5 levantamentos por dia OU 1 locação por período, sem misturar locação com outros serviços <span class="fr-tag">FR-80</span>. Sistema exibe aviso ao tentar agendar além da capacidade, mas não bloqueia — decisão final é de Francisco <span class="fr-tag">FR-81</span>.</p>
+    <p>Start/stop da equipe refletem em tempo real no calendário <span class="fr-tag">FR-83</span>. Perfil de campo acessa versão read-only com somente os próprios serviços do dia <span class="fr-tag">FR-84</span>.</p>
+
+    <hr>
+
+    <h3 id="s46">4.6 Follow-up</h3>
+    <p>Visão gerencial das cadências de follow-up. Lista ordenada pelo próximo toque mais urgente <span class="fr-tag">FR-85</span>. Contador no topo: "X ativas | Y pausadas | Z encerradas no mês" <span class="fr-tag">FR-86</span>.</p>
+    <p>Cadência pausa automaticamente quando o cliente responde qualquer mensagem — detectado pela integração com WhatsApp Business API <span class="fr-tag">FR-89</span>. Cadências de regularização têm faixa roxa de fundo e exibem data estimada do próximo evento processual <span class="fr-tag">FR-88</span>. O link "Editar templates" redireciona para Atendente IA › Configuração da IA — sem editor duplicado <span class="fr-tag">FR-91</span>.</p>
+
+    <hr>
+
+    <h3 id="s47">4.7 Configurações</h3>
+    <p>Acessível exclusivamente pelo perfil Admin (Francisco), exceto aba Aparência disponível a todos via menu de perfil. Cinco abas:</p>
+    <ul>
+      <li><strong>Tabela de Preços <span class="fr-tag">FR-92</span>:</strong> Valores-base por tipo de serviço (Locação, Levantamento, Sondagem), deslocamento e combustível</li>
+      <li><strong>Usuários & Permissões <span class="fr-tag">FR-93</span>:</strong> Cadastro de usuários com convite por e-mail, edição e desativação. Link de convite expira em 72 horas.</li>
+      <li><strong>Integração WhatsApp <span class="fr-tag">FR-95</span>:</strong> Status da conexão com WhatsApp Business API, log das últimas 20 mensagens, botão "Reconectar"</li>
+      <li><strong>Checklists de Campo <span class="fr-tag">FR-96</span>:</strong> Editor de checklists por tipo de serviço com drag-and-drop para reordenar itens</li>
+      <li><strong>Aparência <span class="fr-tag">FR-97</span>:</strong> Toggle Modo claro / Modo escuro, persistido por usuário no banco de dados (não somente no localStorage)</li>
+    </ul>
+
+    <!-- SEÇÃO 5 -->
+    <h2 id="s5"><span class="num">5</span>Regras de Negócio</h2>
+
+    <h3>5.1 Qualificação e Atendimento pela IA</h3>
+    <p>A IA nunca avança para gerar uma proposta sem que todos os dados obrigatórios estejam coletados <span class="fr-tag">FR-98</span>.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dado</th><th>Levantamento</th><th>Locação</th><th>Regularização</th><th>Sondagem</th></tr></thead>
+        <tbody>
+          <tr><td>Nome / Razão Social</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td></tr>
+          <tr><td>CPF / CNPJ</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td></tr>
+          <tr><td>Endereços (residencial + obra) + CEP</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td></tr>
+          <tr><td>Telefone e E-mail</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td></tr>
+          <tr><td>Área do imóvel (m²)</td><td>Obrigatório</td><td>Obrigatório</td><td>Obrigatório</td><td>Opcional</td></tr>
+          <tr><td>Número de Matrícula</td><td>Opcional</td><td>Opcional</td><td>Obrigatório</td><td>Não aplicável</td></tr>
+          <tr><td>Nº estacas / eixos</td><td>N/A</td><td>Obrigatório</td><td>N/A</td><td>N/A</td></tr>
+          <tr><td>Nº furos + profundidade</td><td>N/A</td><td>N/A</td><td>N/A</td><td>Obrigatório</td></tr>
+          <tr><td>Tipo de processo (usucapião/inventário/geo)</td><td>N/A</td><td>N/A</td><td>Obrigatório</td><td>N/A</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>A IA NÃO FAZ (escala para Francisco em todos os casos):</strong> Negociações de preço ou desconto, atendimento de clientes com reclamações, projetos de regularização (inicia qualificação mas escala antes de qualquer compromisso), qualquer promessa de prazo de entrega específico, aprovação ou envio de propostas.</p>
+
+    <h3>5.2 Cadências de Follow-up</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dia</th><th>Ação</th><th>Condição</th></tr></thead>
+        <tbody>
+          <tr><td>D+0</td><td>Envio da proposta</td><td>Automático quando Francisco aprova e envia</td></tr>
+          <tr><td>D+2</td><td>Follow-up 1</td><td>Se não houve resposta do cliente</td></tr>
+          <tr><td>D+5</td><td>Follow-up 2</td><td>Se não houve resposta do cliente</td></tr>
+          <tr><td>D+10</td><td>Follow-up 3 (encerramento)</td><td>Se não houve resposta; notifica Francisco</td></tr>
+          <tr><td>Mensal</td><td>Atualização regularização</td><td>Projetos de regularização ativos no Workflow (12+ meses)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>5.3 Aprovação de Propostas <span class="fr-tag">FR-104</span></h3>
+    <ol>
+      <li>IA coleta dados e gera dossiê</li>
+      <li>Francisco acessa o Gerador de Propostas (manualmente ou via notificação)</li>
+      <li>Francisco revisa, ajusta e clica em "Aprovar e enviar" (WhatsApp, e-mail ou ambos)</li>
+      <li>Somente após o clique o PDF é enviado ao cliente</li>
+    </ol>
+
+    <h3>5.4 Dashboard Financeiro — Baixa Manual <span class="fr-tag">FR-106</span></h3>
+    <p>Nesta versão, não há integração com Conta Azul. Toda gestão de recebimentos é por baixa manual: Francisco acessa a aba Financeiro do Dashboard, localiza a fatura e clica em "Marcar pago". O modal registra data, forma de pagamento e observação. Integração Conta Azul reservada para fase futura.</p>
+
+    <!-- SEÇÃO 6 -->
+    <h2 id="s6"><span class="num">6</span>Integrações</h2>
+
+    <h3>6.1 WhatsApp Business API <span class="fr-tag">FR-107</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Caso de uso</th><th>Módulo</th><th>Direção</th></tr></thead>
+        <tbody>
+          <tr><td>Atendimento e qualificação inicial</td><td>Atendente IA</td><td>Entrada + Saída</td></tr>
+          <tr><td>Envio de proposta PDF</td><td>Gerador de Propostas</td><td>Saída</td></tr>
+          <tr><td>Follow-up automático (D+2/D+5/D+10)</td><td>Follow-up</td><td>Saída</td></tr>
+          <tr><td>Follow-up mensal regularização</td><td>Follow-up</td><td>Saída</td></tr>
+          <tr><td>Notificações de projeto ao cliente</td><td>Projetos</td><td>Saída</td></tr>
+          <tr><td>Registro start de campo</td><td>Projetos</td><td>Entrada (equipe → sistema)</td></tr>
+          <tr><td>Registro stop de campo</td><td>Projetos</td><td>Entrada (equipe → sistema)</td></tr>
+          <tr><td>Notificação de agendamento à equipe</td><td>Agenda</td><td>Saída</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>6.2 E-mail <span class="fr-tag">FR-108</span></h3>
+    <p>Envio transacional para: proposta PDF em alternativa ao WhatsApp, convite de primeiro acesso para novos usuários, link de recuperação de senha, atendimento complementar via e-mail quando cliente entra por esse canal.</p>
+
+    <h3>6.3 Fora do Escopo — Fase Futura</h3>
+    <div class="warn">As seguintes integrações foram <strong>adiadas explicitamente pelo cliente</strong> e não devem ser implementadas nesta versão: Conta Azul (conciliação financeira), Asana (tarefas), ZapSign (assinatura eletrônica), Portal do cliente, Emissão de NF, GPS de rastreamento, Agendamento automático, Gestão de terceirizados.</div>
+
+    <!-- SEÇÃO 7 -->
+    <h2 id="s7"><span class="num">7</span>Requisitos Não-Funcionais (NFRs)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Categoria</th><th>Requisito</th><th>Detalhe</th></tr></thead>
+        <tbody>
+          <tr><td><span class="fr-tag">NFR-01</span></td><td>Responsividade</td><td>Mobile-first (390px obrigatório)</td><td>Tabelas viram cards empilhados; Kanban vira lista por coluna com seletor de estágio</td></tr>
+          <tr><td><span class="fr-tag">NFR-02</span></td><td>Navegação mobile</td><td>Bottom navigation bar</td><td>Máximo 5 itens visíveis + item "Mais" para os demais; nunca drawer simultâneo com bottom nav</td></tr>
+          <tr><td><span class="fr-tag">NFR-03</span></td><td>CRUD — Feedback</td><td>Mensagem de sucesso/erro</td><td>Todo formulário exibe feedback após submissão (banner verde ou vermelho), visível por 3 segundos</td></tr>
+          <tr><td><span class="fr-tag">NFR-04</span></td><td>CRUD — Anti-duplo-clique</td><td>Botões de ação crítica</td><td>Estado de carregamento (spinner + desabilitado) em todo botão de escrita</td></tr>
+          <tr><td><span class="fr-tag">NFR-05</span></td><td>CRUD — Validação</td><td>Campos obrigatórios</td><td>Realce inline com borda vermelha e mensagem de erro abaixo do campo</td></tr>
+          <tr><td><span class="fr-tag">NFR-06</span></td><td>Layout</td><td>Header fixo</td><td>Header da aplicação e cabeçalho de tabelas com sticky positioning</td></tr>
+          <tr><td><span class="fr-tag">NFR-07</span></td><td>CRUD — Exclusão</td><td>Modal de confirmação</td><td>Toda ação destrutiva exige modal com botão vermelho</td></tr>
+          <tr><td><span class="fr-tag">NFR-08</span></td><td>Estado padrão</td><td>Read-only primeiro</td><td>Toda entidade abre em modo de leitura; edição é ação explícita</td></tr>
+          <tr><td><span class="fr-tag">NFR-09</span></td><td>UI — Dropdowns</td><td>Renderização em portal</td><td>Menus dropdown de linha em tabelas renderizados em portal DOM para evitar clipping por overflow</td></tr>
+          <tr><td><span class="fr-tag">NFR-10</span></td><td>Tema</td><td>Claro e escuro</td><td>Todas as telas testadas nos dois modos; fonte canônica em Configurações › Aparência</td></tr>
+          <tr><td><span class="fr-tag">NFR-11</span></td><td>Performance</td><td>Auto-refresh</td><td>Dashboard: 60 segundos; Modo TV: 30 segundos; sem recarregar a página</td></tr>
+          <tr><td><span class="fr-tag">NFR-12</span></td><td>Segurança</td><td>Isolamento de perfil</td><td>Rotas não autorizadas retornam "Acesso não permitido" sem expor a existência da rota</td></tr>
+          <tr><td><span class="fr-tag">NFR-13</span></td><td>Segurança</td><td>Expiração de sessão</td><td>Sessão expira após 8h de inatividade; "Lembrar de mim" estende para 30 dias</td></tr>
+          <tr><td><span class="fr-tag">NFR-14</span></td><td>Paleta</td><td>Cores oficiais</td><td>Azul primário: #2563EB · Laranja: #F97316 · Shell: #1E3A5F</td></tr>
+          <tr><td><span class="fr-tag">NFR-15</span></td><td>Ícones</td><td>SVG inline</td><td>Todos os ícones são SVG inline; nunca emojis em componentes funcionais</td></tr>
+          <tr><td><span class="fr-tag">NFR-16</span></td><td>Telefone</td><td>Internacional</td><td>Todo campo de telefone tem seletor de indicativo de país; nunca campo fixo para Brasil</td></tr>
+          <tr><td><span class="fr-tag">NFR-17</span></td><td>Datas</td><td>Ícone de calendário</td><td>Todo campo de data tem ícone de calendário ao lado com datepicker padronizado</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 8 -->
+    <h2 id="s8"><span class="num">8</span>Bases de Conhecimento da IA</h2>
+    <p>As Bases de Conhecimento são os documentos que fundamentam as respostas técnicas do Atendente IA. São consultadas pelo motor de IA para responder dúvidas técnicas dos clientes, identificar o tipo de serviço necessário e orientar o roteiro de qualificação. Cada base pode ser atualizada via upload em Atendente IA › Configuração da IA.</p>
+
+    <h3>PLN — Levantamento Planialtimétrico</h3>
+    <p>Mapeia um terreno representando dimensões horizontais (planimétricas) e variações de altitude (altimétricas). Usado como base para projetos de construção, aprovação em prefeitura, regularização fundiária e planejamento urbanístico.</p>
+    <p><strong>Perguntas de qualificação obrigatórias:</strong> endereço exato, área em m² ou ha, tipo de terreno (plano/acidentado/edificado), finalidade da planta, prazo específico.</p>
+
+    <h3>IMP — Locação e Implantação de Obras</h3>
+    <p>Materializa no terreno o que foi projetado no papel — posicionando fisicamente estacas, eixos e marcos que guiarão a construção.</p>
+    <p><strong>Regra de visitas padrão:</strong> 2 visitas inclusas no orçamento (fundação + gabarito). Visitas adicionais orçadas separadamente.</p>
+    <p><strong>Perguntas de qualificação obrigatórias:</strong> endereço da obra, status de aprovação na prefeitura, número estimado de estacas/eixos, planta de projeto disponível, status de início da obra.</p>
+
+    <h3>PMC — Processos da Prefeitura Municipal de Campinas</h3>
+    <p>Conhecimento sobre processos administrativos e técnicos da Prefeitura de Campinas relacionados a aprovações de projeto, desdobros, regularizações de edificações e certidões de alinhamento e nivelamento.</p>
+
+    <h3>CRI — Processos do Cartório de Registro de Imóveis</h3>
+    <p>Requisitos técnicos dos cartórios de registro de imóveis para averbações, registros e regularizações fundiárias. Inclui estimativas de prazo por processo:</p>
+    <ul>
+      <li>Georreferenciamento rural: 60–120 dias (certificação INCRA)</li>
+      <li>Averbação de construção urbana: 15–45 dias</li>
+      <li>Usucapião extrajudicial: 90–180 dias</li>
+    </ul>
+
+    <h3>Uso das Bases no Sistema <span class="fr-tag">FR-109</span></h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Situação</th><th>Base consultada</th><th>Resultado</th></tr></thead>
+        <tbody>
+          <tr><td>Cliente diz "preciso de um levantamento"</td><td>PLN</td><td>IA identifica o serviço e adapta o roteiro de qualificação</td></tr>
+          <tr><td>Cliente menciona "prefeitura" ou "aprovação"</td><td>PMC</td><td>IA responde dúvidas sobre documentos necessários</td></tr>
+          <tr><td>Cliente menciona "regularização" ou "usucapião"</td><td>CRI + PMC</td><td>IA coleta dados mas escala para Francisco antes de qualquer compromisso</td></tr>
+          <tr><td>Cliente pergunta sobre prazo</td><td>CRI ou PMC conforme serviço</td><td>IA fornece estimativa sem comprometer prazo específico</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 9 -->
+    <h2 id="s9"><span class="num">9</span>Arquitetura de Informação (Resumo)</h2>
+
+    <h3>9.1 Estrutura de Navegação</h3>
+    <p><strong>Sidebar (7 itens de menu):</strong></p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Item</th><th>Subitens / Abas</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Dashboard</td><td>Visão Geral · Comercial · Produção · Financeiro</td></tr>
+          <tr><td>2</td><td>Atendente IA</td><td>Conversas · Configuração da IA</td></tr>
+          <tr><td>3</td><td>CRM</td><td>Pipeline (Kanban ou Lista) · Clientes · Propostas</td></tr>
+          <tr><td>4</td><td>Projetos</td><td>Kanban operacional</td></tr>
+          <tr><td>5</td><td>Agenda</td><td>Calendário mês / semana</td></tr>
+          <tr><td>6</td><td>Follow-up</td><td>Lista de cadências</td></tr>
+          <tr><td>7</td><td>Configurações</td><td>Tabela de Preços · Usuários & Permissões · Integração WhatsApp · Checklists de Campo · Aparência</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>9.2 Estados Padronizados do Sistema</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Estado</th><th>Descrição</th><th>Comportamento visual</th></tr></thead>
+        <tbody>
+          <tr><td>Loading</td><td>Operação em andamento</td><td>Skeleton loader ou spinner centralizado</td></tr>
+          <tr><td>Empty</td><td>Lista ou área sem dados</td><td>Ilustração + texto de orientação + ação principal</td></tr>
+          <tr><td>Error</td><td>Falha de carregamento</td><td>Ícone de erro + mensagem + botão "Tentar novamente"</td></tr>
+          <tr><td>Success</td><td>Ação concluída com sucesso</td><td>Banner verde com mensagem, autofecha em 3 segundos</td></tr>
+          <tr><td>Warning</td><td>Alerta de atenção (não bloqueante)</td><td>Banner amarelo persistente com link para ação</td></tr>
+          <tr><td>Blocked</td><td>Ação não autorizada</td><td>Tela de "Acesso não permitido" com link de retorno</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SEÇÃO 10 -->
+    <h2 id="s10"><span class="num">10</span>Glossário</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Termo</th><th>Definição</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ART</strong></td><td>Anotação de Responsabilidade Técnica — documento emitido pelo CREA atestando responsabilidade técnica de engenheiro</td></tr>
+          <tr><td><strong>RRT</strong></td><td>Registro de Responsabilidade Técnica — equivalente ao ART, emitido pelo CAU para arquitetos</td></tr>
+          <tr><td><strong>CRI</strong></td><td>Cartório de Registro de Imóveis — cartório responsável pelo registro e averbação de imóveis</td></tr>
+          <tr><td><strong>INCRA</strong></td><td>Instituto Nacional de Colonização e Reforma Agrária — certifica georreferenciamento de imóveis rurais</td></tr>
+          <tr><td><strong>Georreferenciamento</strong></td><td>Serviço que vincula o imóvel ao Sistema Geodésico Brasileiro com coordenadas absolutas</td></tr>
+          <tr><td><strong>Levantamento Planialtimétrico</strong></td><td>Levantamento topográfico que representa dimensões horizontais e variações de altitude de um terreno</td></tr>
+          <tr><td><strong>Locação de Obra</strong></td><td>Serviço que materializa no terreno os pontos e eixos de uma edificação conforme projeto</td></tr>
+          <tr><td><strong>Estaca</strong></td><td>Marco físico fincado no terreno durante a locação de obra para indicar pontos do projeto</td></tr>
+          <tr><td><strong>Memorial Descritivo</strong></td><td>Documento técnico que descreve textualmente as medidas, confrontantes e localização de um imóvel</td></tr>
+          <tr><td><strong>Usucapião</strong></td><td>Modo de aquisição de propriedade pelo uso prolongado e contínuo de um imóvel sem oposição do proprietário</td></tr>
+          <tr><td><strong>Prenotação</strong></td><td>Registro prévio de um documento no cartório enquanto aguarda análise completa — marco do pagamento em regularizações</td></tr>
+          <tr><td><strong>Regularização Fundiária</strong></td><td>Processo de formalização jurídica de imóveis ocupados sem documentação regular</td></tr>
+          <tr><td><strong>SPT</strong></td><td>Standard Penetration Test — ensaio de sondagem padrão que mede a resistência do solo à penetração</td></tr>
+          <tr><td><strong>DWG</strong></td><td>Formato de arquivo de desenho técnico do AutoCAD, utilizado para plantas topográficas e projetos</td></tr>
+          <tr><td><strong>BSP</strong></td><td>Business Solution Provider — provedor autorizado pela Meta para integração com WhatsApp Business API</td></tr>
+          <tr><td><strong>Start/Stop</strong></td><td>Terminologia interna para os registros de início (start) e fim (stop) de serviço de campo via WhatsApp</td></tr>
+          <tr><td><strong>Cadência</strong></td><td>Sequência programada de mensagens de follow-up enviadas automaticamente em datas específicas</td></tr>
+          <tr><td><strong>Pipeline</strong></td><td>Funil de vendas visualizado em formato kanban — sequência de etapas que um lead percorre até fechar negócio</td></tr>
+          <tr><td><strong>Modo TV</strong></td><td>Interface full-screen projetável em monitor, sem dados comerciais ou financeiros, com auto-refresh de 30s</td></tr>
+          <tr><td><strong>RBAC</strong></td><td>Role-Based Access Control — sistema de controle de acesso baseado em papéis de usuário</td></tr>
+          <tr><td><strong>BPO</strong></td><td>Business Process Outsourcing — empresa terceirizada que executa processos operacionais (neste caso o financeiro)</td></tr>
+          <tr><td><strong>Card</strong></td><td>Elemento visual de um kanban representando um lead, cliente ou projeto em determinada etapa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:24px;">
+      Documento gerado pela Labrego IA — Scriba v2<br>
+      Garcia Topografia e Sondagem · Documentação Técnica v2 · Junho de 2026<br>
+      Todo o conteúdo é baseado exclusivamente no briefing e nas decisões registradas com o cliente.
+    </p>
+
+  </main>
+</div>
+
+<button class="back-top" id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Voltar ao topo">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<script>
+  // Back to top visibility
+  window.addEventListener('scroll', () => {
+    document.getElementById('back-top').classList.toggle('visible', window.scrollY > 300);
+  });
+  // Active TOC highlight
+  const headings = document.querySelectorAll('h2[id], h3[id], h4[id]');
+  const tocLinks = document.querySelectorAll('.toc-list a');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(a => a.parentElement.classList.remove('active-toc'));
+        const activeLink = document.querySelector(`.toc-list a[href="#${entry.target.id}"]`);
+        if (activeLink) activeLink.parentElement.classList.add('active-toc');
+      }
+    });
+  }, { rootMargin: '-52px 0px -70% 0px' });
+  headings.forEach(h => observer.observe(h));
+</script>
+<style>.toc-list li.active-toc > a { color:var(--primary); border-left-color:var(--primary); background:var(--primary-soft); font-weight:600; }</style>
+</body>
+</html>

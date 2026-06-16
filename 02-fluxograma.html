@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fluxogramas de Processo — Garcia Topografia To-Be v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --azul: #2563EB;
+      --azul-dark: #1D4ED8;
+      --azul-escuro: #1E3A5F;
+      --laranja: #F97316;
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --text: #374151;
+      --text-light: #6B7280;
+      --border: #E5E7EB;
+      --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding-top: 120px;
+    }
+
+    /* HEADER FIXO */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--azul-escuro);
+      color: var(--white);
+      padding: 14px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    header .brand {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.02em;
+    }
+    header .subtitle {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 0.78rem;
+      opacity: 0.8;
+    }
+
+    /* NAV ÂNCORAS */
+    nav.anchors {
+      position: fixed;
+      top: 68px; left: 0; right: 0;
+      z-index: 99;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      padding: 0 16px;
+    }
+    nav.anchors::-webkit-scrollbar { height: 3px; }
+    nav.anchors::-webkit-scrollbar-thumb { background: var(--border); }
+    nav.anchors a {
+      display: inline-block;
+      padding: 10px 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--azul);
+      text-decoration: none;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.2s;
+    }
+    nav.anchors a:hover { border-bottom-color: var(--azul); }
+
+    /* CONTEÚDO */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    /* CARDS DE SEÇÃO */
+    .section-card {
+      background: var(--white);
+      border-left: 4px solid var(--azul);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 28px 28px 32px;
+      margin-bottom: 40px;
+      scroll-margin-top: 130px;
+    }
+    .section-card:hover { box-shadow: 0 4px 16px rgba(37,99,235,0.1); }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .section-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+      min-width: 24px;
+    }
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      font-size: 1.15rem;
+      color: var(--azul-escuro);
+      flex: 1;
+    }
+    .badge {
+      display: inline-block;
+      background: var(--azul);
+      color: var(--white);
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      margin-top: 3px;
+    }
+    .badge.laranja { background: var(--laranja); }
+    .badge.escuro  { background: var(--azul-escuro); }
+
+    .section-desc {
+      font-size: 0.88rem;
+      color: var(--text);
+      margin-bottom: 24px;
+      line-height: 1.75;
+    }
+
+    /* DIAGRAMA */
+    .diagram-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      background: #F9FAFB;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px 12px;
+    }
+    .mermaid {
+      min-width: 480px;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-light);
+      padding: 24px 16px;
+      border-top: 1px solid var(--border);
+      margin-top: 16px;
+    }
+
+    /* MOBILE 390px */
+    @media (max-width: 480px) {
+      body { padding-top: 130px; }
+      header { padding: 10px 16px; }
+      header .brand { font-size: 0.88rem; }
+      .section-card { padding: 18px 14px 22px; }
+      .section-title { font-size: 1rem; }
+      nav.anchors a { padding: 8px 10px; font-size: 0.72rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Garcia Topografia e Sondagem</div>
+  <div class="subtitle">Fluxogramas de Processo — To-Be v2 &nbsp;|&nbsp; Scriba · Labrego IA</div>
+  <div style="display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;">
+    <a href="documentacao.html" style="color:rgba(255,255,255,0.8);font-size:11.5px;font-weight:500;text-decoration:none;padding:4px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);transition:all .2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.5)'" onmouseout="this.style.color='rgba(255,255,255,0.8)';this.style.borderColor='rgba(255,255,255,0.25)'">← Documentação</a>
+    <a href="doc-tecnica.html" style="color:rgba(255,255,255,0.8);font-size:11.5px;font-weight:500;text-decoration:none;padding:4px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);transition:all .2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Doc Técnica</a>
+    <a href="design-system.html" style="color:rgba(255,255,255,0.8);font-size:11.5px;font-weight:500;text-decoration:none;padding:4px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);transition:all .2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Design System</a>
+    <a href="index.html" style="color:rgba(255,255,255,0.8);font-size:11.5px;font-weight:500;text-decoration:none;padding:4px 12px;border-radius:5px;border:1px solid rgba(255,255,255,0.25);background:rgba(255,255,255,0.08);transition:all .2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Mockups</a>
+  </div>
+</header>
+
+<nav class="anchors">
+  <a href="#s1">1. Qualificação IA</a>
+  <a href="#s2">2. Proposta</a>
+  <a href="#s3">3. Follow-up</a>
+  <a href="#s4">4. Abertura de Projeto</a>
+  <a href="#s5">5. Campo → Entrega</a>
+  <a href="#s6">6. Agenda</a>
+  <a href="#s7">7. RBAC / Login</a>
+  <a href="#s8">8. Regularização</a>
+</nav>
+
+<main>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- SEÇÃO 1 — Atendimento IA / Qualificação de Lead -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="section-card" id="s1">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">Atendimento IA — Qualificação de Lead</h2>
+      <span class="badge">Módulo: Atendente IA</span>
+    </div>
+    <p class="section-desc">
+      Todo contato recebido — seja pelo WhatsApp ou por e-mail — passa pelo atendente de IA antes de chegar a Francisco.
+      A IA conduz a conversa em etapas sequenciais: identifica o tipo de serviço, coleta os dados obrigatórios do cliente e do imóvel e, ao final,
+      cria automaticamente o card no CRM, gera o rascunho de proposta e notifica Francisco.
+      Casos de regularização, negociação especial ou reclamação são escalados imediatamente para atendimento humano.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Lead entra via WhatsApp ou E-mail]) --> B[Saudação automática da IA]
+    B --> C[Identificação da finalidade / necessidade]
+    C --> D{Tipo de serviço detectado?}
+    D -- Regularização --> E1[/Escala para Francisco\nHuman-review/]
+    D -- Negociação especial --> E1
+    D -- Reclamação --> E2[Coleta informações básicas]
+    E2 --> E1
+    D -- Levantamento / Locação / Sondagem --> F[Coleta dados do cliente]
+    F --> F1["Nome/Razão Social · CPF/CNPJ\nEndereço + CEP · Telefone · E-mail"]
+    F1 --> G[Coleta dados do imóvel]
+    G --> G1["Endereço da obra + CEP\nCondomínio/Quadra/Lote · Área\nMatrícula · Planta"]
+    G1 --> H{Tipo de serviço}
+    H -- Locação --> I1["Nº estacas · nº eixos\nnº visitas"]
+    H -- Levantamento --> I2["Metragem · finalidade"]
+    H -- Sondagem --> I3["Nº furos · profundidade estimada"]
+    I1 & I2 & I3 --> J{Todos os dados coletados?}
+    J -- Não --> K[Continua coleta]
+    K --> J
+    J -- Sim --> L[Cria card no CRM\nstatus: Qualificado]
+    L --> M[Gera rascunho de proposta automaticamente]
+    M --> N["Notifica Francisco via WhatsApp\n'Nova proposta pronta — cliente, tipo, R$ valor'"]
+    N --> O([Fim — aguardando revisão humana])
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- SEÇÃO 2 — Geração e Aprovação de Proposta  -->
+  <!-- ═══════════════════════════════════════════ -->
+  <section class="section-card" id="s2">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Geração e Aprovação de Proposta</h2>
+      <span class="badge laranja">Módulo: Gerador de Propostas</span>
+    </div>
+    <p class="section-desc">
+      Francisco recebe a notificação com link direto para a tela de Propostas, que chega pré-preenchida pela IA com os dados coletados no atendimento.
+      Ele revisa, ajusta se necessário e aprova — o sistema calcula automaticamente o valor de deslocamento fora do raio de 30 km de Campinas.
+      Após aprovação, a proposta é enviada ao cliente e a cadência de follow-up é iniciada imediatamente.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Francisco recebe notificação WhatsApp com link]) --> B[Acessa Gerador de Propostas\ntela pré-preenchida pela IA]
+    B --> C[Revisa dados do cliente]
+    C --> D[Revisa variáveis do serviço]
+    D --> E[Cálculo de distância automático]
+    E --> F{≤ 30 km de Campinas?}
+    F -- Sim --> G[Valor tabelado sem acréscimo]
+    F -- Não --> H["Calcula combustível + pedágio\n(ida + volta)"]
+    G & H --> I[Francisco verifica valor total\ne condições de pagamento]
+    I --> J{Aprova sem ajustes?}
+    J -- Não --> K[Edita campos manualmente]
+    K --> L[Preview PDF atualiza em tempo real]
+    L --> J
+    J -- Sim --> M{Canal de envio}
+    M -- WhatsApp --> N1[Envia via WhatsApp]
+    M -- E-mail --> N2[Envia via E-mail]
+    M -- Ambos --> N3[Envia via WhatsApp + E-mail]
+    N1 & N2 & N3 --> O[Card CRM → Proposta Enviada]
+    O --> P[Cadência de follow-up iniciada\nD+2 · D+5 · D+10]
+    P --> Q[Histórico registrado na Ficha do Cliente]
+    Q --> R([Fim — aguardando resposta do cliente])
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════ -->
+  <!-- SEÇÃO 3 — Ciclo de Follow-up Pós-Proposta    -->
+  <!-- ═════════════════════════════════════════════ -->
+  <section class="section-card" id="s3">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Ciclo de Follow-up Pós-Proposta</h2>
+      <span class="badge">Módulo: Atendente IA</span>
+    </div>
+    <p class="section-desc">
+      Após o envio da proposta, a IA conduz uma cadência automática de três contatos nos dias D+2, D+5 e D+10.
+      Em qualquer resposta do cliente, a cadência é pausada e Francisco assume o atendimento.
+      Ao final dos três toques sem retorno, o sistema notifica Francisco e marca o lead como frio.
+      Processos de regularização possuem um subfluxo paralelo de follow-up mensal contínuo por 12+ meses.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Proposta enviada — D+0]) --> B[Registro no CRM]
+    B --> C["D+2: IA envia verificação\n'Conseguiu analisar a proposta?'"]
+    C --> D{Cliente respondeu?}
+    D -- Sim --> Z1[Pausa cadência\nFrancisco assume]
+    Z1 --> FIM([Fim da cadência])
+    D -- Não --> E["D+5: IA envia reforço\nInformação adicional ou benefício"]
+    E --> F{Cliente respondeu?}
+    F -- Sim --> Z2[Pausa cadência\nFrancisco assume]
+    Z2 --> FIM
+    F -- Não --> G["D+10: IA envia último toque\n'Estamos à disposição para dúvidas'"]
+    G --> H{Cliente respondeu?}
+    H -- Sim --> Z3[Pausa cadência\nFrancisco assume]
+    Z3 --> FIM
+    H -- Não --> I["Sistema notifica Francisco\n'Cadência encerrada — cliente não respondeu após 3 contatos'"]
+    I --> J[Card → Follow-up Encerrado\nlead frio]
+    J --> FIM
+
+    subgraph Regularização [Subfluxo paralelo — Regularização]
+      R1[Follow-up mensal ativo] --> R2{Atualização do Workflow?}
+      R2 -- Sim --> R3[IA envia mensagem específica ao cliente]
+      R2 -- Não --> R4[IA envia atualização genérica de aguardo]
+      R3 & R4 --> R1
+    end
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════════════ -->
+  <!-- SEÇÃO 4 — Fechamento e Abertura de Projeto      -->
+  <!-- ════════════════════════════════════════════════ -->
+  <section class="section-card" id="s4">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Fechamento e Abertura de Projeto</h2>
+      <span class="badge escuro">Módulo: CRM + Workflow</span>
+    </div>
+    <p class="section-desc">
+      Quando o cliente aceita a proposta, o sistema dispara automaticamente o workflow operacional.
+      Se o aceite ocorreu fora do sistema (por telefone), Francisco realiza o registro manual com confirmação explícita.
+      O sistema então cria a pasta do projeto, o card no Workflow, classifica o tipo de serviço,
+      notifica a equipe de campo e agenda a visita técnica — verificando a disponibilidade interna antes de acionar terceirizados.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Cliente aceita proposta]) --> B{Aceite foi via sistema?}
+    B -- Sim --> C[Card CRM → Fechado automaticamente]
+    B -- Não\ntelefone --> D["Francisco move card manualmente\n+ Confirmação: 'Isso iniciará o workflow operacional'"]
+    C & D --> E[Sistema cria pasta do projeto automaticamente]
+    E --> F[Cria card no Workflow\ncoluna: Campo Pendente]
+    F --> G{Classifica tipo de projeto}
+    G -- Levantamento --> H1[Tag: Levantamento]
+    G -- Locação --> H2[Tag: Locação]
+    G -- Regularização --> H3[Tag: Regularização]
+    G -- Sondagem --> H4[Tag: Sondagem]
+    H1 & H2 & H3 & H4 --> I[Notifica equipe de campo\nvia WhatsApp com detalhes do serviço]
+    I --> J[Francisco agenda visita técnica na Agenda]
+    J --> K{Agenda interna disponível?}
+    K -- Sim --> L[Cria evento no calendário\nSistema atualiza capacidade do dia]
+    K -- Não --> M["Sistema avisa Francisco:\n'Agenda interna cheia — considere terceirizados'"]
+    M --> N[Francisco aciona terceirizados manualmente\nfora do sistema]
+    L --> O[Sistema envia confirmação de agendamento\npara equipe de campo via WhatsApp]
+    N --> O
+    O --> P([Fim — projeto aberto e equipe notificada])
+      </div>
+    </div>
+  </section>
+
+  <!-- ═════════════════════════════════════════════════════ -->
+  <!-- SEÇÃO 5 — Workflow Operacional — Campo até Entrega   -->
+  <!-- ═════════════════════════════════════════════════════ -->
+  <section class="section-card" id="s5">
+    <div class="section-header">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Workflow Operacional — Campo até Entrega</h2>
+      <span class="badge laranja">Módulo: Workflow de Projetos</span>
+    </div>
+    <p class="section-desc">
+      O ciclo operacional começa com o "start" enviado pela equipe de campo via WhatsApp e termina com o envio dos arquivos finais ao cliente.
+      A IA registra tempos automaticamente, o Workflow move os cards por cada etapa e a revisão dupla entre engenheiras
+      garante qualidade antes da entrega. Todo o fluxo — da coleta ao faturamento — é rastreado em um único sistema.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Equipe de campo inicia serviço]) --> B["Envia 'start #ID_projeto' via WhatsApp"]
+    B --> C["IA registra horário de início\nCard → Em Campo · Timer inicia"]
+    C --> D[Equipe realiza serviço de campo]
+    D --> D1[Preenche checklist digital ou via WhatsApp]
+    D1 --> D2[Upload de arquivos brutos\nfotos · vídeos · estação total]
+    D2 --> E["Equipe finaliza\nEnvia 'stop #ID_projeto' via WhatsApp"]
+    E --> F["IA registra horário de fim\nCalcula tempo total · Card → Campo Concluído"]
+    F --> G{Projeto de regularização?}
+    G -- Sim --> G1["IA notifica cliente\n'Seu processo avançou para Desenho Técnico'"]
+    G -- Não --> H
+    G1 --> H[Francisco distribui para engenheira\ncom base na carga atual]
+    H --> I[Card → Desenho Técnico]
+    I --> J[Engenheira trabalha nos arquivos de saída\nplantas · RTs · peças técnicas]
+    J --> K{Revisão dupla concluída?\n2 assinaturas Revisado}
+    K -- Não --> L[Ajuste de arquivos]
+    L --> K
+    K -- Sim --> M[Card → Revisão → Pronto para Entrega]
+    M --> N["Francisco recebe notificação\n'Projeto ID pronto para entrega'"]
+    N --> O[Francisco seleciona documentos finais\nna aba Entrega]
+    O --> P[Clica em 'Enviar ao cliente']
+    P --> Q[Sistema envia via WhatsApp / E-mail\ncom mensagem padrão]
+    Q --> R[Francisco registra data de entrega\ne emite fatura]
+    R --> S[Registra condições de pagamento]
+    S --> T[Card → Entregue]
+    T --> U([Fim — projeto entregue e faturado])
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════ -->
+  <!-- SEÇÃO 6 — Gestão da Agenda de Campo   -->
+  <!-- ══════════════════════════════════════ -->
+  <section class="section-card" id="s6">
+    <div class="section-header">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Gestão da Agenda de Campo</h2>
+      <span class="badge escuro">Módulo: Agenda</span>
+    </div>
+    <p class="section-desc">
+      A Agenda centraliza o controle de capacidade diária da equipe de campo com regras específicas por tipo de serviço:
+      até 3–5 levantamentos por dia e no máximo 1 locação por período.
+      No dia do serviço, a equipe acessa uma visão simplificada com endereço, link do Maps e checklist.
+      O start e stop via WhatsApp mantêm o Workflow sincronizado em tempo real.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Francisco recebe projeto aprovado para agendar]) --> B[Verifica painel de Capacidade do Dia]
+    B --> C{Tipo de serviço?}
+    C -- Levantamento --> D1[Regra: até 3–5 por dia\nrápidos · podem acumular]
+    C -- Locação --> D2[Regra: 1 por período\nnão misturar períodos]
+    D1 & D2 --> E{Dia disponível para esse tipo?}
+    E -- Sim --> F["Cria evento no calendário\ntipo · cliente · endereço · horário · duração estimada"]
+    E -- Não --> G["Sistema exibe aviso:\n'Agenda interna cheia — considere terceirizados'"]
+    G --> H{Francisco decide}
+    H -- Reagenda --> B
+    H -- Aciona terceirizados --> I[Contato manual fora do sistema]
+    F --> J["Sistema notifica equipe de campo via WhatsApp\n'Serviço agendado para data: tipo — cliente, endereço. Início às hora'"]
+    J --> K[No dia do serviço:\nEquipe consulta visão simplificada na Agenda]
+    K --> K1[Endereço + link Google Maps + checklist]
+    K1 --> L["Equipe envia 'start #ID'\nEvento muda de cor — Em andamento\nTimer inicia"]
+    L --> M[Equipe executa o serviço]
+    M --> N["Equipe envia 'stop #ID'\nEvento fecha · Tempo registrado"]
+    N --> O[Card no Workflow avança automaticamente]
+    O --> P([Fim — agenda e workflow sincronizados])
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SEÇÃO 7 — Acesso e Navegação por Perfil (RBAC)        -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="section-card" id="s7">
+    <div class="section-header">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Acesso e Navegação por Perfil (RBAC)</h2>
+      <span class="badge">Módulo: Autenticação</span>
+    </div>
+    <p class="section-desc">
+      O sistema possui cinco perfis de acesso com permissões e telas distintas.
+      O login redireciona automaticamente cada usuário para a interface correta após a validação das credenciais.
+      Tentativas repetidas de login incorreto bloqueiam a conta temporariamente.
+      O perfil "Usuário TV" acessa diretamente o Modo TV em tela cheia, sem sidebar.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Usuário acessa tela de Login]) --> B[Preenche e-mail + senha]
+    B --> C{Lembrar de mim?}
+    C -- Sim --> D[Sessão persistente]
+    C -- Não --> E[Sessão expira ao fechar]
+    D & E --> F{Credenciais válidas?}
+    F -- Não --> G["Erro inline:\n'E-mail ou senha incorretos'"]
+    G --> H{Excedeu tentativas?}
+    H -- Não --> B
+    H -- Sim --> I[Conta bloqueada temporariamente\nTela de bloqueio]
+    F -- Sim --> J{Qual o perfil?}
+    J -- Admin\nFrancisco --> K["Dashboard › Visão Geral\nTodas as telas disponíveis"]
+    J -- Escritório\nJamile / Bárbara --> L["Projetos\nSidebar reduzida: Projetos + Modo TV"]
+    J -- Campo --> M["Agenda\nSidebar: Agenda + Modo TV"]
+    J -- BPO --> N["CRM — coluna Fechado\nView simplificada"]
+    J -- Usuário TV --> O["Modo TV\nTela full-screen · sem sidebar"]
+    K & L & M & N & O --> P([Sessão ativa — navegação conforme perfil])
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- SEÇÃO 8 — Follow-up de Regularização                  -->
+  <!-- ══════════════════════════════════════════════════════ -->
+  <section class="section-card" id="s8">
+    <div class="section-header">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Follow-up de Regularização (Processo Longo)</h2>
+      <span class="badge laranja">Módulo: Regularização</span>
+    </div>
+    <p class="section-desc">
+      Processos de regularização podem durar meses ou anos. A IA mantém o cliente informado mensalmente com base nas
+      atualizações registradas pela equipe no Workflow — evitando o silêncio que gera ansiedade e reclamações.
+      Quando a equipe registra um avanço real (protocolo, exigência atendida, etc.), a IA gera uma mensagem contextualizada;
+      sem atualização, envia uma mensagem genérica de aguardo. O ciclo só encerra com a conclusão formal do processo.
+    </p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Venda de regularização fechada]) --> B[Projeto criado no Workflow]
+    B --> C[IA inicia ciclo de follow-up mensal]
+    C --> D{Equipe registrou atualização este mês?}
+    D -- Sim --> E["IA lê atualização do Workflow\nGera mensagem contextualizada:\n'Boa notícia: atualização'"]
+    D -- Não --> F["IA envia atualização genérica de aguardo\n(se template configurado)"]
+    E & F --> G{Cliente respondeu com dúvida ou ação?}
+    G -- Sim --> H[IA pausa envios automáticos]
+    H --> I[Francisco ou engenheira trata a questão]
+    I --> J[IA retoma o ciclo]
+    J --> K
+    G -- Não --> K{Processo concluído?\nPrenotação / protocolamento final}
+    K -- Não --> L[Aguarda ciclo mensal do próximo mês]
+    L --> D
+    K -- Sim --> M[Francisco registra conclusão no Workflow]
+    M --> N[Follow-up de regularização encerrado]
+    N --> O[Projeto → Pronto para Entrega]
+    O --> P([Fluxo de Entrega — ver Seção 05])
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Documento gerado por Scriba — Labrego IA &nbsp;|&nbsp; Garcia Topografia e Sondagem v2.0 &nbsp;|&nbsp; 16/06/2026
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#2563EB',
+      primaryTextColor: '#FFFFFF',
+      primaryBorderColor: '#1D4ED8',
+      lineColor: '#6B7280',
+      secondaryColor: '#F97316',
+      tertiaryColor: '#1E3A5F',
+      noteBkgColor: '#FEF3C7',
+      noteTextColor: '#92400E',
+      edgeLabelBackground: '#F9FAFB',
+      fontSize: '13px'
+    },
+    flowchart: {
+      curve: 'basis',
+      padding: 16
+    }
+  });
+</script>
+</body>
+</html>

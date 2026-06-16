@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garcia Topografia — Mockups v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primary:#2563EB; --primary-hover:#1D4ED8; --primary-soft:#EFF6FF;
+    --accent:#F97316; --accent-hover:#EA580C; --accent-soft:#FFF7ED;
+    --shell:#1E3A5F; --shell-hover:#274B73; --shell-text:#E2E8F0; --shell-muted:#94A3B8;
+    --secondary:#1E3A5F;
+    --gray-50:#F8FAFC; --gray-100:#F1F5F9; --gray-200:#E2E8F0; --gray-300:#CBD5E1;
+    --gray-400:#94A3B8; --gray-500:#64748B; --gray-600:#475569; --gray-700:#334155;
+    --gray-800:#1E293B; --gray-900:#0F172A;
+    --bg:#F8FAFC; --card:#fff; --text:#1E293B; --text-2:#64748B; --muted:#94A3B8; --border:#E2E8F0;
+    --radius:12px; --radius-md:8px;
+    --font-head:'Montserrat',sans-serif; --font-body:'Inter',sans-serif;
+    --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.04);
+    --shadow-lg:0 12px 32px rgba(15,23,42,.16);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:var(--font-body); background:var(--bg); color:var(--text); min-height:100vh; display:flex; flex-direction:column; align-items:center; padding:92px 20px 48px; }
+
+  .shared-header { position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--shell); height:52px; display:flex; align-items:center; justify-content:space-between; padding:0 24px; box-shadow:0 2px 12px rgba(0,0,0,0.15); }
+  .sh-left { display:flex; align-items:center; gap:14px; }
+  .sh-brand { display:flex; align-items:center; gap:9px; text-decoration:none; }
+  .sh-mark { height:30px; min-width:30px; border-radius:6px; background:#fff; display:flex; align-items:center; justify-content:center; padding:4px 9px; overflow:hidden; }
+  .sh-mark img { height:20px; width:auto; max-width:150px; object-fit:contain; display:block; }
+  .side-brand .sb-logo { height:34px; width:auto; max-width:178px; object-fit:contain; background:#fff; border-radius:8px; padding:6px 11px; display:block; }
+  .m-top .mt-logo { height:24px; width:auto; max-width:118px; object-fit:contain; background:#fff; border-radius:6px; padding:3px 7px; }
+  .la-brand .la-logo { height:44px; width:auto; max-width:230px; object-fit:contain; background:#fff; border-radius:10px; padding:9px 16px; display:block; }
+  .m-login .ml-logo { height:40px; width:auto; max-width:220px; object-fit:contain; background:#fff; border-radius:10px; padding:8px 14px; display:block; }
+  .tv-logo-mark { width:auto !important; height:48px !important; border-radius:10px; background:#fff !important; padding:7px 13px; display:flex; align-items:center; justify-content:center; }
+  .tv-logo-mark img { height:30px; width:auto; max-width:170px; object-fit:contain; display:block; }
+  .tv-m-mark { width:auto !important; height:30px !important; border-radius:7px; background:#fff !important; padding:4px 8px; display:flex; align-items:center; }
+  .tv-m-mark img { height:20px; width:auto; max-width:110px; object-fit:contain; display:block; }
+  .sh-brand span { color:#fff; font-family:var(--font-head); font-size:14px; font-weight:700; }
+  .sh-nav { display:flex; align-items:center; gap:8px; }
+  .sh-nav a { color:rgba(255,255,255,0.7); font-size:12px; font-weight:500; text-decoration:none; padding:6px 14px; border-radius:6px; border:1px solid rgba(255,255,255,0.18); display:flex; align-items:center; gap:6px; transition:all 0.2s; }
+  .sh-nav a:hover { color:#fff; border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08); }
+  .sh-nav a.active { color:#fff; border-color:rgba(249,115,22,0.5); background:rgba(249,115,22,0.18); }
+  .sh-hamburger { display:none; background:none; border:none; cursor:pointer; padding:6px; }
+  .sh-mobile-menu { display:none; position:fixed; top:52px; left:0; right:0; background:var(--shell); box-shadow:0 8px 24px rgba(0,0,0,0.3); z-index:9998; padding:8px 0; }
+  .sh-mobile-menu.open { display:block; }
+  .sh-mobile-menu a { display:flex; gap:10px; padding:12px 24px; color:rgba(255,255,255,0.75); text-decoration:none; font-size:14px; font-weight:500; }
+  .sh-mobile-menu a.active { color:var(--accent); }
+  .sh-overlay { display:none; position:fixed; inset:0; top:52px; background:rgba(0,0,0,0.4); z-index:9997; }
+  .sh-overlay.open { display:block; }
+  @media (max-width:768px){ .sh-nav{ display:none !important; } .sh-hamburger{ display:block !important; } }
+
+  .page-header { text-align:center; margin-bottom:36px; max-width:700px; }
+  .page-header .badge { display:inline-block; background:var(--shell); color:#fff; font-size:10px; font-weight:600; padding:5px 14px; border-radius:20px; margin-bottom:16px; letter-spacing:0.8px; text-transform:uppercase; }
+  .page-header h1 { font-family:var(--font-head); font-size:32px; font-weight:700; color:var(--gray-900); margin-bottom:10px; letter-spacing:-0.02em; }
+  .page-header p { font-size:14px; color:var(--text-2); line-height:1.6; }
+  .stat-row { display:flex; gap:10px; justify-content:center; margin-top:20px; flex-wrap:wrap; }
+  .stat { background:#fff; border:1px solid var(--border); border-radius:20px; padding:6px 14px; font-size:12px; color:var(--gray-600); display:flex; align-items:center; gap:7px; box-shadow:var(--shadow-sm); }
+  .stat b { color:var(--gray-900); font-weight:700; }
+  .stat .dot { width:7px; height:7px; border-radius:50%; background:var(--accent); }
+
+  .section-label { width:100%; max-width:1080px; font-family:var(--font-head); font-size:13px; font-weight:700; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.06em; margin:8px 0 16px; display:flex; align-items:center; gap:10px; }
+  .section-label::after { content:""; flex:1; height:1px; background:var(--border); }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:18px; max-width:1080px; width:100%; margin-bottom:36px; }
+  .card { background:var(--card); border-radius:var(--radius); border:1px solid var(--border); overflow:hidden; transition:all 0.22s; text-decoration:none; color:inherit; box-shadow:var(--shadow-sm); display:block; }
+  .card:hover { transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--primary); }
+  .card-img { height:118px; position:relative; overflow:hidden; background:linear-gradient(135deg,var(--shell) 0%,#274B73 100%); display:flex; align-items:center; justify-content:center; }
+  .card-img .icon { position:relative; z-index:2; }
+  .card-img .number { font-family:var(--font-head); font-size:54px; font-weight:700; color:rgba(255,255,255,0.12); position:absolute; right:18px; bottom:-8px; }
+  .card-body { padding:16px 20px 18px; }
+  .card-body h3 { font-family:var(--font-head); font-size:16px; font-weight:700; color:var(--gray-900); margin-bottom:5px; }
+  .card-body p { font-size:13px; color:var(--text-2); line-height:1.5; }
+  .card-body .screens { display:flex; gap:6px; margin-top:12px; }
+  .screen-tag { padding:3px 9px; font-size:10px; font-weight:600; border-radius:4px; background:var(--gray-100); color:var(--gray-500); border:1px solid var(--border); }
+
+  .footer { margin-top:24px; text-align:center; font-size:12px; color:var(--muted); line-height:1.7; max-width:680px; }
+</style>
+</head>
+<body>
+
+<header class="shared-header">
+  <div class="sh-left">
+    <a href="index.html" class="sh-brand"><span class="sh-mark"><img src="logo-garcia.png" alt="Garcia Topografia"></span></a>
+  </div>
+  <nav class="sh-nav">
+    <a href="documentacao.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Documentação</a>
+    <a href="design-system.html"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="8" r="1.5" fill="currentColor" stroke="none"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg>Design System</a>
+    <a href="telas.html" class="sh-nav-quiet"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>Índice de telas</a>
+  </nav>
+  <button class="sh-hamburger" onclick="document.getElementById('sh-menu').classList.toggle('open');document.getElementById('sh-overlay').classList.toggle('open');" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></button>
+</header>
+<div id="sh-overlay" class="sh-overlay" onclick="this.classList.remove('open');document.getElementById('sh-menu').classList.remove('open');"></div>
+<nav id="sh-menu" class="sh-mobile-menu">
+  <a href="documentacao.html">Documentação</a>
+  <a href="design-system.html">Design System</a>
+  <a href="telas.html">Índice de telas</a>
+</nav>
+<script>(function(){var p=(location.pathname.split('/').pop()||'').toLowerCase();document.querySelectorAll('.sh-nav a,.sh-mobile-menu a').forEach(function(a){if((a.getAttribute('href')||'').toLowerCase()===p)a.classList.add('active');});})();</script>
+
+<div class="page-header">
+  <span class="badge">Índice de telas — v2</span>
+  <h1>Todas as telas do sistema</h1>
+  <p>Mapa rápido de todas as telas para consulta. <strong>Para navegar de verdade, use o sistema</strong> — entre pela sidebar, de tela em tela. Esta página é só um índice secundário.</p>
+  <div style="margin-top:18px;">
+    <a href="dashboard.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--accent);color:#fff;font-weight:600;font-size:13px;padding:11px 20px;border-radius:8px;text-decoration:none;box-shadow:var(--shadow-sm);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      Abrir o sistema
+    </a>
+  </div>
+  <div class="stat-row">
+    <span class="stat"><span class="dot"></span><b>16</b> telas navegáveis</span>
+    <span class="stat"><span class="dot"></span><b>7</b> itens de menu</span>
+    <span class="stat"><span class="dot"></span>Desktop <b>+</b> Mobile</span>
+  </div>
+</div>
+
+<!-- ACESSO & VISÃO GERAL -->
+<div class="section-label">Acesso &amp; Visão Geral</div>
+<div class="grid">
+
+  <a class="card" href="login.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg></div>
+      <div class="number">01</div>
+    </div>
+    <div class="card-body">
+      <h3>Login</h3>
+      <p>Acesso ao sistema: e-mail, senha com ver/ocultar, lembrar de mim e recuperação. Identidade Garcia.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="dashboard.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg></div>
+      <div class="number">02</div>
+    </div>
+    <div class="card-body">
+      <h3>Dashboard</h3>
+      <p>Abas Visão Geral · Comercial · Produção · Financeiro: KPIs, atalhos, alertas e atividade recente.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="tv.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
+      <div class="number">03</div>
+    </div>
+    <div class="card-body">
+      <h3>Modo TV</h3>
+      <p>Painel operacional full-screen, alto contraste, fonte grande e auto-refresh. Login dedicado.</p>
+      <div class="screens"><span class="screen-tag">Painel grande</span></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- COMERCIAL (CRM) -->
+<div class="section-label">Comercial — CRM</div>
+<div class="grid">
+
+  <a class="card" href="crm.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="6" height="18" rx="1"/><rect x="10.5" y="3" width="6" height="12" rx="1"/><rect x="18" y="3" width="3" height="9" rx="1"/></svg></div>
+      <div class="number">04</div>
+    </div>
+    <div class="card-body">
+      <h3>CRM — Pipeline</h3>
+      <p>Kanban comercial com filtros bem resolvidos. Do lead ao fechamento, arraste entre estágios.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="clientes.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div>
+      <div class="number">05</div>
+    </div>
+    <div class="card-body">
+      <h3>Clientes</h3>
+      <p>Listagem em tabela com ações por linha (ver, editar, desativar) e busca. Dropdown em portal.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="ficha-cliente.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1"/></svg></div>
+      <div class="number">06</div>
+    </div>
+    <div class="card-body">
+      <h3>Ficha do Cliente</h3>
+      <p>Detalhe completo em blocos. Abre em modo leitura (read-only) com botão Editar explícito.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="gerador-propostas.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+      <div class="number">07</div>
+    </div>
+    <div class="card-body">
+      <h3>Gerador de Propostas</h3>
+      <p>Diferencial do negócio: proposta em segundos. Formulário (itens, valores, visitas, condições, cláusulas) com preview do PDF ao vivo ao lado. Aberto da Ficha do Cliente.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="propostas.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg></div>
+      <div class="number">08</div>
+    </div>
+    <div class="card-body">
+      <h3>Propostas</h3>
+      <p>Listagem em tabela com ações por linha (ver, editar, duplicar, enviar) e estado vazio.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- OPERAÇÃO -->
+<div class="section-label">Operação &amp; Campo</div>
+<div class="grid">
+
+  <a class="card" href="projetos.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h6l2 3h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><rect x="6" y="11" width="4" height="6"/><rect x="11" y="11" width="4" height="6"/></svg></div>
+      <div class="number">09</div>
+    </div>
+    <div class="card-body">
+      <h3>Projetos — Workflow</h3>
+      <p>Kanban operacional (Campo → Entrega) com painéis de carga das engenheiras.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="projeto-detalhe.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5z"/><polyline points="14 2 14 8 20 8"/></svg></div>
+      <div class="number">10</div>
+    </div>
+    <div class="card-body">
+      <h3>Pasta do Projeto</h3>
+      <p>Pasta digital com abas: Dados · Checklist de campo interativo · Arquivos/upload · Entrega.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="agenda.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+      <div class="number">11</div>
+    </div>
+    <div class="card-body">
+      <h3>Agenda</h3>
+      <p>Calendário mensal com eventos coloridos, capacidade do dia e detalhe de evento em modal.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="followup.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+      <div class="number">12</div>
+    </div>
+    <div class="card-body">
+      <h3>Follow-up</h3>
+      <p>Cadências pós-proposta e follow-up mensal de regularização, com pausar/retomar/cancelar.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- INTELIGÊNCIA -->
+<div class="section-label">Inteligência Artificial</div>
+<div class="grid">
+
+  <a class="card" href="atendente-ia.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <div class="number">13</div>
+    </div>
+    <div class="card-body">
+      <h3>Atendente IA</h3>
+      <p>Conversas em tempo real e assumir o atendimento a qualquer momento (controle humano).</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="ia.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M12 8V4"/><circle cx="12" cy="3" r="1"/><path d="M9 13h.01"/><path d="M15 13h.01"/><path d="M2 14h2"/><path d="M20 14h2"/></svg></div>
+      <div class="number">14</div>
+    </div>
+    <div class="card-body">
+      <h3>Configuração da IA</h3>
+      <p>Tela única com abas: Personalidade (com ferramentas/ações) · Bases de Conhecimento · Templates (fonte canônica de mensagens).</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+</div>
+
+<!-- SISTEMA -->
+<div class="section-label">Sistema &amp; Administração</div>
+<div class="grid">
+
+  <a class="card" href="configuracoes.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9z"/></svg></div>
+      <div class="number">15</div>
+    </div>
+    <div class="card-body">
+      <h3>Configurações</h3>
+      <p>Abas: Preços · Usuários · WhatsApp · Checklists · Aparência (Modo Noturno com grade 7d×24h).</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+  <a class="card" href="usuarios.html">
+    <div class="card-img">
+      <div class="icon"><svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <div class="number">16</div>
+    </div>
+    <div class="card-body">
+      <h3>Usuários &amp; Permissões</h3>
+      <p>Tabela com ações por linha (editar, redefinir senha, desativar) e modal Novo Usuário.</p>
+      <div class="screens"><span class="screen-tag">Desktop</span><span class="screen-tag">Mobile</span></div>
+    </div>
+  </a>
+
+</div>
+
+<div class="footer">
+  <strong>Garcia Topografia — Mockups v2</strong><br>
+  16 telas · Tokens 100% do Design System v2 (Azul Técnico) · Para aprovação antes do desenvolvimento
+</div>
+
+</body>
+</html>
